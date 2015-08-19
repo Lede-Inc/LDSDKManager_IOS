@@ -1,0 +1,1 @@
+../../../../../LDSDKManager/QQPlatform/LDQQRegisterService.h

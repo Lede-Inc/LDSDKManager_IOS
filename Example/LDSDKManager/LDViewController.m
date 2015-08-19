@@ -8,22 +8,297 @@
 
 #import "LDViewController.h"
 
-@interface LDViewController ()
+@interface LDViewController () {
+    UILabel *infoLabel;
+}
+
+
 
 @end
 
 @implementation LDViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    UIButton *loginWXBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [loginWXBtn setFrame:CGRectMake(25, 75, 120, 40)];
+    [loginWXBtn.layer setBorderWidth:1.0];
+    [loginWXBtn setTitle:@"微信登陆" forState:UIControlStateNormal];
+    [loginWXBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [loginWXBtn addTarget:self action:@selector(loginByWX) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:loginWXBtn];
+    
+    UIButton *loginQQBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [loginQQBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-145, 75, 120, 40)];
+    [loginQQBtn.layer setBorderWidth:1.0];
+    [loginQQBtn setTitle:@"QQ登陆" forState:UIControlStateNormal];
+    [loginQQBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [loginQQBtn addTarget:self action:@selector(loginByQQ) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:loginQQBtn];
+    
+    UIButton *shareQQBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareQQBtn setFrame:CGRectMake(25, 140, 120, 40)];
+    [shareQQBtn.layer setBorderWidth:1.0];
+    [shareQQBtn setTitle:@"QQ分享" forState:UIControlStateNormal];
+    [shareQQBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareQQBtn addTarget:self action:@selector(shareByQQ) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareQQBtn];
+    
+    UIButton *shareQzoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareQzoneBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-145, 140, 120, 40)];
+    [shareQzoneBtn.layer setBorderWidth:1.0];
+    [shareQzoneBtn setTitle:@"QQ空间分享" forState:UIControlStateNormal];
+    [shareQzoneBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareQzoneBtn addTarget:self action:@selector(shareByQzone) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareQzoneBtn];
+    
+    UIButton *shareWXBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareWXBtn setFrame:CGRectMake(25, 190, 120, 40)];
+    [shareWXBtn.layer setBorderWidth:1.0];
+    [shareWXBtn setTitle:@"微信分享" forState:UIControlStateNormal];
+    [shareWXBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareWXBtn addTarget:self action:@selector(shareByWX) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareWXBtn];
+    
+    UIButton *shareWXTimelineBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareWXTimelineBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-145, 190, 120, 40)];
+    [shareWXTimelineBtn.layer setBorderWidth:1.0];
+    [shareWXTimelineBtn setTitle:@"朋友圈分享" forState:UIControlStateNormal];
+    [shareWXTimelineBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareWXTimelineBtn addTarget:self action:@selector(shareByWXTimeline) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareWXTimelineBtn];
+    
+    UIButton *shareYXBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareYXBtn setFrame:CGRectMake(25, 240, 120, 40)];
+    [shareYXBtn.layer setBorderWidth:1.0];
+    [shareYXBtn setTitle:@"易信分享" forState:UIControlStateNormal];
+    [shareYXBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareYXBtn addTarget:self action:@selector(shareByYX) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareYXBtn];
+    
+    UIButton *shareYXTimelineBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareYXTimelineBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-145, 240, 120, 40)];
+    [shareYXTimelineBtn.layer setBorderWidth:1.0];
+    [shareYXTimelineBtn setTitle:@"朋友圈分享" forState:UIControlStateNormal];
+    [shareYXTimelineBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareYXTimelineBtn addTarget:self action:@selector(shareByYXTimeline) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareYXTimelineBtn];
+    
+    
+    UIButton *payWXBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [payWXBtn setFrame:CGRectMake(25, 310, 120, 40)];
+    [payWXBtn.layer setBorderWidth:1.0];
+    [payWXBtn setTitle:@"微信支付" forState:UIControlStateNormal];
+    [payWXBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [payWXBtn addTarget:self action:@selector(payByWX) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:payWXBtn];
+    
+    UIButton *payAliBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [payAliBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-145, 310, 120, 40)];
+    [payAliBtn.layer setBorderWidth:1.0];
+    [payAliBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+    [payAliBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [payAliBtn addTarget:self action:@selector(payByAli) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:payAliBtn];
+    
+    infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, 380, [UIScreen mainScreen].bounds.size.width-50, 40)];
+    [infoLabel setBackgroundColor:[UIColor whiteColor]];
+    [infoLabel setText:@"提示信息"];
+    [infoLabel setTextAlignment:NSTextAlignmentCenter];
+    [infoLabel setTextColor:[UIColor redColor]];
+    [infoLabel setFont:[UIFont systemFontOfSize:14]];
+    [infoLabel.layer setBorderWidth:1.0];
+    [infoLabel.layer setBorderColor:[UIColor blackColor].CGColor];
+    [self.view addSubview:infoLabel];
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning
+-(void)loginByWX
 {
+    [[LDSDKManager sharedService] loginFromPlatformType:LDSDKPlatformTypeWeChat withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+        if (error==nil) {
+            if (userInfo==nil && oauthInfo!=nil) {
+                [infoLabel setText:@"授权成功"];
+            } else {
+                NSString *alet = [NSString stringWithFormat:@"昵称：%@  头像url：%@", [userInfo objectForKey:@"nickname"], [userInfo objectForKey:@"headimgurl"]];
+                NSLog(@"message = %@", alet);
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登陆成功" message:alet delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
+                [alertView show];
+            }
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)loginByQQ
+{
+    [[LDSDKManager sharedService] loginFromPlatformType:LDSDKPlatformTypeQQ withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+        if (error==nil) {
+            if (userInfo==nil && oauthInfo!=nil) {
+                [infoLabel setText:@"授权成功"];
+            } else {
+                NSString *alet = [NSString stringWithFormat:@"昵称：%@  头像url：%@", [userInfo objectForKey:@"nickname"], [userInfo objectForKey:@"figureurl_qq_2"]];
+                NSLog(@"message = %@", alet);
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登陆成功" message:alet delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
+                [alertView show];
+            }
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)shareByQQ
+{
+    NSLog(@"shareByQQ");
+    NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"测试分享", LDShareDictTitleKey,
+                               @"测试分享详情", LDShareDictDescriptionKey,
+                               @"www.baidu.com",LDShareDictWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
+                               @"text", LDShareDictTextKey,
+                               nil];
+    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeQQ withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+        if (success) {
+            [infoLabel setText:@"分享成功"];
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)shareByWX
+{
+    NSLog(@"shareByWX");
+    NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"测试分享", LDShareDictTitleKey,
+                               @"测试分享详情", LDShareDictDescriptionKey,
+                               @"www.baidu.com",LDShareDictWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
+                               @"text", LDShareDictTextKey,
+                               nil];
+    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeWeChat withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+        if (success) {
+            [infoLabel setText:@"分享成功"];
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)shareByQzone
+{
+    NSLog(@"shareByWX");
+    NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"测试分享", LDShareDictTitleKey,
+                               @"测试分享详情", LDShareDictDescriptionKey,
+                               @"www.baidu.com",LDShareDictWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
+                               @"text", LDShareDictTextKey,
+                               nil];
+    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeQzone withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+        if (success) {
+            [infoLabel setText:@"分享成功"];
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)shareByWXTimeline
+{
+    NSLog(@"shareByWX");
+    NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"测试分享", LDShareDictTitleKey,
+                               @"测试分享详情", LDShareDictDescriptionKey,
+                               @"www.baidu.com",LDShareDictWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
+                               @"text", LDShareDictTextKey,
+                               nil];
+    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeWeChatTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+        if (success) {
+            [infoLabel setText:@"分享成功"];
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)shareByYXTimeline
+{
+    NSLog(@"shareByWX");
+    NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"测试分享", LDShareDictTitleKey,
+                               @"测试分享详情", LDShareDictDescriptionKey,
+                               @"www.baidu.com",LDShareDictWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
+                               @"text", LDShareDictTextKey,
+                               nil];
+    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeYiXinTimeline withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+        if (success) {
+            [infoLabel setText:@"分享成功"];
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)shareByYX
+{
+    NSLog(@"shareByYX");
+    NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               @"测试分享", LDShareDictTitleKey,
+                               @"测试分享详情", LDShareDictDescriptionKey,
+                               @"www.baidu.com",LDShareDictWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
+                               @"text", LDShareDictTextKey,
+                               nil];
+    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeYiXin withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+        if (success) {
+            [infoLabel setText:@"分享成功"];
+        } else {
+            [infoLabel setText:error.localizedDescription];
+        }
+    }];
+}
+
+-(void)payByWX
+{
+    [[LDSDKManager sharedService] payOrderWithType:LDSDKPlatformTypeWeChat orderString:@"partnerId=1004" callback:^(NSString *signString) {
+        if (signString) {
+            NSLog(@"sighStr = %@", signString);
+            [infoLabel setText:signString];
+        } else {
+            [infoLabel setText:@"支付失败"];
+        }
+        
+    }];
+}
+
+-(void)payByAli
+{
+    [[LDSDKManager sharedService] payOrderWithType:LDSDKPlatformTypeAliPay orderString:@"" callback:^(NSString *signString) {
+        if (signString && ![signString isEqualToString:@""]) {
+            NSLog(@"signStr = %@", signString);
+            [infoLabel setText:signString];
+        } else {
+            [infoLabel setText:@"支付失败"];
+        }
+    }];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"click");
+    alertView = nil;
 }
 
 @end

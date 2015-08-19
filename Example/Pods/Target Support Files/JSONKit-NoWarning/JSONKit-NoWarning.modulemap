@@ -1,0 +1,6 @@
+framework module JSONKit_NoWarning {
+  umbrella header "JSONKit-NoWarning-umbrella.h"
+
+  export *
+  module * { export * }
+}

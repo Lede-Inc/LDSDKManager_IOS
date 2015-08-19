@@ -1,0 +1,1 @@
+../../../../../LDSDKManager/WechatPlatform/HTTPRequest/LDSDKHttpClient.h

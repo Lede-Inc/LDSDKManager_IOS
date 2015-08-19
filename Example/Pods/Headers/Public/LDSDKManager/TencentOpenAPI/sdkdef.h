@@ -1,0 +1,1 @@
+../../../../../../LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework/Headers/sdkdef.h

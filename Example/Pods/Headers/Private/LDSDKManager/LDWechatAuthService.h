@@ -1,0 +1,1 @@
+../../../../../LDSDKManager/WechatPlatform/LDWechatAuthService.h

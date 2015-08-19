@@ -7,12 +7,30 @@
 //
 
 #import "LDAppDelegate.h"
+#import "LDSDKManager.h"
+#import "LDViewController.h"
 
 @implementation LDAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    NSDictionary *regDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"wxc133b9f78c1141b0", LDRegisterDictWXAppId,
+                            @"67b24b8f6951b1086675c33b144e0709", LDRegisterDictWXAppSecret,
+                            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"], LDRegisterDictWXDescription,
+                            @"1104472826", LDRegisterDictQQAppId,
+                            @"nLCqXsceOMtojCtD", LDRegisterDictQQAppKey,
+                            @"yx778ae2bc7a2a489bb627d51f03a92682", LDRegisterDictYXAppId,
+                            @"6042fc1511260d6594", LDRegisterDictYXAppSecret,
+                            @"alisdkldchexian", LDRegisterDictAliPayAppScheme,
+                            nil];
+    [LDSDKManager registerWithDictionary:regDic];
+    LDViewController *view = [[LDViewController alloc] init];
+    self.window.rootViewController = view;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -41,6 +59,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [LDSDKManager handleOpenURL:url];
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [LDSDKManager handleOpenURL:url];
 }
 
 @end

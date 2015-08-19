@@ -1,0 +1,1 @@
+../../../../../LDSDKManager/QQPlatform/LDSDKQQService.h

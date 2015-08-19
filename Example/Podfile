@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'LDSDKManager_Example', :exclusive => true do
+  pod "LDSDKManager", :path => "../"
+end
+
+target 'LDSDKManager_Tests', :exclusive => true do
+  pod "LDSDKManager", :path => "../"
+
+  pod 'Kiwi'
+end

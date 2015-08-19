@@ -117,7 +117,7 @@
 
 -(void)loginByWX
 {
-    [[LDSDKManager sharedService] loginFromPlatformType:LDSDKPlatformTypeWeChat withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+    [[LDSDKManager sharedService] loginFromPlatformType:LDSDKPlatformWeChat withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
                 [infoLabel setText:@"授权成功"];
@@ -135,7 +135,7 @@
 
 -(void)loginByQQ
 {
-    [[LDSDKManager sharedService] loginFromPlatformType:LDSDKPlatformTypeQQ withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+    [[LDSDKManager sharedService] loginFromPlatformType:LDSDKPlatformQQ withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
                 [infoLabel setText:@"授权成功"];
@@ -161,7 +161,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeQQ withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedService] shareWithType:LDSDKShareToQQ withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -180,7 +180,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeWeChat withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedService] shareWithType:LDSDKShareToWeChat withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -199,7 +199,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeQzone withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedService] shareWithType:LDSDKShareToQzone withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -218,7 +218,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeWeChatTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedService] shareWithType:LDSDKShareToWeChatTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -237,7 +237,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeYiXinTimeline withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedService] shareWithType:LDSDKShareToYiXinTimeline withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -256,7 +256,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedService] shareWithType:LDSDKPlatformTypeYiXin withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedService] shareWithType:LDSDKShareToYiXin withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -267,7 +267,7 @@
 
 -(void)payByWX
 {
-    [[LDSDKManager sharedService] payOrderWithType:LDSDKPlatformTypeWeChat orderString:@"partnerId=1004" callback:^(NSString *signString) {
+    [[LDSDKManager sharedService] payOrderWithType:LDSDKPlatformWeChat orderString:@"partnerId=1004" callback:^(NSString *signString, NSError *error) {
         if (signString) {
             NSLog(@"sighStr = %@", signString);
             [infoLabel setText:signString];
@@ -280,7 +280,7 @@
 
 -(void)payByAli
 {
-    [[LDSDKManager sharedService] payOrderWithType:LDSDKPlatformTypeAliPay orderString:@"" callback:^(NSString *signString) {
+    [[LDSDKManager sharedService] payOrderWithType:LDSDKPlatformAliPay orderString:@"" callback:^(NSString *signString, NSError *error) {
         if (signString && ![signString isEqualToString:@""]) {
             NSLog(@"signStr = %@", signString);
             [infoLabel setText:signString];

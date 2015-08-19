@@ -1,10 +1,9 @@
 Pod::Spec.new do |s|
   s.name             = "LDSDKManager"
   s.version          = "0.1.0"
-  s.summary          = "A short description of LDSDKManager."
+  s.summary          = "LD SDKs"
 
-  s.description      = <<-DESC
-                       DESC
+  s.description      = "SDKs, include QQ, Wechat, Yixin, Alipay. For share, pay and login"
 
   s.homepage         = "https://git.ms.netease.com/commonlibraryios/LDSDKManager"
   s.license          = 'MIT'
@@ -23,9 +22,9 @@ Pod::Spec.new do |s|
 
   s.subspec 'QQPlatform' do |ss|
     ss.ios.dependency 'LDSDKManager/CoreService'
+    ss.ios.source_files = 'LDSDKManager/QQPlatform'
     ss.ios.vendored_frameworks = 'LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework'
     ss.ios.resources = ['LDSDKManager/QQPlatform/LDQQSDK/TencentOpenApi_IOS_Bundle.bundle']
-    ss.ios.source_files = 'LDSDKManager/QQPlatform'
   end
 
   s.subspec 'WechatPlatform' do |ss|
@@ -35,8 +34,8 @@ Pod::Spec.new do |s|
                           'LDSDKManager/WechatPlatform/WechatCommon',
                           'LDSDKManager/WechatPlatform/WeChatSDK/*.h'
     ss.ios.vendored_library = 'LDSDKManager/WechatPlatform/WeChatSDK/libWeChatSDK.a'
-    ss.frameworks = 'SystemConfiguration'
-    ss.libraries = 'z', 'sqlite3.0', 'c++'
+    ss.ios.frameworks = 'MobileCoreServices', 'SystemConfiguration'
+    ss.ios.libraries = 'z', 'sqlite3.0', 'c++'
   end
 
   s.subspec 'YixinPlatform' do |ss|
@@ -49,17 +48,10 @@ Pod::Spec.new do |s|
   s.subspec 'AlipayPlatform' do |ss|
     ss.ios.dependency 'JSONKit-NoWarning', '~> 1.2'
     ss.ios.dependency 'LDSDKManager/CoreService'
+    ss.ios.source_files = 'LDSDKManager/AlipayPlatform'
     ss.ios.vendored_frameworks = 'LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.framework'
     ss.ios.resources = ['LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.bundle']
-    ss.ios.source_files = 'LDSDKManager/AlipayPlatform'
   end
 
-  # s.source_files = 'Pod/Classes/**/*'
-  # s.resource_bundles = {
-  #   'LDSDKManager' => ['Pod/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'CoreGraphics', 'Foundation'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end

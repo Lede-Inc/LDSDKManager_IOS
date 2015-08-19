@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-FOUNDATION_EXTERN NSString *const LDRegisterDictWXAppId;
-FOUNDATION_EXTERN NSString *const LDRegisterDictWXAppSecret;
-FOUNDATION_EXTERN NSString *const LDRegisterDictWXDescription;
-FOUNDATION_EXTERN NSString *const LDRegisterDictYXAppId;
-FOUNDATION_EXTERN NSString *const LDRegisterDictYXAppSecret;
-FOUNDATION_EXTERN NSString *const LDRegisterDictQQAppId;
-FOUNDATION_EXTERN NSString *const LDRegisterDictQQAppKey;
-FOUNDATION_EXTERN NSString *const LDRegisterDictAliPayAppScheme;
+FOUNDATION_EXTERN NSString *const LDRegisterDictAppId;
+FOUNDATION_EXTERN NSString *const LDRegisterDictAppKey;
+FOUNDATION_EXTERN NSString *const LDRegisterDictAppSecret;
+FOUNDATION_EXTERN NSString *const LDRegisterDictAppDescription;
+FOUNDATION_EXTERN NSString *const LDRegisterDictAppScheme;
+
+FOUNDATION_EXTERN NSString *const LDRegisterDictTypeWechat;
+FOUNDATION_EXTERN NSString *const LDRegisterDictTypeQQ;
+FOUNDATION_EXTERN NSString *const LDRegisterDictTypeYixin;
+FOUNDATION_EXTERN NSString *const LDRegisterDictTypeAlipay;
 
 FOUNDATION_EXTERN NSString *const LDShareDictTitleKey;
 FOUNDATION_EXTERN NSString *const LDShareDictDescriptionKey;
@@ -22,21 +24,32 @@ FOUNDATION_EXTERN NSString *const LDShareDictImageUrlKey;
 FOUNDATION_EXTERN NSString *const LDShareDictWapUrlKey;
 FOUNDATION_EXTERN NSString *const LDShareDictTextKey;
 
-typedef void(^LDSDKPayCallback)(NSString *signString);
+
+typedef void(^LDSDKPayCallback)(NSString *signString, NSError *error);
 
 typedef void(^LDSDKShareCallback)(BOOL success, NSError *error);
 
 typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error);
 
+
 typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
 {
-    LDSDKPlatformTypeQQ,             //QQ
-    LDSDKPlatformTypeQzone,          //QQ空间
-    LDSDKPlatformTypeWeChat,         //微信
-    LDSDKPlatformTypeWeChatTimeLine, //微信朋友圈
-    LDSDKPlatformTypeYiXin,          //易信
-    LDSDKPlatformTypeYiXinTimeline,  //易信朋友圈
-    LDSDKPlatformTypeAliPay,         //支付宝
+    LDSDKPlatformQQ,             //QQ
+    LDSDKPlatformWeChat,         //微信
+    LDSDKPlatformYiXin,          //易信
+    LDSDKPlatformAliPay,         //支付宝
+};
+
+
+typedef NS_ENUM(NSUInteger, LDSDKShareType)
+{
+    LDSDKShareToQQ,             //QQ
+    LDSDKShareToQzone,          //QQ空间
+    LDSDKShareToWeChat,         //微信
+    LDSDKShareToWeChatTimeLine, //微信朋友圈
+    LDSDKShareToYiXin,          //易信
+    LDSDKShareToYiXinTimeline,  //易信朋友圈
+    LDSDKShareToAliPay,         //支付宝
 };
 
 @interface LDSDKManager : NSObject
@@ -103,7 +116,7 @@ typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
  *  @param dict     分享内容的字典，参照key
  *  @param complete 成功后的回调
  */
-- (void)shareWithType:(LDSDKPlatformType)type withDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete;
+- (void)shareWithType:(LDSDKShareType)type withDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete;
 
 /**
  *  判断是否支持这个分享
@@ -112,7 +125,7 @@ typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
  *
  *  @return 支持分享，返回YES，否则返回NO
  */
-- (BOOL)isAvailableShareType:(LDSDKPlatformType)type;
+- (BOOL)isAvailableShareType:(LDSDKShareType)type;
 
 /**
  *  判断是否支持这个登陆

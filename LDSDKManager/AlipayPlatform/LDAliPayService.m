@@ -48,7 +48,7 @@
         NSString *signString = [resultString objectFromJSONStringWithParseOptions:JKParseOptionLooseUnicode][@"result"];
         if (callback) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                callback(signString);
+                callback(signString, nil);
             });
         }
     }];

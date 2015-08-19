@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F14C7E07053EA5E98C127994"
+               BlueprintIdentifier = "215CF5234C59955AEB021B61"
                BuildableName = "LDSDKManager.framework"
                BlueprintName = "LDSDKManager"
                ReferencedContainer = "container:Pods.xcodeproj">

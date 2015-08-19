@@ -34,7 +34,8 @@
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
         if (callback) {
-            callback(@"请先安装微信客户端");
+            NSError *error = [NSError errorWithDomain:@"wxPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
+            callback(nil, error);
         }
         return;
     }
@@ -60,7 +61,7 @@
     request.package = [[[orderDict stringForKey:@"packageValue"] URLDecodedString] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     request.nonceStr = [[[orderDict stringForKey:@"nonceStr"] URLDecodedString] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     NSString *time = [[[orderDict stringForKey:@"timeStamp"] URLDecodedString] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-    request.timeStamp = [time longLongValue];
+    request.timeStamp = (UInt32)[time longLongValue];
     request.sign = [[[orderDict stringForKey:@"weixinSign"] URLDecodedString] stringByReplacingOccurrencesOfString:@"\"" withString:@""];
     
     _shouldHandleWXPay = YES;
@@ -69,7 +70,8 @@
     if (!result) {
         _shouldHandleWXPay = NO;
         if (callback) {
-            callback(nil);
+            NSError *error = [NSError errorWithDomain:@"wxPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"无法支付", @"NSLocalizedDescription", nil]];
+            callback(nil, error);
         }
     }
     
@@ -88,9 +90,10 @@
     if (_wxCallback) {
         if ([resp isKindOfClass:[PayResp class]]) {
             PayResp *pResp = (PayResp *)resp;
-            _wxCallback(pResp.returnKey);
+            _wxCallback(pResp.returnKey, nil);
         } else {
-            _wxCallback(nil);
+            NSError *error = [NSError errorWithDomain:@"wxPay" code:resp.errCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys:resp.errStr, @"NSLocalizedDescription", nil]];
+            _wxCallback(nil, error);
         }
         _wxCallback = NULL;
     }

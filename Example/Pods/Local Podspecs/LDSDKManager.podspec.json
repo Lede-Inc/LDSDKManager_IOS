@@ -1,8 +1,8 @@
 {
   "name": "LDSDKManager",
   "version": "0.1.0",
-  "summary": "A short description of LDSDKManager.",
-  "description": "",
+  "summary": "LD SDKs",
+  "description": "SDKs, include QQ, Wechat, Yixin, Alipay. For share, pay and login",
   "homepage": "https://git.ms.netease.com/commonlibraryios/LDSDKManager",
   "license": "MIT",
   "authors": {
@@ -29,12 +29,12 @@
       },
       "ios": {
         "public_header_files": [
-          "LDSDKManager/CoreService/**/LDSDKManager.h",
-          "LDSDKManager/CoreService/**/LDSDKCommon.h"
+          "LDSDKManager/CoreService/LDSDKManager.h",
+          "LDSDKManager/CoreService/LDSDKCommon.h"
         ],
         "source_files": [
-          "LDSDKManager/CoreService/**/*.{h,m}",
-          "LDSDKManager/CoreService/LDSDKServices/**/*.{h,m}"
+          "LDSDKManager/CoreService",
+          "LDSDKManager/CoreService/LDSDKServices"
         ]
       }
     },
@@ -46,11 +46,11 @@
 
           ]
         },
+        "source_files": "LDSDKManager/QQPlatform",
         "vendored_frameworks": "LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework",
         "resources": [
           "LDSDKManager/QQPlatform/LDQQSDK/TencentOpenApi_IOS_Bundle.bundle"
-        ],
-        "source_files": "LDSDKManager/QQPlatform"
+        ]
       }
     },
     {
@@ -67,14 +67,17 @@
           "LDSDKManager/WechatPlatform/WechatCommon",
           "LDSDKManager/WechatPlatform/WeChatSDK/*.h"
         ],
-        "vendored_libraries": "LDSDKManager/WechatPlatform/WeChatSDK/libWeChatSDK.a"
-      },
-      "frameworks": "SystemConfiguration",
-      "libraries": [
-        "z",
-        "sqlite3.0",
-        "c++"
-      ]
+        "vendored_libraries": "LDSDKManager/WechatPlatform/WeChatSDK/libWeChatSDK.a",
+        "frameworks": [
+          "MobileCoreServices",
+          "SystemConfiguration"
+        ],
+        "libraries": [
+          "z",
+          "sqlite3.0",
+          "c++"
+        ]
+      }
     },
     {
       "name": "YixinPlatform",
@@ -102,11 +105,11 @@
 
           ]
         },
+        "source_files": "LDSDKManager/AlipayPlatform",
         "vendored_frameworks": "LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.framework",
         "resources": [
           "LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.bundle"
-        ],
-        "source_files": "LDSDKManager/AlipayPlatform"
+        ]
       }
     }
   ]

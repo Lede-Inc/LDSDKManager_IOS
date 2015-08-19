@@ -13,14 +13,16 @@
 #import "LDSDKShareService.h"
 #import "LDSDKCommon.h"
 
-NSString *const LDRegisterDictWXAppId         = @"weixinAppId";
-NSString *const LDRegisterDictWXAppSecret     = @"weixinAppSecret";
-NSString *const LDRegisterDictWXDescription   = @"weixinDescription";
-NSString *const LDRegisterDictYXAppId         = @"yixinAppId";
-NSString *const LDRegisterDictYXAppSecret     = @"yixinAppSecret";
-NSString *const LDRegisterDictQQAppId         = @"qqAppId";
-NSString *const LDRegisterDictQQAppKey        = @"qqAppKey";
-NSString *const LDRegisterDictAliPayAppScheme = @"alipayAppScheme";
+NSString *const LDRegisterDictAppId         = @"appid";
+NSString *const LDRegisterDictAppSecret     = @"appsecret";
+NSString *const LDRegisterDictAppDescription   = @"description";
+NSString *const LDRegisterDictAppKey        = @"appkey";
+NSString *const LDRegisterDictAppScheme = @"appscheme";
+
+NSString *const LDRegisterDictTypeWechat = @"wechat";
+NSString *const LDRegisterDictTypeQQ = @"qq";
+NSString *const LDRegisterDictTypeYixin = @"yixin";
+NSString *const LDRegisterDictTypeAlipay = @"alipay";
 
 NSString *const LDShareDictTitleKey       = @"title";
 NSString *const LDShareDictDescriptionKey = @"description";
@@ -50,21 +52,21 @@ NSString *const LDShareDictTextKey      = @"text";
  */
 + (BOOL)isAppInstalled:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformTypeWeChat || type == LDSDKPlatformTypeWeChatTimeLine) {
+    if (type == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatRegisterService");
         if (wxClass) {
             return [wxClass platformInstalled];
         } else {
             return NO;
         }
-    } else if (type == LDSDKPlatformTypeQQ || type == LDSDKPlatformTypeQzone) {
+    } else if (type == LDSDKPlatformQQ) {
         Class qqClass = NSClassFromString(@"LDQQRegisterService");
         if (qqClass) {
             return [qqClass platformInstalled];
         } else {
             return NO;
         }
-    } else if (type == LDSDKPlatformTypeYiXin || type == LDSDKPlatformTypeYiXinTimeline) {
+    } else if (type == LDSDKPlatformYiXin) {
         Class yxClass = NSClassFromString(@"LDYixinRegisterService");
         if (yxClass) {
             return [yxClass platformInstalled];
@@ -85,15 +87,15 @@ NSString *const LDShareDictTextKey      = @"text";
 + (BOOL)isRegistered:(LDSDKPlatformType)type
 {
     switch (type) {
-        case LDSDKPlatformTypeAliPay:
+        case LDSDKPlatformAliPay:
             return [[LDSDKCommon sharedInstance].aliPayScheme length];
-        case LDSDKPlatformTypeQQ:
+        case LDSDKPlatformQQ:
             return [[LDSDKCommon sharedInstance].qqAppId length]
             && [[LDSDKCommon sharedInstance].qqAppKey length];
-        case LDSDKPlatformTypeWeChat:
+        case LDSDKPlatformWeChat:
             return [[LDSDKCommon sharedInstance].wxAppId length]
             && [[LDSDKCommon sharedInstance].wxAppSecret length];
-        case LDSDKPlatformTypeYiXin:
+        case LDSDKPlatformYiXin:
             return [[LDSDKCommon sharedInstance].yxAppId length]
             && [[LDSDKCommon sharedInstance].yxAppSecret length];
         default:
@@ -112,45 +114,66 @@ NSString *const LDShareDictTextKey      = @"text";
  */
 + (BOOL)registerWithDictionary:(NSDictionary *)dict
 {
-    NSString *wxAppId = [dict objectForKey:LDRegisterDictWXAppId];
-    NSString *wxAppSecret = [dict objectForKey:LDRegisterDictWXAppSecret];
-    NSString *wxDescription = [dict objectForKey:LDRegisterDictWXDescription];
-    NSString *yxAppId = [dict objectForKey:LDRegisterDictYXAppId];
-    NSString *yxAppSecret = [dict objectForKey:LDRegisterDictYXAppSecret];
-    NSString *qqAppId = [dict objectForKey:LDRegisterDictQQAppId];
-    NSString *qqAppKey = [dict objectForKey:LDRegisterDictQQAppKey];
-    NSString *aliPayScheme = [dict objectForKey:LDRegisterDictAliPayAppScheme];
-    if (wxAppId && wxAppSecret && [wxAppId length] && [wxAppSecret length]) {
-        Class wxClass = NSClassFromString(@"LDWechatRegisterService");
-        if (wxClass) {
-            [LDSDKCommon sharedInstance].wxAppId = wxAppId;
-            [LDSDKCommon sharedInstance].wxAppSecret = wxAppSecret;
-            [wxClass registerWithAppId:wxAppId withAppSecret:wxAppSecret withDescription:wxDescription];
+    NSString *wxAppId = nil;
+    NSString *wxAppSecret = nil;
+    NSString *wxDescription = nil;
+    if ([dict objectForKey:LDRegisterDictTypeWechat]) {
+        wxAppId = [[dict objectForKey:LDRegisterDictTypeWechat] objectForKey:LDRegisterDictAppId];
+        wxAppSecret = [[dict objectForKey:LDRegisterDictTypeWechat] objectForKey:LDRegisterDictAppSecret];
+        wxDescription = [[dict objectForKey:LDRegisterDictTypeWechat] objectForKey:LDRegisterDictAppDescription];
+        if (wxAppId && wxAppSecret && [wxAppId length] && [wxAppSecret length]) {
+            Class wxClass = NSClassFromString(@"LDWechatRegisterService");
+            if (wxClass) {
+                [LDSDKCommon sharedInstance].wxAppId = wxAppId;
+                [LDSDKCommon sharedInstance].wxAppSecret = wxAppSecret;
+                [wxClass registerWithAppId:wxAppId withAppSecret:wxAppSecret withDescription:wxDescription];
+            }
         }
     }
-    if (qqAppId && [qqAppId length]) {
-        Class qqClass = NSClassFromString(@"LDQQRegisterService");
-        if (qqClass) {
-            [LDSDKCommon sharedInstance].qqAppId = qqAppId;
-            [LDSDKCommon sharedInstance].qqAppKey = qqAppKey;
-            [qqClass registerWithAppId:qqAppId withAppSecret:qqAppKey withDescription:@""];
+    
+    NSString *yxAppId = nil;
+    NSString *yxAppSecret = nil;
+    if ([dict objectForKey:LDRegisterDictTypeYixin]) {
+        yxAppId = [[dict objectForKey:LDRegisterDictTypeYixin] objectForKey:LDRegisterDictAppId];
+        yxAppSecret = [[dict objectForKey:LDRegisterDictTypeYixin] objectForKey:LDRegisterDictAppSecret];
+        if (yxAppId && yxAppSecret && [yxAppId length] && [yxAppSecret length]) {
+            Class yxClass = NSClassFromString(@"LDYixinRegisterService");
+            if (yxClass) {
+                [LDSDKCommon sharedInstance].yxAppId = yxAppId;
+                [LDSDKCommon sharedInstance].yxAppSecret = yxAppSecret;
+                [yxClass registerWithAppId:yxAppId withAppSecret:yxAppSecret withDescription:@""];
+            }
+        }
+
+    }
+    
+    NSString *qqAppId = nil;
+    NSString *qqAppKey = nil;
+    if ([dict objectForKey:LDRegisterDictTypeQQ]) {
+        qqAppId = [[dict objectForKey:LDRegisterDictTypeQQ] objectForKey:LDRegisterDictAppId];
+        qqAppKey = [[dict objectForKey:LDRegisterDictTypeQQ] objectForKey:LDRegisterDictAppKey];
+        if (qqAppId && [qqAppId length]) {
+            Class qqClass = NSClassFromString(@"LDQQRegisterService");
+            if (qqClass) {
+                [LDSDKCommon sharedInstance].qqAppId = qqAppId;
+                [LDSDKCommon sharedInstance].qqAppKey = qqAppKey;
+                [qqClass registerWithAppId:qqAppId withAppSecret:qqAppKey withDescription:@""];
+            }
         }
     }
-    if (yxAppId && yxAppSecret && [yxAppId length] && [yxAppSecret length]) {
-        Class yxClass = NSClassFromString(@"LDYixinRegisterService");
-        if (yxClass) {
-            [LDSDKCommon sharedInstance].yxAppId = yxAppId;
-            [LDSDKCommon sharedInstance].yxAppSecret = yxAppSecret;
-            [yxClass registerWithAppId:yxAppId withAppSecret:yxAppSecret withDescription:@""];
+    
+    NSString *aliPayScheme = nil;
+    if ([dict objectForKey:LDRegisterDictTypeAlipay]) {
+        aliPayScheme = [[dict objectForKey:LDRegisterDictTypeAlipay] objectForKey:LDRegisterDictAppScheme];
+        if (aliPayScheme && [aliPayScheme length]) {
+            Class aliClass = NSClassFromString(@"LDAliPayRegisterService");
+            if (aliClass) {
+                [LDSDKCommon sharedInstance].aliPayScheme = aliPayScheme;
+                [aliClass registerWithAppId:aliPayScheme withAppSecret:aliPayScheme withDescription:@""];
+            }
         }
     }
-    if (aliPayScheme && [aliPayScheme length]) {
-        Class aliClass = NSClassFromString(@"LDAliPayRegisterService");
-        if (aliClass) {
-            [LDSDKCommon sharedInstance].aliPayScheme = aliPayScheme;
-            [aliClass registerWithAppId:aliPayScheme withAppSecret:aliPayScheme withDescription:@""];
-        }
-    }
+    
     return YES;
 }
 
@@ -163,18 +186,18 @@ NSString *const LDShareDictTextKey      = @"text";
  */
 + (BOOL)handleOpenURL:(NSURL *)url
 {
-    if ([[LDSDKManager sharedService] handlePayType:LDSDKPlatformTypeWeChat resultURL:url callback:NULL]) {
+    if ([[LDSDKManager sharedService] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
         return YES;
     }
     
-    if([LDSDKManager handleOpenURL:url withType:LDSDKPlatformTypeQQ] ||
-       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformTypeWeChat] ||
-       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformTypeYiXin]) {
+    if([LDSDKManager handleOpenURL:url withType:LDSDKPlatformQQ] ||
+       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformWeChat] ||
+       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformYiXin]) {
         return YES;
     }
     NSString *scheme = [[url scheme] lowercaseString];
     if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [[LDSDKManager sharedService] handlePayType:LDSDKPlatformTypeAliPay resultURL:url callback:NULL];
+        [[LDSDKManager sharedService] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
         return YES;
     }
     
@@ -183,17 +206,17 @@ NSString *const LDShareDictTextKey      = @"text";
 
 + (BOOL)handleOpenURL:(NSURL *)url withType:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformTypeQQ) {
+    if (type == LDSDKPlatformQQ) {
         Class qqClass = NSClassFromString(@"LDQQRegisterService");
         if (qqClass) {
             return [qqClass handleResultUrl:url];
         }
-    } else if (type == LDSDKPlatformTypeWeChat) {
+    } else if (type == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatRegisterService");
         if (wxClass) {
             return [wxClass handleResultUrl:url];
         }
-    } else if (type == LDSDKPlatformTypeYiXin) {
+    } else if (type == LDSDKPlatformYiXin) {
         Class yxClass = NSClassFromString(@"LDYixinRegisterService");
         if (yxClass) {
             return [yxClass handleResultUrl:url];
@@ -211,12 +234,12 @@ NSString *const LDShareDictTextKey      = @"text";
  */
 - (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
-    if (payType == LDSDKPlatformTypeAliPay) {
+    if (payType == LDSDKPlatformAliPay) {
         Class aliClass = NSClassFromString(@"LDAliPayService");
         if (aliClass) {
             [[aliClass sharedService] payOrderString:orderString callback:callback];
         }
-    } else if (payType == LDSDKPlatformTypeWeChat) {
+    } else if (payType == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatPayService");
         if (wxClass) {
             [[wxClass sharedService] payOrderString:orderString callback:callback];
@@ -232,12 +255,12 @@ NSString *const LDShareDictTextKey      = @"text";
  */
 - (BOOL)handlePayType:(LDSDKPlatformType)payType resultURL:(NSURL *)result callback:(void (^)(NSDictionary *))callback
 {
-    if (payType == LDSDKPlatformTypeAliPay) {
+    if (payType == LDSDKPlatformAliPay) {
         Class aliClass = NSClassFromString(@"LDAliPayService");
         if (aliClass) {
             return [[aliClass sharedService] payProcessOrderWithPaymentResult:result standbyCallback:callback];
         }
-    } else if (payType == LDSDKPlatformTypeWeChat) {
+    } else if (payType == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatPayService");
         if (wxClass) {
             return [[wxClass sharedService] payProcessOrderWithPaymentResult:result standbyCallback:callback];
@@ -254,19 +277,19 @@ NSString *const LDShareDictTextKey      = @"text";
 - (NSArray *)availableShareTypeList
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    if ([LDSDKManager isRegistered:LDSDKPlatformTypeQQ]) {
-        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformTypeQQ]];
-        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformTypeQzone]];
+    if ([LDSDKManager isRegistered:LDSDKPlatformQQ]) {
+        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKShareToQQ]];
+        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKShareToQzone]];
     }
     
-    if ([LDSDKManager isRegistered:LDSDKPlatformTypeWeChat]) {
-        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformTypeWeChat]];
-        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformTypeWeChatTimeLine]];
+    if ([LDSDKManager isRegistered:LDSDKPlatformWeChat]) {
+        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKShareToWeChat]];
+        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKShareToWeChatTimeLine]];
     }
     
-    if ([LDSDKManager isRegistered:LDSDKPlatformTypeYiXin]) {
-        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformTypeYiXin]];
-        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformTypeYiXinTimeline]];
+    if ([LDSDKManager isRegistered:LDSDKPlatformYiXin]) {
+        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKShareToYiXin]];
+        [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKShareToYiXinTimeline]];
     }
     
     return [NSArray arrayWithArray:result];
@@ -279,34 +302,34 @@ NSString *const LDShareDictTextKey      = @"text";
  *  @param dict     分享内容的字典，参照key
  *  @param complete 成功后的回调
  */
-- (void)shareWithType:(LDSDKPlatformType)type withDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete
+- (void)shareWithType:(LDSDKShareType)type withDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete
 {
-    if (type == LDSDKPlatformTypeQQ) {
+    if (type == LDSDKShareToQQ) {
         Class qqClass = NSClassFromString(@"LDQQShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
         }
-    } else if (type == LDSDKPlatformTypeQzone) {
+    } else if (type == LDSDKShareToQzone) {
         Class qqClass = NSClassFromString(@"LDQzoneShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
         }
-    } else if (type == LDSDKPlatformTypeWeChat) {
+    } else if (type == LDSDKShareToWeChat) {
         Class qqClass = NSClassFromString(@"LDWechatShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
         }
-    } else if (type == LDSDKPlatformTypeWeChatTimeLine) {
+    } else if (type == LDSDKShareToWeChatTimeLine) {
         Class qqClass = NSClassFromString(@"LDWXTimelineShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
         }
-    } else if (type == LDSDKPlatformTypeYiXin) {
+    } else if (type == LDSDKShareToYiXin) {
         Class qqClass = NSClassFromString(@"LDYixinShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
         }
-    } else if (type == LDSDKPlatformTypeYiXinTimeline) {
+    } else if (type == LDSDKShareToYiXinTimeline) {
         Class qqClass = NSClassFromString(@"LDYXTimelineShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
@@ -321,28 +344,28 @@ NSString *const LDShareDictTextKey      = @"text";
  *
  *  @return 支持分享，返回YES，否则返回NO
  */
-- (BOOL)isAvailableShareType:(LDSDKPlatformType)type
+- (BOOL)isAvailableShareType:(LDSDKShareType)type
 {
-    if (type == LDSDKPlatformTypeQQ || type == LDSDKPlatformTypeQzone) {
-        return [LDSDKManager isRegistered:LDSDKPlatformTypeQQ];
-    } else if (type == LDSDKPlatformTypeWeChatTimeLine || type == LDSDKPlatformTypeWeChat) {
-        return [LDSDKManager isRegistered:LDSDKPlatformTypeWeChat];
-    } else if (type == LDSDKPlatformTypeYiXin || type == LDSDKPlatformTypeYiXinTimeline) {
-        return [LDSDKManager isRegistered:LDSDKPlatformTypeYiXin];
+    if (type == LDSDKShareToQQ || type == LDSDKShareToQzone) {
+        return [LDSDKManager isRegistered:LDSDKPlatformQQ];
+    } else if (type == LDSDKShareToWeChatTimeLine || type == LDSDKShareToWeChat) {
+        return [LDSDKManager isRegistered:LDSDKPlatformWeChat];
+    } else if (type == LDSDKShareToYiXin || type == LDSDKShareToYiXinTimeline) {
+        return [LDSDKManager isRegistered:LDSDKPlatformYiXin];
     }
     return NO;
 }
 
 - (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformTypeQQ) {
+    if (type == LDSDKPlatformQQ) {
         Class qqClass = NSClassFromString(@"LDQQAuthService");
         if (qqClass) {
             return [qqClass platformLoginEnabled];
         } else {
             return NO;
         }
-    } else if (type == LDSDKPlatformTypeWeChat) {
+    } else if (type == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatAuthService");
         if (wxClass) {
             return [wxClass platformLoginEnabled];
@@ -355,12 +378,12 @@ NSString *const LDShareDictTextKey      = @"text";
 
 - (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback
 {
-    if (type == LDSDKPlatformTypeQQ) {
+    if (type == LDSDKPlatformQQ) {
         Class qqClass = NSClassFromString(@"LDQQAuthService");
         if (qqClass) {
             [[qqClass sharedService] platformLoginWithCallback:callback];
         }
-    } else if (type == LDSDKPlatformTypeWeChat) {
+    } else if (type == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatAuthService");
         if (wxClass) {
             [[wxClass sharedService] platformLoginWithCallback:callback];
@@ -370,13 +393,13 @@ NSString *const LDShareDictTextKey      = @"text";
 
 - (void)logoutFromPlatformType:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformTypeQQ) {
+    if (type == LDSDKPlatformQQ) {
         Class qqClass = NSClassFromString(@"LDQQAuthService");
         if (qqClass) {
             [[qqClass sharedService] platformLogout];
         }
         
-    } else if (type == LDSDKPlatformTypeQQ) {
+    } else if (type == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatAuthService");
         if (wxClass) {
             [[wxClass sharedService] platformLogout];

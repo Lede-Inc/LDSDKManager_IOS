@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QQApiInterface.h"
+#import <TencentOpenAPI/QQApiInterface.h>
 
 typedef void(^LDSDKQQCallbackBlock)(QQBaseResp *resp);
 

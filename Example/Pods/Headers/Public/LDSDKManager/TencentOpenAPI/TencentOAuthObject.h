@@ -1,1 +1,0 @@
-../../../../../../LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework/Headers/TencentOAuthObject.h

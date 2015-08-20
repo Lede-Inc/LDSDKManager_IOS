@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 Lede. All rights reserved.
 //
 
+#import <TencentOpenAPI/QQApiInterface.h>
 #import "LDQQShareService.h"
-#import "QQApiInterface.h"
 #import "UIImage+LDSDKShare.h"
 #import "LDSDKQQService.h"
 

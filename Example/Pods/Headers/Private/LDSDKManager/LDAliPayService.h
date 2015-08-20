@@ -1,1 +1,0 @@
-../../../../../LDSDKManager/AlipayPlatform/LDAliPayService.h

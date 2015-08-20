@@ -7,9 +7,9 @@
 //
 
 #import "LDQzoneShareService.h"
-#import "QQApiInterface.h"
-#import "UIImage+LDSDKShare.h"
+#import <TencentOpenAPI/QQApiInterface.h>
 #import "LDSDKQQService.h"
+#import "UIImage+LDSDKShare.h"
 
 @implementation LDQzoneShareService
 

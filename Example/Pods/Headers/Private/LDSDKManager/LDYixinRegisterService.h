@@ -1,1 +1,0 @@
-../../../../../LDSDKManager/YixinPlatform/LDYixinRegisterService.h

@@ -47,7 +47,6 @@ Pod::Spec.new do |s|
         ss.source_files = 'LDSDKManager/AlipayPlatform/**/*{h,m,mm}'
         ss.vendored_frameworks = 'LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.framework'
         ss.resources = ['LDSDKManager/AlipayPlatform/**/*.{bundle}']
-        ss.dependency 'JSONKit-NoWarning', '~> 1.2'
         ss.dependency 'LDSDKManager/CoreService'
     end
 

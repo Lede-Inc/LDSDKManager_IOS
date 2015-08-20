@@ -1,3 +1,0 @@
-LDSDKMANAGER_FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/../../LDSDKManager/AlipayPlatform/AliSDK" "$(PODS_ROOT)/../../LDSDKManager/QQPlatform/LDQQSDK"
-LDSDKMANAGER_LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/../../LDSDKManager/WechatPlatform/WeChatSDK" "$(PODS_ROOT)/../../LDSDKManager/YixinPlatform/YiXinSDK"
-LDSDKMANAGER_OTHER_LDFLAGS = -l"WeChatSDK" -l"YixinSDK" -l"c++" -l"sqlite3.0" -l"z" -framework "AlipaySDK" -framework "CoreGraphics" -framework "Foundation" -framework "MobileCoreServices" -framework "SystemConfiguration" -framework "TencentOpenAPI" -framework "UIKit"

@@ -6,11 +6,12 @@
 //  Copyright (c) 2015年 Lede. All rights reserved.
 //
 
-#import "LDQQAuthService.h"
-#import "QQApi.h"
-#import <TencentOAuth.h>
-#import <TencentApiInterface.h>
+#import <TencentOpenAPI/QQApi.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/TencentApiInterface.h>
 #import <TencentOpenAPI/QQApiInterface.h>
+#import "LDQQAuthService.h"
+
 
 #define kQQPlatformLogin @"login_qq"
 

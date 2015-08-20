@@ -1,1 +1,0 @@
-../../../../../LDSDKManager/WechatPlatform/LDWechatRegisterService.h

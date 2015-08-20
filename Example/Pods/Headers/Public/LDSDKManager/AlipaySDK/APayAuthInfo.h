@@ -1,1 +1,0 @@
-../../../../../../LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.framework/Headers/APayAuthInfo.h

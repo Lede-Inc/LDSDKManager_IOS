@@ -1,6 +1,0 @@
-framework module LDSDKManager {
-  umbrella header "LDSDKManager-umbrella.h"
-
-  export *
-  module * { export * }
-}

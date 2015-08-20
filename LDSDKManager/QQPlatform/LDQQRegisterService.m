@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 ss. All rights reserved.
 //
 
+#import <TencentOpenAPI/QQApi.h>
 #import "LDQQRegisterService.h"
-#import "QQApi.h"
 #import "LDQQAuthService.h"
 #import "LDSDKQQService.h"
 

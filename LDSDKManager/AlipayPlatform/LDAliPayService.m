@@ -8,7 +8,6 @@
 
 #import "LDAliPayService.h"
 #import <AlipaySDK/AlipaySDK.h>
-#import "JSONKit.h"
 #import "LDSDKCommon.h"
 
 @implementation LDAliPayService
@@ -45,7 +44,8 @@
         NSError *parseError = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultDic options:NSJSONWritingPrettyPrinted error:&parseError];
         NSString *resultString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        NSString *signString = [resultString objectFromJSONStringWithParseOptions:JKParseOptionLooseUnicode][@"result"];
+#warning FIXME 不要用第三库的JSONKit
+        NSString *signString = resultString;//[resultString objectFromJSONStringWithParseOptions:JKParseOptionLooseUnicode][@"result"];
         if (callback) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 callback(signString, nil);

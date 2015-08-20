@@ -39,16 +39,19 @@
 #pragma mark - alipay
 - (void)aliPayOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
-    NSLog(@"orderString = %@", orderString);
     [[AlipaySDK defaultService] payOrder:orderString fromScheme:[LDSDKCommon sharedInstance].aliPayScheme callback:^(NSDictionary *resultDic) {
-        NSError *parseError = nil;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultDic options:NSJSONWritingPrettyPrinted error:&parseError];
-        NSString *resultString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-#warning FIXME 不要用第三库的JSONKit
-        NSString *signString = resultString;//[resultString objectFromJSONStringWithParseOptions:JKParseOptionLooseUnicode][@"result"];
+        NSString *signString = [resultDic objectForKey:@"result"];
+        NSString *memo = [resultDic objectForKey:@"memo"];
+        NSInteger resultStatus = [[resultDic objectForKey:@"resultStatus"] integerValue];
         if (callback) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                callback(signString, nil);
+                if (resultStatus==9000) {
+                    callback(signString, nil);
+                } else {
+                    NSError *error = [NSError errorWithDomain:@"AliPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:memo, @"NSLocalizedDescription", nil]];
+                    callback(signString, error);
+                }
+                
             });
         }
     }];

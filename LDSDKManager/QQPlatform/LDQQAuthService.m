@@ -8,8 +8,9 @@
 
 #import "LDQQAuthService.h"
 #import "QQApi.h"
-#import "TencentOAuth.h"
-#import "QQApiInterface.h"
+#import <TencentOAuth.h>
+#import <TencentApiInterface.h>
+#import <TencentOpenAPI/QQApiInterface.h>
 
 #define kQQPlatformLogin @"login_qq"
 

@@ -23,6 +23,8 @@ Pod::Spec.new do |s|
         ss.source_files = 'LDSDKManager/QQPlatform/**/*.{h,m,mm}'
         ss.vendored_frameworks = 'LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework'
         ss.resources = ['LDSDKManager/QQPlatform/**/*.{bundle}']
+        ss.ios.frameworks = 'CoreTelephony', 'SystemConfiguration'
+        ss.ios.libraries = 'z', 'sqlite3.0', 'c++', 'iconv'
         ss.dependency 'LDSDKManager/CoreService'
     end
 
@@ -47,6 +49,7 @@ Pod::Spec.new do |s|
         ss.source_files = 'LDSDKManager/AlipayPlatform/**/*{h,m,mm}'
         ss.vendored_frameworks = 'LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.framework'
         ss.resources = ['LDSDKManager/AlipayPlatform/**/*.{bundle}']
+        ss.frameworks = 'SystemConfiguration'
         ss.dependency 'LDSDKManager/CoreService'
     end
 

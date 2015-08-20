@@ -10,11 +10,11 @@ Pod::Spec.new do |s|
   s.author           = { "张海洋" => "zhanghaiyang@corp.netease.com" }
   s.source           = { :git => "https://git.ms.netease.com/commonlibraryios/LDSDKManager.git", :tag => s.version.to_s }
 
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '6.0'
   s.requires_arc = true
 
   s.subspec 'CoreService' do |ss|
-    ss.ios.deployment_target = '7.0'
+    ss.ios.deployment_target = '6.0'
     ss.ios.public_header_files = 'LDSDKManager/CoreService/LDSDKManager.h',
                                  'LDSDKManager/CoreService/LDSDKCommon.h'
     ss.ios.source_files = 'LDSDKManager/CoreService', 'LDSDKManager/CoreService/LDSDKServices'
@@ -25,6 +25,8 @@ Pod::Spec.new do |s|
     ss.ios.source_files = 'LDSDKManager/QQPlatform'
     ss.ios.vendored_frameworks = 'LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework'
     ss.ios.resources = ['LDSDKManager/QQPlatform/LDQQSDK/TencentOpenApi_IOS_Bundle.bundle']
+    ss.ios.frameworks = 'CoreTelephony'
+    ss.ios.libraries = 'z', 'sqlite3.0', 'c++', 'iconv'
   end
 
   s.subspec 'WechatPlatform' do |ss|
@@ -34,7 +36,7 @@ Pod::Spec.new do |s|
                           'LDSDKManager/WechatPlatform/WechatCommon',
                           'LDSDKManager/WechatPlatform/WeChatSDK/*.h'
     ss.ios.vendored_library = 'LDSDKManager/WechatPlatform/WeChatSDK/libWeChatSDK.a'
-    ss.ios.frameworks = 'MobileCoreServices', 'SystemConfiguration'
+    ss.ios.frameworks = 'MobileCoreServices'
     ss.ios.libraries = 'z', 'sqlite3.0', 'c++'
   end
 
@@ -53,5 +55,5 @@ Pod::Spec.new do |s|
     ss.ios.resources = ['LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.bundle']
   end
 
-  s.frameworks = 'UIKit', 'CoreGraphics', 'Foundation'
+  s.frameworks = 'UIKit', 'CoreGraphics', 'Foundation', 'SystemConfiguration'
 end

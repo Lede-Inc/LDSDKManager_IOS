@@ -238,11 +238,23 @@ NSString *const LDShareDictTextKey      = @"text";
         Class aliClass = NSClassFromString(@"LDAliPayService");
         if (aliClass) {
             [[aliClass sharedService] payOrderString:orderString callback:callback];
+        } else {
+            if (callback) {
+                NSError *errorTmp = [NSError errorWithDomain:@"WXpay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入微信模块", @"NSLocalizedDescription", nil]];
+                callback(nil, errorTmp);
+                return;
+            }
         }
     } else if (payType == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatPayService");
         if (wxClass) {
             [[wxClass sharedService] payOrderString:orderString callback:callback];
+        } else {
+            if (callback) {
+                NSError *errorTmp = [NSError errorWithDomain:@"Alipay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入支付宝模块", @"NSLocalizedDescription", nil]];
+                callback(nil, errorTmp);
+                return;
+            }
         }
     }
 }
@@ -308,31 +320,67 @@ NSString *const LDShareDictTextKey      = @"text";
         Class qqClass = NSClassFromString(@"LDQQShareService");
         if (qqClass) {
             [[qqClass sharedService] shareWithDict:dict onComplete:complete];
+        } else {
+            if (complete) {
+                NSError *errorTmp = [NSError errorWithDomain:@"qqshare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入QQ模块", @"NSLocalizedDescription", nil]];
+                complete(NO, errorTmp);
+                return;
+            }
         }
     } else if (type == LDSDKShareToQzone) {
-        Class qqClass = NSClassFromString(@"LDQzoneShareService");
-        if (qqClass) {
-            [[qqClass sharedService] shareWithDict:dict onComplete:complete];
+        Class qzoneClass = NSClassFromString(@"LDQzoneShareService");
+        if (qzoneClass) {
+            [[qzoneClass sharedService] shareWithDict:dict onComplete:complete];
+        } else {
+            if (complete) {
+                NSError *errorTmp = [NSError errorWithDomain:@"qzoneshare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入QQ模块", @"NSLocalizedDescription", nil]];
+                complete(NO, errorTmp);
+                return;
+            }
         }
     } else if (type == LDSDKShareToWeChat) {
-        Class qqClass = NSClassFromString(@"LDWechatShareService");
-        if (qqClass) {
-            [[qqClass sharedService] shareWithDict:dict onComplete:complete];
+        Class wxClass = NSClassFromString(@"LDWechatShareService");
+        if (wxClass) {
+            [[wxClass sharedService] shareWithDict:dict onComplete:complete];
+        } else {
+            if (complete) {
+                NSError *errorTmp = [NSError errorWithDomain:@"wxshare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入微信模块", @"NSLocalizedDescription", nil]];
+                complete(NO, errorTmp);
+                return;
+            }
         }
     } else if (type == LDSDKShareToWeChatTimeLine) {
-        Class qqClass = NSClassFromString(@"LDWXTimelineShareService");
-        if (qqClass) {
-            [[qqClass sharedService] shareWithDict:dict onComplete:complete];
+        Class wxtClass = NSClassFromString(@"LDWXTimelineShareService");
+        if (wxtClass) {
+            [[wxtClass sharedService] shareWithDict:dict onComplete:complete];
+        } else {
+            if (complete) {
+                NSError *errorTmp = [NSError errorWithDomain:@"wxtshare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入微信模块", @"NSLocalizedDescription", nil]];
+                complete(NO, errorTmp);
+                return;
+            }
         }
     } else if (type == LDSDKShareToYiXin) {
-        Class qqClass = NSClassFromString(@"LDYixinShareService");
-        if (qqClass) {
-            [[qqClass sharedService] shareWithDict:dict onComplete:complete];
+        Class yxClass = NSClassFromString(@"LDYixinShareService");
+        if (yxClass) {
+            [[yxClass sharedService] shareWithDict:dict onComplete:complete];
+        } else {
+            if (complete) {
+                NSError *errorTmp = [NSError errorWithDomain:@"yxshare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入易信模块", @"NSLocalizedDescription", nil]];
+                complete(NO, errorTmp);
+                return;
+            }
         }
     } else if (type == LDSDKShareToYiXinTimeline) {
-        Class qqClass = NSClassFromString(@"LDYXTimelineShareService");
-        if (qqClass) {
-            [[qqClass sharedService] shareWithDict:dict onComplete:complete];
+        Class yxtClass = NSClassFromString(@"LDYXTimelineShareService");
+        if (yxtClass) {
+            [[yxtClass sharedService] shareWithDict:dict onComplete:complete];
+        } else {
+            if (complete) {
+                NSError *errorTmp = [NSError errorWithDomain:@"yxtshare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入易信模块", @"NSLocalizedDescription", nil]];
+                complete(NO, errorTmp);
+                return;
+            }
         }
     }
 }
@@ -361,14 +409,18 @@ NSString *const LDShareDictTextKey      = @"text";
     if (type == LDSDKPlatformQQ) {
         Class qqClass = NSClassFromString(@"LDQQAuthService");
         if (qqClass) {
-            return [qqClass platformLoginEnabled];
+            return [LDSDKManager isAppInstalled:LDSDKPlatformQQ] &&
+                                  [qqClass platformLoginEnabled] &&
+                        [LDSDKManager isRegistered:LDSDKPlatformQQ];
         } else {
             return NO;
         }
     } else if (type == LDSDKPlatformWeChat) {
         Class wxClass = NSClassFromString(@"LDWechatAuthService");
         if (wxClass) {
-            return [wxClass platformLoginEnabled];
+            return [LDSDKManager isAppInstalled:LDSDKPlatformWeChat] &&
+                                      [wxClass platformLoginEnabled] &&
+                        [LDSDKManager isRegistered:LDSDKPlatformWeChat];
         } else {
             return NO;
         }

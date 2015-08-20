@@ -24,11 +24,29 @@ FOUNDATION_EXTERN NSString *const LDShareDictImageUrlKey;
 FOUNDATION_EXTERN NSString *const LDShareDictWapUrlKey;
 FOUNDATION_EXTERN NSString *const LDShareDictTextKey;
 
-
+/*!
+ *  @brief  第三方SDK支付回调
+ *
+ *  @param signString 签名字符串
+ *  @param error
+ */
 typedef void(^LDSDKPayCallback)(NSString *signString, NSError *error);
 
+/*!
+ *  @brief  第三方SDK分享回调
+ *
+ *  @param success 是否分享成功
+ *  @param error
+ */
 typedef void(^LDSDKShareCallback)(BOOL success, NSError *error);
 
+/*!
+ *  @brief  第三方SDK登录回调
+ *
+ *  @param oauthInfo 登录口令信息
+ *  @param userInfo  第三方用户基本信息
+ *  @param error
+ */
 typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error);
 
 
@@ -52,16 +70,20 @@ typedef NS_ENUM(NSUInteger, LDSDKShareType)
     LDSDKShareToAliPay,         //支付宝
 };
 
+
+/*!
+ *  @brief  LDSDKManager 第三方SDK集成管理（目前已经集成QQ、微信、易信、支付宝）
+ */
 @interface LDSDKManager : NSObject
 
-+ (instancetype)sharedService;
++ (instancetype)sharedManager;
 
 /**
- *  是否安装客户端
+ *  查询是否安装某个第三方SDK应用
  *
- *  @param type  安装类型，整数值
+ *  @param type  第三方平台类型
  *
- *  @return YES则已安装
+ *  @return 已安装返回YES，
  */
 + (BOOL)isAppInstalled:(LDSDKPlatformType)type;
 

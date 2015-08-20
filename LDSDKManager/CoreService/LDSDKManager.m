@@ -33,14 +33,14 @@ NSString *const LDShareDictTextKey      = @"text";
 
 @implementation LDSDKManager
 
-+ (instancetype)sharedService
++ (instancetype)sharedManager
 {
-    static LDSDKManager *_sharedInstance = nil;
+    static LDSDKManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[self alloc] init];
+        sharedInstance = [[self alloc] init];
     });
-    return _sharedInstance;
+    return sharedInstance;
 }
 
 /**
@@ -186,7 +186,7 @@ NSString *const LDShareDictTextKey      = @"text";
  */
 + (BOOL)handleOpenURL:(NSURL *)url
 {
-    if ([[LDSDKManager sharedService] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
+    if ([[LDSDKManager sharedManager] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
         return YES;
     }
     
@@ -197,7 +197,7 @@ NSString *const LDShareDictTextKey      = @"text";
     }
     NSString *scheme = [[url scheme] lowercaseString];
     if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [[LDSDKManager sharedService] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
+        [[LDSDKManager sharedManager] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
         return YES;
     }
     

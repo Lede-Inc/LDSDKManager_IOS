@@ -7,16 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-FOUNDATION_EXTERN NSString *const LDRegisterDictAppId;
-FOUNDATION_EXTERN NSString *const LDRegisterDictAppKey;
-FOUNDATION_EXTERN NSString *const LDRegisterDictAppSecret;
-FOUNDATION_EXTERN NSString *const LDRegisterDictAppDescription;
-FOUNDATION_EXTERN NSString *const LDRegisterDictAppScheme;
-
-FOUNDATION_EXTERN NSString *const LDRegisterDictTypeWechat;
-FOUNDATION_EXTERN NSString *const LDRegisterDictTypeQQ;
-FOUNDATION_EXTERN NSString *const LDRegisterDictTypeYixin;
-FOUNDATION_EXTERN NSString *const LDRegisterDictTypeAlipay;
+FOUNDATION_EXTERN NSString *const LDSDKRegisterAppIdKey;
+FOUNDATION_EXTERN NSString *const LDSDKRegisterAppSecretKey;
+FOUNDATION_EXTERN NSString *const LDSDKRegisterAppSchemeKey;
+FOUNDATION_EXTERN NSString *const LDSDKRegisterAppPlatformTypeKey;
+FOUNDATION_EXTERN NSString *const LDSDKRegisterAppDescriptionKey;
 
 FOUNDATION_EXTERN NSString *const LDShareDictTitleKey;
 FOUNDATION_EXTERN NSString *const LDShareDictDescriptionKey;
@@ -52,7 +47,7 @@ typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInf
 
 typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
 {
-    LDSDKPlatformQQ,             //QQ
+    LDSDKPlatformQQ = 1,             //QQ
     LDSDKPlatformWeChat,         //微信
     LDSDKPlatformYiXin,          //易信
     LDSDKPlatformAliPay,         //支付宝
@@ -98,13 +93,8 @@ typedef NS_ENUM(NSUInteger, LDSDKShareType)
 
 /**
  *  配置所有客户端appkey、appsecret等信息
- *
- *  @param dict       配置，包含wxappkey、wxappsecret
- *  @param description 配置描述，项目名称
- *
- *  @return YES则配置成功
  */
-+ (BOOL)registerWithDictionary:(NSDictionary *)dict;
++ (void)registerWithPlatformConfigList:(NSArray *)configList;
 
 /**
  *  处理url返回

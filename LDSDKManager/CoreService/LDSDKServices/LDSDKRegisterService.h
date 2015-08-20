@@ -25,7 +25,7 @@
 /*!
  *  @brief  注册获取第三方SDK使用权限
  */
-+ (void)registerWithAppId:(NSString *)appid withAppSecret:(NSString *)appsecret withDescription:(NSString *)description;
++ (void)registerWithPlatformConfig:(NSDictionary *)config;
 
 @optional
 

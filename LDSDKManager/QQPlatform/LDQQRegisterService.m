@@ -7,6 +7,8 @@
 //
 
 #import <TencentOpenAPI/QQApi.h>
+#import "LDSDKManager.h"
+
 #import "LDQQRegisterService.h"
 #import "LDQQAuthService.h"
 #import "LDSDKQQService.h"
@@ -18,11 +20,14 @@
     return [QQApi isQQInstalled] && [QQApi isQQSupportApi];
 }
 
-+ (void)registerWithAppId:(NSString *)appid withAppSecret:(NSString *)appsecret withDescription:(NSString *)description
-{
-    [LDQQAuthService registerQQPlatformAppId:appid];
-}
++(void) registerWithPlatformConfig:(NSDictionary *)config{
+    if(config == nil || config.allKeys.count == 0) return;
 
+    NSString *qqAppId = config[LDSDKRegisterAppIdKey];
+    if (qqAppId && [qqAppId length]) {
+        [LDQQAuthService registerQQPlatformAppId:qqAppId];
+    }
+}
 
 + (BOOL)handleResultUrl:(NSURL *)url
 {

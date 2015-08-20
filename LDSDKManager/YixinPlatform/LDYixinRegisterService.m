@@ -7,6 +7,8 @@
 //
 
 #import "LDYixinRegisterService.h"
+#import "LDSDKManager.h"
+
 #import "YXApi.h"
 #import "LDSDKYXService.h"
 
@@ -17,9 +19,14 @@
     return [YXApi isYXAppInstalled] && [YXApi isYXAppSupportApi];
 }
 
-+ (void)registerWithAppId:(NSString *)appid withAppSecret:(NSString *)appsecret withDescription:(NSString *)description
-{
-    [YXApi registerApp:appid];
++(void) registerWithPlatformConfig:(NSDictionary *)config{
+    if(config == nil || config.allKeys.count == 0) return;
+
+    NSString *yxAppId = config[LDSDKRegisterAppIdKey];
+//    NSString *yxAppSecret = config[LDSDKRegisterAppSecretKey];
+    if (yxAppId && [yxAppId length]) {
+        [YXApi registerApp:yxAppId];
+    }
 }
 
 + (BOOL)handleResultUrl:(NSURL *)url

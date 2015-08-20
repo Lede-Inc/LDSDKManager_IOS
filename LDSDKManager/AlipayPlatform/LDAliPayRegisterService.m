@@ -11,14 +11,12 @@
 @implementation LDAliPayRegisterService
 
 
-+ (BOOL)platformInstalled
-{
++ (BOOL)platformInstalled{
     return YES;
 }
 
-+ (void)registerWithAppId:(NSString *)appid withAppSecret:(NSString *)appsecret withDescription:(NSString *)description
-{
-    
+
++(void)registerWithPlatformConfig:(NSDictionary *)config{
 }
 
 @end

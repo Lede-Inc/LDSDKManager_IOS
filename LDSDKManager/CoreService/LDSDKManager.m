@@ -13,16 +13,11 @@
 #import "LDSDKShareService.h"
 #import "LDSDKCommon.h"
 
-NSString *const LDRegisterDictAppId         = @"appid";
-NSString *const LDRegisterDictAppSecret     = @"appsecret";
-NSString *const LDRegisterDictAppDescription   = @"description";
-NSString *const LDRegisterDictAppKey        = @"appkey";
-NSString *const LDRegisterDictAppScheme = @"appscheme";
-
-NSString *const LDRegisterDictTypeWechat = @"wechat";
-NSString *const LDRegisterDictTypeQQ = @"qq";
-NSString *const LDRegisterDictTypeYixin = @"yixin";
-NSString *const LDRegisterDictTypeAlipay = @"alipay";
+NSString *const LDSDKRegisterAppIdKey = @"kAppID";
+NSString *const LDSDKRegisterAppSecretKey = @"kAppSecret";
+NSString *const LDSDKRegisterAppSchemeKey = @"kAppScheme";
+NSString *const LDSDKRegisterAppPlatformTypeKey = @"kAppPlatformType";
+NSString *const LDSDKRegisterAppDescriptionKey   = @"kAppDescription";
 
 NSString *const LDShareDictTitleKey       = @"title";
 NSString *const LDShareDictDescriptionKey = @"description";
@@ -112,69 +107,37 @@ NSString *const LDShareDictTextKey      = @"text";
  *
  *  @return YES则配置成功
  */
-+ (BOOL)registerWithDictionary:(NSDictionary *)dict
++ (void)registerWithPlatformConfigList:(NSArray *)configList;
 {
-    NSString *wxAppId = nil;
-    NSString *wxAppSecret = nil;
-    NSString *wxDescription = nil;
-    if ([dict objectForKey:LDRegisterDictTypeWechat]) {
-        wxAppId = [[dict objectForKey:LDRegisterDictTypeWechat] objectForKey:LDRegisterDictAppId];
-        wxAppSecret = [[dict objectForKey:LDRegisterDictTypeWechat] objectForKey:LDRegisterDictAppSecret];
-        wxDescription = [[dict objectForKey:LDRegisterDictTypeWechat] objectForKey:LDRegisterDictAppDescription];
-        if (wxAppId && wxAppSecret && [wxAppId length] && [wxAppSecret length]) {
-            Class wxClass = NSClassFromString(@"LDWechatRegisterService");
-            if (wxClass) {
-                [LDSDKCommon sharedInstance].wxAppId = wxAppId;
-                [LDSDKCommon sharedInstance].wxAppSecret = wxAppSecret;
-                [wxClass registerWithAppId:wxAppId withAppSecret:wxAppSecret withDescription:wxDescription];
-            }
-        }
-    }
+    if(configList == nil || configList.count == 0) return;
     
-    NSString *yxAppId = nil;
-    NSString *yxAppSecret = nil;
-    if ([dict objectForKey:LDRegisterDictTypeYixin]) {
-        yxAppId = [[dict objectForKey:LDRegisterDictTypeYixin] objectForKey:LDRegisterDictAppId];
-        yxAppSecret = [[dict objectForKey:LDRegisterDictTypeYixin] objectForKey:LDRegisterDictAppSecret];
-        if (yxAppId && yxAppSecret && [yxAppId length] && [yxAppSecret length]) {
-            Class yxClass = NSClassFromString(@"LDYixinRegisterService");
-            if (yxClass) {
-                [LDSDKCommon sharedInstance].yxAppId = yxAppId;
-                [LDSDKCommon sharedInstance].yxAppSecret = yxAppSecret;
-                [yxClass registerWithAppId:yxAppId withAppSecret:yxAppSecret withDescription:@""];
-            }
+    for(NSDictionary *onePlatformConfig in configList){
+        LDSDKPlatformType platformType = [onePlatformConfig[LDSDKRegisterAppPlatformTypeKey] intValue];
+        Class registerServiceImplCls = nil;
+        switch (platformType) {
+            case LDSDKPlatformWeChat:
+                registerServiceImplCls = NSClassFromString(@"LDWechatRegisterService");
+                break;
+
+            case LDSDKPlatformYiXin:
+                registerServiceImplCls = NSClassFromString(@"LDYixinRegisterService");
+                break;
+
+            case LDSDKPlatformQQ:
+                registerServiceImplCls = NSClassFromString(@"LDQQRegisterService");
+                break;
+
+            case LDSDKPlatformAliPay:
+                registerServiceImplCls = NSClassFromString(@"LDAliPayRegisterService");
+                break;
+            default:
+                break;
         }
 
-    }
-    
-    NSString *qqAppId = nil;
-    NSString *qqAppKey = nil;
-    if ([dict objectForKey:LDRegisterDictTypeQQ]) {
-        qqAppId = [[dict objectForKey:LDRegisterDictTypeQQ] objectForKey:LDRegisterDictAppId];
-        qqAppKey = [[dict objectForKey:LDRegisterDictTypeQQ] objectForKey:LDRegisterDictAppKey];
-        if (qqAppId && [qqAppId length]) {
-            Class qqClass = NSClassFromString(@"LDQQRegisterService");
-            if (qqClass) {
-                [LDSDKCommon sharedInstance].qqAppId = qqAppId;
-                [LDSDKCommon sharedInstance].qqAppKey = qqAppKey;
-                [qqClass registerWithAppId:qqAppId withAppSecret:qqAppKey withDescription:@""];
-            }
+        if(registerServiceImplCls){
+            [registerServiceImplCls registerWithPlatformConfig:onePlatformConfig];
         }
     }
-    
-    NSString *aliPayScheme = nil;
-    if ([dict objectForKey:LDRegisterDictTypeAlipay]) {
-        aliPayScheme = [[dict objectForKey:LDRegisterDictTypeAlipay] objectForKey:LDRegisterDictAppScheme];
-        if (aliPayScheme && [aliPayScheme length]) {
-            Class aliClass = NSClassFromString(@"LDAliPayRegisterService");
-            if (aliClass) {
-                [LDSDKCommon sharedInstance].aliPayScheme = aliPayScheme;
-                [aliClass registerWithAppId:aliPayScheme withAppSecret:aliPayScheme withDescription:@""];
-            }
-        }
-    }
-    
-    return YES;
 }
 
 /**

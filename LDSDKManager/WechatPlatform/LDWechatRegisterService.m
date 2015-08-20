@@ -7,6 +7,8 @@
 //
 
 #import "LDWechatRegisterService.h"
+#import "LDSDKManager.h"
+
 #import "WXApi.h"
 #import "LDWechatAuthService.h"
 #import "LDSDKWXService.h"
@@ -18,10 +20,16 @@
     return [WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi];
 }
 
-+ (void)registerWithAppId:(NSString *)appid withAppSecret:(NSString *)appsecret withDescription:(NSString *)description
-{
-    [WXApi registerApp:appid withDescription:description];
-    [LDWechatAuthService registerWXAppId:appid appSecret:appsecret];
++(void) registerWithPlatformConfig:(NSDictionary *)config{
+    if(config == nil || config.allKeys.count == 0) return;
+
+    NSString *wxAppId = config[LDSDKRegisterAppIdKey];
+    NSString *wxAppSecret = config[LDSDKRegisterAppSecretKey];
+    NSString *wxDescription = config[LDSDKRegisterAppDescriptionKey];
+    if (wxAppId && wxAppSecret && [wxAppId length] && [wxAppSecret length]) {
+        [WXApi registerApp:wxAppId withDescription:wxDescription];
+        [LDWechatAuthService registerWXAppId:wxAppId appSecret:wxAppSecret];
+    }
 }
 
 + (BOOL)handleResultUrl:(NSURL *)url

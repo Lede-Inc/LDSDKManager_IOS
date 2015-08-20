@@ -22,30 +22,29 @@
     /*!
      *  @brief  批量注册第三方SDK
      */
-    NSDictionary *regDic = @{
-                             LDRegisterDictTypeWechat:
-                                @{
-                                    LDRegisterDictAppId:@"wxc133b9f78c1141b0",
-                                    LDRegisterDictAppSecret:@"67b24b8f6951b1086675c33b144e0709",
-                                    LDRegisterDictAppDescription:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]
-                                },
-                             LDRegisterDictTypeQQ:
-                                @{
-                                    LDRegisterDictAppId:@"1104472826",
-                                    LDRegisterDictAppSecret:@"nLCqXsceOMtojCtD"
-                                },
-                             LDRegisterDictTypeYixin:
-                                 @{
-                                    LDRegisterDictAppId:@"yx778ae2bc7a2a489bb627d51f03a92682",
-                                    LDRegisterDictAppSecret:@"6042fc1511260d6594"
-                                 },
-                             LDRegisterDictTypeAlipay:
-                                 @{
-                                    LDRegisterDictAppScheme:@"alisdkldchexian"
-                                 },
-
-                             };
-    [LDSDKManager registerWithDictionary:regDic];
+    NSArray *regPlatformConfigList = @[
+        @{
+            LDSDKRegisterAppIdKey:@"wxc133b9f78c1141b0",
+            LDSDKRegisterAppSecretKey:@"67b24b8f6951b1086675c33b144e0709",
+            LDSDKRegisterAppDescriptionKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
+            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformWeChat)
+        },
+        @{
+            LDSDKRegisterAppIdKey:@"1104472826",
+            LDSDKRegisterAppSecretKey:@"nLCqXsceOMtojCtD",
+            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformQQ)
+        },
+        @{
+            LDSDKRegisterAppIdKey:@"yx778ae2bc7a2a489bb627d51f03a92682",
+            LDSDKRegisterAppSecretKey:@"6042fc1511260d6594",
+            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformYiXin)
+        },
+        @{
+            LDSDKRegisterAppSchemeKey:@"alisdkldchexian",
+            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformAliPay)
+        },
+    ];
+    [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
 
     LDViewController *view = [[LDViewController alloc] init];
     self.window.rootViewController = view;

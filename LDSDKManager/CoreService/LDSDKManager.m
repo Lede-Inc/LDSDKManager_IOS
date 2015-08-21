@@ -36,6 +36,8 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
 };
 
 
+static NSArray *sdkServiceConfigList = nil;
+
 @implementation LDSDKManager
 
 + (instancetype)sharedManager
@@ -267,20 +269,29 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
  * 根据平台类型和服务类型获取服务提供者
  */
 +(Class)getServiceProviderWithPlatformType:(LDSDKPlatformType)platformType serviceType:(LDSDKServiceType)serviceType{
-    Class serviceProvider = nil;
-    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"ClassNames" ofType:@"plist"];
-    NSMutableArray *data = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
-    NSDictionary *platformDic = [NSDictionary dictionaryWithDictionary:[data objectAtIndex:platformType-1]];
-    if ([[platformDic objectForKey:@"platform"] integerValue] == platformType) {
-        NSArray *names = [NSArray arrayWithArray:[platformDic objectForKey:@"config"]];
-        for (int i=0; i<[names count]; i++) {
-            NSInteger type = [[[names objectAtIndex:i] objectForKey:@"type"] integerValue];
-            if (type == serviceType) {
-                NSString *name = [[names objectAtIndex:i] objectForKey:@"name"];
-                serviceProvider = NSClassFromString(name);
-            }
-        }
+    if(sdkServiceConfigList == nil){
+        NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"SDKServiceConfig" ofType:@"plist"];
+        sdkServiceConfigList = [[NSArray alloc] initWithContentsOfFile:plistPath];
     }
+
+    Class serviceProvider = nil;
+    for(NSDictionary *oneSDKServiceConfig in sdkServiceConfigList){
+        //find the specified platform
+        if([oneSDKServiceConfig[@"platformType"] intValue] == platformType){
+            NSArray *configServiceList = oneSDKServiceConfig[@"configServiceList"];
+            if(configServiceList != nil && configServiceList.count > 0){
+                for(NSDictionary *configService in configServiceList){
+                    //find the specified service
+                    if([configService[@"serviceType"] intValue] == serviceType){
+                        serviceProvider = NSClassFromString(configService[@"serviceProvider"]);
+                        break;
+                    }
+                }//for
+            }
+            break;
+        }//if
+    }//for
+
     return serviceProvider;
 }
 

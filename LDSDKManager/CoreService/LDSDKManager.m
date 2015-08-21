@@ -30,6 +30,7 @@ NSString *const LDShareDictTextKey      = @"text";
 typedef NS_ENUM(NSUInteger, LDSDKServiceType)
 {
     LDSDKServiceRegister = 1,  //sdk应用注册服务
+    LDSDKServicePay,           //sdk支付服务
     LDSDKServiceShare,         //sdk分享服务
     LDSDKServiceOAuth          //sdk第三方登录服务
 };
@@ -56,11 +57,15 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
  */
 + (BOOL)isAppInstalled:(LDSDKPlatformType)type
 {
-     Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
+    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
     if(registerServiceImplCls != nil){
         return [registerServiceImplCls platformInstalled];
     } else {
-        return NO;
+        if (type == LDSDKPlatformAliPay) {
+            return YES;
+        } else {
+            return NO;
+        }
     }
 }
 
@@ -138,21 +143,9 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
 
 + (BOOL)handleOpenURL:(NSURL *)url withType:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformQQ) {
-        Class qqClass = NSClassFromString(@"LDQQRegisterService");
-        if (qqClass) {
-            return [qqClass handleResultUrl:url];
-        }
-    } else if (type == LDSDKPlatformWeChat) {
-        Class wxClass = NSClassFromString(@"LDWechatRegisterService");
-        if (wxClass) {
-            return [wxClass handleResultUrl:url];
-        }
-    } else if (type == LDSDKPlatformYiXin) {
-        Class yxClass = NSClassFromString(@"LDYixinRegisterService");
-        if (yxClass) {
-            return [yxClass handleResultUrl:url];
-        }
+    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
+    if(registerServiceImplCls != nil){
+        return [registerServiceImplCls handleResultUrl:url];
     }
     return NO;
 }
@@ -166,27 +159,14 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
  */
 - (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
-    if (payType == LDSDKPlatformAliPay) {
-        Class aliClass = NSClassFromString(@"LDAliPayService");
-        if (aliClass) {
-            [[aliClass sharedService] payOrderString:orderString callback:callback];
-        } else {
-            if (callback) {
-                NSError *errorTmp = [NSError errorWithDomain:@"WXpay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入微信模块", @"NSLocalizedDescription", nil]];
-                callback(nil, errorTmp);
-                return;
-            }
-        }
-    } else if (payType == LDSDKPlatformWeChat) {
-        Class wxClass = NSClassFromString(@"LDWechatPayService");
-        if (wxClass) {
-            [[wxClass sharedService] payOrderString:orderString callback:callback];
-        } else {
-            if (callback) {
-                NSError *errorTmp = [NSError errorWithDomain:@"Alipay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入支付宝模块", @"NSLocalizedDescription", nil]];
-                callback(nil, errorTmp);
-                return;
-            }
+    Class payServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:payType serviceType:LDSDKServicePay];
+    if(payServiceImplCls != nil){
+        [[payServiceImplCls sharedService] payOrderString:orderString callback:callback];
+    } else {
+        if (callback) {
+            NSError *errorTmp = [NSError errorWithDomain:@"pay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"该模块可能未导入或不支持支付功能", @"NSLocalizedDescription", nil]];
+            callback(nil, errorTmp);
+            return;
         }
     }
 }
@@ -199,16 +179,9 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
  */
 - (BOOL)handlePayType:(LDSDKPlatformType)payType resultURL:(NSURL *)result callback:(void (^)(NSDictionary *))callback
 {
-    if (payType == LDSDKPlatformAliPay) {
-        Class aliClass = NSClassFromString(@"LDAliPayService");
-        if (aliClass) {
-            return [[aliClass sharedService] payProcessOrderWithPaymentResult:result standbyCallback:callback];
-        }
-    } else if (payType == LDSDKPlatformWeChat) {
-        Class wxClass = NSClassFromString(@"LDWechatPayService");
-        if (wxClass) {
-            return [[wxClass sharedService] payProcessOrderWithPaymentResult:result standbyCallback:callback];
-        }
+    Class payServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:payType serviceType:LDSDKServicePay];
+    if(payServiceImplCls != nil){
+        return [[payServiceImplCls sharedService] payProcessOrderWithPaymentResult:result standbyCallback:callback];
     }
     return NO;
 }
@@ -261,56 +234,28 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
 
 - (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformQQ) {
-        Class qqClass = NSClassFromString(@"LDQQAuthService");
-        if (qqClass) {
-            return [LDSDKManager isAppInstalled:LDSDKPlatformQQ] &&
-                                  [qqClass platformLoginEnabled] &&
-                        [LDSDKManager isRegistered:LDSDKPlatformQQ];
-        } else {
-            return NO;
-        }
-    } else if (type == LDSDKPlatformWeChat) {
-        Class wxClass = NSClassFromString(@"LDWechatAuthService");
-        if (wxClass) {
-            return [LDSDKManager isAppInstalled:LDSDKPlatformWeChat] &&
-                                      [wxClass platformLoginEnabled] &&
-                        [LDSDKManager isRegistered:LDSDKPlatformWeChat];
-        } else {
-            return NO;
-        }
+    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
+    if(loginServiceImplCls != nil){
+        return [LDSDKManager isAppInstalled:type] &&
+               [loginServiceImplCls platformLoginEnabled] &&
+               [LDSDKManager isRegistered:type];
     }
     return NO;
 }
 
 - (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback
 {
-    if (type == LDSDKPlatformQQ) {
-        Class qqClass = NSClassFromString(@"LDQQAuthService");
-        if (qqClass) {
-            [[qqClass sharedService] platformLoginWithCallback:callback];
-        }
-    } else if (type == LDSDKPlatformWeChat) {
-        Class wxClass = NSClassFromString(@"LDWechatAuthService");
-        if (wxClass) {
-            [[wxClass sharedService] platformLoginWithCallback:callback];
-        }
+    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
+    if(loginServiceImplCls != nil){
+        [[loginServiceImplCls sharedService] platformLoginWithCallback:callback];
     }
 }
 
 - (void)logoutFromPlatformType:(LDSDKPlatformType)type
 {
-    if (type == LDSDKPlatformQQ) {
-        Class qqClass = NSClassFromString(@"LDQQAuthService");
-        if (qqClass) {
-            [[qqClass sharedService] platformLogout];
-        }
-        
-    } else if (type == LDSDKPlatformWeChat) {
-        Class wxClass = NSClassFromString(@"LDWechatAuthService");
-        if (wxClass) {
-            [[wxClass sharedService] platformLogout];
-        }
+    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
+    if(loginServiceImplCls != nil){
+        [[loginServiceImplCls sharedService] platformLogout];
     }
 }
 
@@ -323,34 +268,19 @@ typedef NS_ENUM(NSUInteger, LDSDKServiceType)
  */
 +(Class)getServiceProviderWithPlatformType:(LDSDKPlatformType)platformType serviceType:(LDSDKServiceType)serviceType{
     Class serviceProvider = nil;
-    switch (platformType) {
-        case LDSDKPlatformWeChat:
-            if(serviceType == LDSDKServiceRegister){
-                serviceProvider = NSClassFromString(@"LDWechatRegisterService");
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"ClassNames" ofType:@"plist"];
+    NSMutableArray *data = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
+    NSDictionary *platformDic = [NSDictionary dictionaryWithDictionary:[data objectAtIndex:platformType-1]];
+    if ([[platformDic objectForKey:@"platform"] integerValue] == platformType) {
+        NSArray *names = [NSArray arrayWithArray:[platformDic objectForKey:@"config"]];
+        for (int i=0; i<[names count]; i++) {
+            NSInteger type = [[[names objectAtIndex:i] objectForKey:@"type"] integerValue];
+            if (type == serviceType) {
+                NSString *name = [[names objectAtIndex:i] objectForKey:@"name"];
+                serviceProvider = NSClassFromString(name);
             }
-            break;
-
-        case LDSDKPlatformYiXin:
-            if(serviceType == LDSDKServiceRegister){
-                serviceProvider = NSClassFromString(@"LDYixinRegisterService");
-            }
-            break;
-
-        case LDSDKPlatformQQ:
-            if(serviceType == LDSDKServiceRegister){
-                serviceProvider = NSClassFromString(@"LDQQRegisterService");
-            }
-            break;
-
-        case LDSDKPlatformAliPay:
-            if(serviceType == LDSDKServiceRegister){
-                serviceProvider = NSClassFromString(@"LDAliPayRegisterService");
-            }
-            break;
-        default:
-            break;
+        }
     }
-
     return serviceProvider;
 }
 

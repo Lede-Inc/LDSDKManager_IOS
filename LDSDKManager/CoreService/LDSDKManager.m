@@ -50,13 +50,10 @@ static NSArray *sdkServiceConfigList = nil;
     return sharedInstance;
 }
 
-/**
- *  是否安装客户端
- *
- *  @param type  安装类型，整数值
- *
- *  @return YES则已安装
- */
+
+#pragma mark -
+#pragma mark - SDK Register Interface
+
 + (BOOL)isAppInstalled:(LDSDKPlatformType)type
 {
     Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
@@ -71,13 +68,6 @@ static NSArray *sdkServiceConfigList = nil;
     }
 }
 
-/**
- *  获取某应用是否已被注册
- *
- *  @param type  注册类型，整数值
- *
- *  @return YES则已注册
- */
 + (BOOL)isRegistered:(LDSDKPlatformType)type
 {
     switch (type) {
@@ -116,41 +106,9 @@ static NSArray *sdkServiceConfigList = nil;
     }
 }
 
-/**
- *  处理url返回
- *
- *  @param url       第三方应用的url回调
- *
- *  @return YES则处理成功
- */
-+ (BOOL)handleOpenURL:(NSURL *)url
-{
-    if ([[LDSDKManager sharedManager] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
-        return YES;
-    }
-    
-    if([LDSDKManager handleOpenURL:url withType:LDSDKPlatformQQ] ||
-       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformWeChat] ||
-       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformYiXin]) {
-        return YES;
-    }
-    NSString *scheme = [[url scheme] lowercaseString];
-    if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [[LDSDKManager sharedManager] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
-        return YES;
-    }
-    
-    return YES;
-}
 
-+ (BOOL)handleOpenURL:(NSURL *)url withType:(LDSDKPlatformType)type
-{
-    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
-    if(registerServiceImplCls != nil){
-        return [registerServiceImplCls handleResultUrl:url];
-    }
-    return NO;
-}
+#pragma mark -
+#pragma mark - SDK Pay Interface
 
 /**
  *  支付
@@ -261,9 +219,48 @@ static NSArray *sdkServiceConfigList = nil;
     }
 }
 
+#pragma mark -
+#pragma mark - SDK Callback Interface
+
+/**
+ *  处理url返回
+ *
+ *  @param url       第三方应用的url回调
+ *
+ *  @return YES则处理成功
+ */
++ (BOOL)handleOpenURL:(NSURL *)url
+{
+    if ([[LDSDKManager sharedManager] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
+        return YES;
+    }
+
+    if([LDSDKManager handleOpenURL:url withType:LDSDKPlatformQQ] ||
+       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformWeChat] ||
+       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformYiXin]) {
+        return YES;
+    }
+    NSString *scheme = [[url scheme] lowercaseString];
+    if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
+        [[LDSDKManager sharedManager] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
+        return YES;
+    }
+
+    return YES;
+}
+
++ (BOOL)handleOpenURL:(NSURL *)url withType:(LDSDKPlatformType)type
+{
+    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
+    if(registerServiceImplCls != nil){
+        return [registerServiceImplCls handleResultUrl:url];
+    }
+    return NO;
+}
+
 
 #pragma mark - 
-#pragma mark - common method
+#pragma mark - Common Method
 
 /**
  * 根据平台类型和服务类型获取服务提供者

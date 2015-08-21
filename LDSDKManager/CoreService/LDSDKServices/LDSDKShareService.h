@@ -14,6 +14,6 @@ typedef void(^LDSDKShareCallback)(BOOL success, NSError *error);
 
 + (instancetype)sharedService;
 
-- (void)shareWithDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete;
+- (void)shareWithDict:(NSDictionary *)dict shareModule:(NSUInteger)shareModule onComplete:(LDSDKShareCallback)complete;
 
 @end

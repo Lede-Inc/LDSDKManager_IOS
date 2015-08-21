@@ -180,7 +180,7 @@ static NSArray *sdkServiceConfigList = nil;
              onComplete:(LDSDKShareCallback)complete{
     Class shareServiceImplCls = [[self class] getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceShare];
     if(shareServiceImplCls != nil){
-        [[shareServiceImplCls sharedService] shareWithDict:dict onComplete:complete];
+        [[shareServiceImplCls sharedService] shareWithDict:dict shareModule:shareModule onComplete:complete];
     } else {
         if(complete){
             NSError *errorTmp = [NSError errorWithDomain:@"SDK分享组件" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入分享平台的SDK", @"NSLocalizedDescription", nil]];

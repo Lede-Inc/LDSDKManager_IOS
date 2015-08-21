@@ -15,7 +15,7 @@ typedef void(^LDSDKQQCallbackBlock)(QQBaseResp *resp);
 
 + (instancetype)defaultService;
 
-- (QQApiSendResultCode)sendReq:(QQBaseReq *)req callback:(LDSDKQQCallbackBlock)callbackBlock;
+- (QQApiSendResultCode)sendReq:(QQBaseReq *)req shareModule:(NSUInteger)shareModule callback:(LDSDKQQCallbackBlock)callbackBlock;
 
 - (BOOL)handleOpenURL:(NSURL *)url;
 

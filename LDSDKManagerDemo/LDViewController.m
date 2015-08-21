@@ -161,7 +161,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedManager] shareWithType:LDSDKShareToQQ withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedManager] shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -180,7 +180,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedManager] shareWithType:LDSDKShareToWeChat withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedManager] shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -199,7 +199,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedManager] shareWithType:LDSDKShareToQzone withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedManager] shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -218,7 +218,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedManager] shareWithType:LDSDKShareToWeChatTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedManager] shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -237,7 +237,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedManager] shareWithType:LDSDKShareToYiXinTimeline withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedManager] shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -256,7 +256,7 @@
                                @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
                                @"text", LDShareDictTextKey,
                                nil];
-    [[LDSDKManager sharedManager] shareWithType:LDSDKShareToYiXin withDict:shareDict onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager sharedManager] shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -300,5 +300,6 @@
     NSLog(@"click");
     alertView = nil;
 }
+
 
 @end

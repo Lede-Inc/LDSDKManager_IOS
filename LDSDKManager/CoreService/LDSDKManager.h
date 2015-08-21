@@ -47,24 +47,18 @@ typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInf
 
 typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
 {
-    LDSDKPlatformQQ = 1,             //QQ
+    LDSDKPlatformQQ = 1,         //QQ
     LDSDKPlatformWeChat,         //微信
     LDSDKPlatformYiXin,          //易信
     LDSDKPlatformAliPay,         //支付宝
 };
 
 
-typedef NS_ENUM(NSUInteger, LDSDKShareType)
-{
-    LDSDKShareToQQ,             //QQ
-    LDSDKShareToQzone,          //QQ空间
-    LDSDKShareToWeChat,         //微信
-    LDSDKShareToWeChatTimeLine, //微信朋友圈
-    LDSDKShareToYiXin,          //易信
-    LDSDKShareToYiXinTimeline,  //易信朋友圈
-    LDSDKShareToAliPay,         //支付宝
+typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
+    LDSDKShareToContact = 1,  //分享至第三方应用的联系人或组
+    LDSDKShareToTimeLine,     //分享至第三方应用的timeLine
+    LDSDKShareToOther         //分享至第三方应用的其他模块
 };
-
 
 /*!
  *  @brief  LDSDKManager 第三方SDK集成管理（目前已经集成QQ、微信、易信、支付宝）
@@ -119,29 +113,32 @@ typedef NS_ENUM(NSUInteger, LDSDKShareType)
 - (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback;
 
 /**
- *  获得支持的分享类型
- *
- *  @return 返回支持的结果，掩码
+ *  获得支持分享的平台列表
+ *  @return array中保存的是平台enum的列表
  */
-- (NSArray *)availableShareTypeList;
+- (NSArray *)availableSharePlatformList;
+
+/**
+ *  判断是否支持某个平台的分享
+ *
+ *  @param platformType 分享平台类型
+ *
+ *  @return 支持分享，返回YES，否则返回NO
+ */
+- (BOOL)isAvailableShareToPlatform:(LDSDKPlatformType)platformType;
 
 /**
  *  第三方分享
  *
- *  @param type     分享类型
- *  @param dict     分享内容的字典，参照key
- *  @param complete 成功后的回调
+ *  @param platformType 分享平台类型
+ *  @param shareModule  平台分享模块
+ *  @param dict         分享内容的字典，参照key
+ *  @param complete     分享结果回调
  */
-- (void)shareWithType:(LDSDKShareType)type withDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete;
-
-/**
- *  判断是否支持这个分享
- *
- *  @param type 分享类型,整数值
- *
- *  @return 支持分享，返回YES，否则返回NO
- */
-- (BOOL)isAvailableShareType:(LDSDKShareType)type;
+- (void)shareToPlatform:(LDSDKPlatformType)platformType
+            shareModule:(LDSDKShareToModule)shareModule
+               withDict:(NSDictionary *)dict
+             onComplete:(LDSDKShareCallback)complete;
 
 /**
  *  判断是否支持这个登陆

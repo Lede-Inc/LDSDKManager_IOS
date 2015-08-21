@@ -24,24 +24,24 @@
      */
     NSArray *regPlatformConfigList = @[
         @{
-            LDSDKRegisterAppIdKey:@"wxc133b9f78c1141b0",
-            LDSDKRegisterAppSecretKey:@"67b24b8f6951b1086675c33b144e0709",
-            LDSDKRegisterAppDescriptionKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
-            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformWeChat)
+            LDSDKConfigAppIdKey:@"wxc133b9f78c1141b0",
+            LDSDKConfigAppSecretKey:@"67b24b8f6951b1086675c33b144e0709",
+            LDSDKConfigAppDescriptionKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
+            LDSDKConfigAppPlatformTypeKey:@(LDSDKPlatformWeChat)
         },
         @{
-            LDSDKRegisterAppIdKey:@"1104472826",
-            LDSDKRegisterAppSecretKey:@"nLCqXsceOMtojCtD",
-            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformQQ)
+            LDSDKConfigAppIdKey:@"1104472826",
+            LDSDKConfigAppSecretKey:@"nLCqXsceOMtojCtD",
+            LDSDKConfigAppPlatformTypeKey:@(LDSDKPlatformQQ)
         },
         @{
-            LDSDKRegisterAppIdKey:@"yx778ae2bc7a2a489bb627d51f03a92682",
-            LDSDKRegisterAppSecretKey:@"6042fc1511260d6594",
-            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformYiXin)
+            LDSDKConfigAppIdKey:@"yx778ae2bc7a2a489bb627d51f03a92682",
+            LDSDKConfigAppSecretKey:@"6042fc1511260d6594",
+            LDSDKConfigAppPlatformTypeKey:@(LDSDKPlatformYiXin)
         },
         @{
-            LDSDKRegisterAppSchemeKey:@"alisdkldchexian",
-            LDSDKRegisterAppPlatformTypeKey:@(LDSDKPlatformAliPay)
+            LDSDKConfigAppSchemeKey:@"alisdkldchexian",
+            LDSDKConfigAppPlatformTypeKey:@(LDSDKPlatformAliPay)
         },
     ];
     [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];

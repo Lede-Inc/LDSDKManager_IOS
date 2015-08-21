@@ -23,9 +23,9 @@
 +(void) registerWithPlatformConfig:(NSDictionary *)config{
     if(config == nil || config.allKeys.count == 0) return;
 
-    NSString *wxAppId = config[LDSDKRegisterAppIdKey];
-    NSString *wxAppSecret = config[LDSDKRegisterAppSecretKey];
-    NSString *wxDescription = config[LDSDKRegisterAppDescriptionKey];
+    NSString *wxAppId = config[LDSDKConfigAppIdKey];
+    NSString *wxAppSecret = config[LDSDKConfigAppSecretKey];
+    NSString *wxDescription = config[LDSDKConfigAppDescriptionKey];
     if (wxAppId && wxAppSecret && [wxAppId length] && [wxAppSecret length]) {
         [WXApi registerApp:wxAppId withDescription:wxDescription];
         [LDWechatAuthService registerWXAppId:wxAppId appSecret:wxAppSecret];

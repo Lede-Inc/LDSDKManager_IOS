@@ -23,7 +23,7 @@
 +(void) registerWithPlatformConfig:(NSDictionary *)config{
     if(config == nil || config.allKeys.count == 0) return;
 
-    NSString *qqAppId = config[LDSDKRegisterAppIdKey];
+    NSString *qqAppId = config[LDSDKConfigAppIdKey];
     if (qqAppId && [qqAppId length]) {
         [LDQQAuthService registerQQPlatformAppId:qqAppId];
     }

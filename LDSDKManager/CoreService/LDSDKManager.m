@@ -13,11 +13,11 @@
 #import "LDSDKShareService.h"
 #import "LDSDKCommon.h"
 
-NSString *const LDSDKRegisterAppIdKey = @"kAppID";
-NSString *const LDSDKRegisterAppSecretKey = @"kAppSecret";
-NSString *const LDSDKRegisterAppSchemeKey = @"kAppScheme";
-NSString *const LDSDKRegisterAppPlatformTypeKey = @"kAppPlatformType";
-NSString *const LDSDKRegisterAppDescriptionKey   = @"kAppDescription";
+NSString *const LDSDKConfigAppIdKey = @"kAppID";
+NSString *const LDSDKConfigAppSecretKey = @"kAppSecret";
+NSString *const LDSDKConfigAppSchemeKey = @"kAppScheme";
+NSString *const LDSDKConfigAppPlatformTypeKey = @"kAppPlatformType";
+NSString *const LDSDKConfigAppDescriptionKey   = @"kAppDescription";
 
 NSString *const LDShareDictTitleKey       = @"title";
 NSString *const LDShareDictDescriptionKey = @"description";
@@ -100,10 +100,7 @@ NSString *const LDShareDictTextKey      = @"text";
 }
 
 /**
- *  配置所有客户端appkey、appsecret等信息
- *
- *  @param dict       配置，包含wxappkey、wxappsecret
- *  @param description 配置描述，项目名称
+ *  根据配置列表依次注册第三方SDK
  *
  *  @return YES则配置成功
  */
@@ -112,7 +109,7 @@ NSString *const LDShareDictTextKey      = @"text";
     if(configList == nil || configList.count == 0) return;
     
     for(NSDictionary *onePlatformConfig in configList){
-        LDSDKPlatformType platformType = [onePlatformConfig[LDSDKRegisterAppPlatformTypeKey] intValue];
+        LDSDKPlatformType platformType = [onePlatformConfig[LDSDKConfigAppPlatformTypeKey] intValue];
         Class registerServiceImplCls = nil;
         switch (platformType) {
             case LDSDKPlatformWeChat:

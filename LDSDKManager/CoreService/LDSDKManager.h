@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-FOUNDATION_EXTERN NSString *const LDSDKRegisterAppIdKey;
-FOUNDATION_EXTERN NSString *const LDSDKRegisterAppSecretKey;
-FOUNDATION_EXTERN NSString *const LDSDKRegisterAppSchemeKey;
-FOUNDATION_EXTERN NSString *const LDSDKRegisterAppPlatformTypeKey;
-FOUNDATION_EXTERN NSString *const LDSDKRegisterAppDescriptionKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppIdKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppSecretKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppSchemeKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppPlatformTypeKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppDescriptionKey;
 
 FOUNDATION_EXTERN NSString *const LDShareDictTitleKey;
 FOUNDATION_EXTERN NSString *const LDShareDictDescriptionKey;

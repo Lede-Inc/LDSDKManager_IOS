@@ -22,7 +22,7 @@
 +(void) registerWithPlatformConfig:(NSDictionary *)config{
     if(config == nil || config.allKeys.count == 0) return;
 
-    NSString *yxAppId = config[LDSDKRegisterAppIdKey];
+    NSString *yxAppId = config[LDSDKConfigAppIdKey];
 //    NSString *yxAppSecret = config[LDSDKRegisterAppSecretKey];
     if (yxAppId && [yxAppId length]) {
         [YXApi registerApp:yxAppId];

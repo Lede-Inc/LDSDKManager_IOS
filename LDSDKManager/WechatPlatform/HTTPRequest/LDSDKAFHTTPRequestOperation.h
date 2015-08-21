@@ -1,4 +1,4 @@
-// LDThirdAFHTTPRequestOperation.h
+// LDSDKAFHTTPRequestOperation.h
 //
 // Copyright (c) 2011 Gowalla (http://gowalla.com/)
 //
@@ -24,9 +24,9 @@
 #import "LDSDKAFURLConnectionOperation.h"
 
 /**
- `LDThirdAFHTTPRequestOperation` is a subclass of `LDThirdAFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
+ `LDSDKAFHTTPRequestOperation` is a subclass of `LDSDKAFURLConnectionOperation` for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.
  */
-@interface LDThirdAFHTTPRequestOperation : LDThirdAFURLConnectionOperation
+@interface LDSDKAFHTTPRequestOperation : LDSDKAFURLConnectionOperation
 
 ///----------------------------------------------
 /// @name Getting HTTP URL Connection Information
@@ -66,7 +66,7 @@
 ///------------------------------------------------------------
 
 /**
- Returns an `NSIndexSet` object containing the ranges of acceptable HTTP status codes. When non-`nil`, the operation will set the `error` property to an error in `LDThirdAFErrorDomain`. See http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+ Returns an `NSIndexSet` object containing the ranges of acceptable HTTP status codes. When non-`nil`, the operation will set the `error` property to an error in `LDSDKAFErrorDomain`. See http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 
  By default, this is the range 200 to 299, inclusive.
  */
@@ -80,7 +80,7 @@
 + (void)addAcceptableStatusCodes:(NSIndexSet *)statusCodes;
 
 /**
- Returns an `NSSet` object containing the acceptable MIME types. When non-`nil`, the operation will set the `error` property to an error in `LDThirdAFErrorDomain`. See http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
+ Returns an `NSSet` object containing the acceptable MIME types. When non-`nil`, the operation will set the `error` property to an error in `LDSDKAFErrorDomain`. See http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
 
  By default, this is `nil`.
  */
@@ -99,7 +99,7 @@
 ///-----------------------------------------------------
 
 /**
- A Boolean value determining whether or not the class can process the specified request. For example, `LDThirdAFJSONRequestOperation` may check to make sure the content type was `application/json` or the URL path extension was `.json`.
+ A Boolean value determining whether or not the class can process the specified request. For example, `LDSDKAFJSONRequestOperation` may check to make sure the content type was `application/json` or the URL path extension was `.json`.
 
  @param urlRequest The request that is determined to be supported or not supported for this class.
  */
@@ -117,8 +117,8 @@
  @param success The block to be executed on the completion of a successful request. This block has no return value and takes two arguments: the receiver operation and the object constructed from the response data of the request.
  @param failure The block to be executed on the completion of an unsuccessful request. This block has no return value and takes two arguments: the receiver operation and the error that occurred during the request.
  */
-- (void)setCompletionBlockWithSuccess:(void (^)(LDThirdAFHTTPRequestOperation *operation, id responseObject))success
-                              failure:(void (^)(LDThirdAFHTTPRequestOperation *operation, NSError *error))failure;
+- (void)setCompletionBlockWithSuccess:(void (^)(LDSDKAFHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(LDSDKAFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end
 
@@ -129,5 +129,5 @@
 /**
  Returns a set of MIME types detected in an HTTP `Accept` or `Content-Type` header.
  */
-extern NSSet * LDThirdAFContentTypesFromHTTPHeader(NSString *string);
+extern NSSet * LDSDKAFContentTypesFromHTTPHeader(NSString *string);
 

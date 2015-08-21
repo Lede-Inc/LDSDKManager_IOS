@@ -12,9 +12,7 @@ typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInf
 
 @protocol LDSDKAuthService <NSObject>
 
-+ (instancetype)sharedService;
-
-+ (BOOL)platformLoginEnabled;
+- (BOOL)platformLoginEnabled;
 
 /*
 登录

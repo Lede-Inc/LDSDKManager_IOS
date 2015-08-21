@@ -15,17 +15,18 @@
 
 @required
 
++ (instancetype)sharedService;
 /*!
  *  @brief  检测第三方SDK应用是否安装
  *
  *  @return 已安装返回YES，否则返回NO
  */
-+ (BOOL)platformInstalled;
+- (BOOL)platformInstalled;
 
 /*!
  *  @brief  注册获取第三方SDK使用权限
  */
-+ (void)registerWithPlatformConfig:(NSDictionary *)config;
+- (void)registerWithPlatformConfig:(NSDictionary *)config;
 
 @optional
 
@@ -36,6 +37,6 @@
  *
  *  @return 处理成功返回YES，否则返回NO
  */
-+ (BOOL)handleResultUrl:(NSURL *)url;
+- (BOOL)handleResultUrl:(NSURL *)url;
 
 @end

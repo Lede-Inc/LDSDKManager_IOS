@@ -1,4 +1,4 @@
-// LDThirdAFURLConnectionOperation.m
+// LDSDKAFURLConnectionOperation.m
 //
 // Copyright (c) 2011 Gowalla (http://gowalla.com/)
 //
@@ -27,85 +27,85 @@
 #endif
 
 #if !__has_feature(objc_arc)
-#error LDThirdAFNetworking must be built with ARC.
-// You can turn on ARC for only LDThirdAFNetworking files by adding -fobjc-arc to the build phase for each of its files.
+#error LDSDKAFNetworking must be built with ARC.
+// You can turn on ARC for only LDSDKAFNetworking files by adding -fobjc-arc to the build phase for each of its files.
 #endif
 
 typedef enum {
-    LDThirdAFOperationPausedState      = -1,
-    LDThirdAFOperationReadyState       = 1,
-    LDThirdAFOperationExecutingState   = 2,
-    LDThirdAFOperationFinishedState    = 3,
-} _LDThirdAFOperationState;
+    LDSDKAFOperationPausedState      = -1,
+    LDSDKAFOperationReadyState       = 1,
+    LDSDKAFOperationExecutingState   = 2,
+    LDSDKAFOperationFinishedState    = 3,
+} _LDSDKAFOperationState;
 
-typedef signed short LDThirdAFOperationState;
+typedef signed short LDSDKAFOperationState;
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-typedef UIBackgroundTaskIdentifier LDThirdAFBackgroundTaskIdentifier;
+typedef UIBackgroundTaskIdentifier LDSDKAFBackgroundTaskIdentifier;
 #else
-typedef id LDThirdAFBackgroundTaskIdentifier;
+typedef id LDSDKAFBackgroundTaskIdentifier;
 #endif
 
-static NSString * const kLDThirdAFNetworkingLockName = @"com.alamofire.networking.operation.lock";
+static NSString * const kLDSDKAFNetworkingLockName = @"com.alamofire.networking.operation.lock";
 
-NSString * const LDThirdAFNetworkingErrorDomain = @"LDSDKAFNetworkingErrorDomain";
-NSString * const LDThirdAFNetworkingOperationFailingURLRequestErrorKey = @"LDSDKAFNetworkingOperationFailingURLRequestErrorKey";
-NSString * const LDThirdAFNetworkingOperationFailingURLResponseErrorKey = @"LDSDKAFNetworkingOperationFailingURLResponseErrorKey";
+NSString * const LDSDKAFNetworkingErrorDomain = @"LDSDKAFNetworkingErrorDomain";
+NSString * const LDSDKAFNetworkingOperationFailingURLRequestErrorKey = @"LDSDKAFNetworkingOperationFailingURLRequestErrorKey";
+NSString * const LDSDKAFNetworkingOperationFailingURLResponseErrorKey = @"LDSDKAFNetworkingOperationFailingURLResponseErrorKey";
 
-NSString * const LDThirdAFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
-NSString * const LDThirdAFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
+NSString * const LDSDKAFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
+NSString * const LDSDKAFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
 
-typedef void (^LDThirdAFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
-typedef void (^LDThirdAFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
-typedef NSCachedURLResponse * (^LDThirdAFURLConnectionOperationCacheResponseBlock)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse);
-typedef NSURLRequest * (^LDThirdAFURLConnectionOperationRedirectResponseBlock)(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse);
+typedef void (^LDSDKAFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
+typedef void (^LDSDKAFURLConnectionOperationAuthenticationChallengeBlock)(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge);
+typedef NSCachedURLResponse * (^LDSDKAFURLConnectionOperationCacheResponseBlock)(NSURLConnection *connection, NSCachedURLResponse *cachedResponse);
+typedef NSURLRequest * (^LDSDKAFURLConnectionOperationRedirectResponseBlock)(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse);
 
-static inline NSString * LDThirdAFKeyPathFromOperationState(LDThirdAFOperationState state) {
+static inline NSString * LDSDKAFKeyPathFromOperationState(LDSDKAFOperationState state) {
     switch (state) {
-        case LDThirdAFOperationReadyState:
+        case LDSDKAFOperationReadyState:
             return @"isReady";
-        case LDThirdAFOperationExecutingState:
+        case LDSDKAFOperationExecutingState:
             return @"isExecuting";
-        case LDThirdAFOperationFinishedState:
+        case LDSDKAFOperationFinishedState:
             return @"isFinished";
-        case LDThirdAFOperationPausedState:
+        case LDSDKAFOperationPausedState:
             return @"isPaused";
         default:
             return @"state";
     }
 }
 
-static inline BOOL LDThirdAFStateTransitionIsValid(LDThirdAFOperationState fromState, LDThirdAFOperationState toState, BOOL isCancelled) {
+static inline BOOL LDSDKAFStateTransitionIsValid(LDSDKAFOperationState fromState, LDSDKAFOperationState toState, BOOL isCancelled) {
     switch (fromState) {
-        case LDThirdAFOperationReadyState:
+        case LDSDKAFOperationReadyState:
             switch (toState) {
-                case LDThirdAFOperationPausedState:
-                case LDThirdAFOperationExecutingState:
+                case LDSDKAFOperationPausedState:
+                case LDSDKAFOperationExecutingState:
                     return YES;
-                case LDThirdAFOperationFinishedState:
+                case LDSDKAFOperationFinishedState:
                     return isCancelled;
                 default:
                     return NO;
             }
-        case LDThirdAFOperationExecutingState:
+        case LDSDKAFOperationExecutingState:
             switch (toState) {
-                case LDThirdAFOperationPausedState:
-                case LDThirdAFOperationFinishedState:
+                case LDSDKAFOperationPausedState:
+                case LDSDKAFOperationFinishedState:
                     return YES;
                 default:
                     return NO;
             }
-        case LDThirdAFOperationFinishedState:
+        case LDSDKAFOperationFinishedState:
             return NO;
-        case LDThirdAFOperationPausedState:
-            return toState == LDThirdAFOperationReadyState;
+        case LDSDKAFOperationPausedState:
+            return toState == LDSDKAFOperationReadyState;
         default:
             return YES;
     }
 }
 
 #if !defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-static NSData *LDThirdAFSecKeyGetData(SecKeyRef key) {
+static NSData *LDSDKAFSecKeyGetData(SecKeyRef key) {
     CFDataRef data = NULL;
     
     OSStatus status = SecItemExport(key, kSecFormatUnknown, kSecItemPemArmour, NULL, &data);
@@ -116,16 +116,16 @@ static NSData *LDThirdAFSecKeyGetData(SecKeyRef key) {
 }
 #endif
 
-static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
+static BOOL LDSDKAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
     return [(__bridge id)key1 isEqual:(__bridge id)key2];
 #else
-    return [LDThirdAFSecKeyGetData(key1) isEqual:LDThirdAFSecKeyGetData(key2)];
+    return [LDSDKAFSecKeyGetData(key1) isEqual:LDSDKAFSecKeyGetData(key2)];
 #endif
 }
 
-@interface LDThirdAFURLConnectionOperation ()
-@property (readwrite, nonatomic, assign) LDThirdAFOperationState state;
+@interface LDSDKAFURLConnectionOperation ()
+@property (readwrite, nonatomic, assign) LDSDKAFOperationState state;
 @property (readwrite, nonatomic, assign, getter = isCancelled) BOOL cancelled;
 @property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
 @property (readwrite, nonatomic, strong) NSURLConnection *connection;
@@ -136,19 +136,19 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 @property (readwrite, nonatomic, copy) NSString *responseString;
 @property (readwrite, nonatomic, assign) NSStringEncoding responseStringEncoding;
 @property (readwrite, nonatomic, assign) long long totalBytesRead;
-@property (readwrite, nonatomic, assign) LDThirdAFBackgroundTaskIdentifier backgroundTaskIdentifier;
-@property (readwrite, nonatomic, copy) LDThirdAFURLConnectionOperationProgressBlock uploadProgress;
-@property (readwrite, nonatomic, copy) LDThirdAFURLConnectionOperationProgressBlock downloadProgress;
-@property (readwrite, nonatomic, copy) LDThirdAFURLConnectionOperationAuthenticationChallengeBlock authenticationChallenge;
-@property (readwrite, nonatomic, copy) LDThirdAFURLConnectionOperationCacheResponseBlock cacheResponse;
-@property (readwrite, nonatomic, copy) LDThirdAFURLConnectionOperationRedirectResponseBlock redirectResponse;
+@property (readwrite, nonatomic, assign) LDSDKAFBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (readwrite, nonatomic, copy) LDSDKAFURLConnectionOperationProgressBlock uploadProgress;
+@property (readwrite, nonatomic, copy) LDSDKAFURLConnectionOperationProgressBlock downloadProgress;
+@property (readwrite, nonatomic, copy) LDSDKAFURLConnectionOperationAuthenticationChallengeBlock authenticationChallenge;
+@property (readwrite, nonatomic, copy) LDSDKAFURLConnectionOperationCacheResponseBlock cacheResponse;
+@property (readwrite, nonatomic, copy) LDSDKAFURLConnectionOperationRedirectResponseBlock redirectResponse;
 
 - (void)operationDidStart;
 - (void)finish;
 - (void)cancelConnection;
 @end
 
-@implementation LDThirdAFURLConnectionOperation
+@implementation LDSDKAFURLConnectionOperation
 @synthesize state = _state;
 @synthesize cancelled = _cancelled;
 @synthesize connection = _connection;
@@ -268,7 +268,7 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
     }
     
     self.lock = [[NSRecursiveLock alloc] init];
-    self.lock.name = kLDThirdAFNetworkingLockName;
+    self.lock.name = kLDSDKAFNetworkingLockName;
     
     self.runLoopModes = [NSSet setWithObject:NSRunLoopCommonModes];
     
@@ -277,11 +277,11 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
     self.shouldUseCredentialStorage = YES;
 
     // #ifdef included for backwards-compatibility 
-#ifdef _LDThirdAFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_
+#ifdef _LDSDKAFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_
     self.allowsInvalidSSLCertificate = YES;
 #endif
 
-    self.state = LDThirdAFOperationReadyState;
+    self.state = LDSDKAFOperationReadyState;
 
     return self;
 }
@@ -301,7 +301,7 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p, state: %@, cancelled: %@ request: %@, response: %@>", NSStringFromClass([self class]), self, LDThirdAFKeyPathFromOperationState(self.state), ([self isCancelled] ? @"YES" : @"NO"), self.request, self.response];
+    return [NSString stringWithFormat:@"<%@: %p, state: %@, cancelled: %@ request: %@, response: %@>", NSStringFromClass([self class]), self, LDSDKAFKeyPathFromOperationState(self.state), ([self isCancelled] ? @"YES" : @"NO"), self.request, self.response];
 }
 
 - (void)setCompletionBlock:(void (^)(void))block {
@@ -398,14 +398,14 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
     self.redirectResponse = block;
 }
 
-- (void)setState:(LDThirdAFOperationState)state {
-    if (!LDThirdAFStateTransitionIsValid(self.state, state, [self isCancelled])) {
+- (void)setState:(LDSDKAFOperationState)state {
+    if (!LDSDKAFStateTransitionIsValid(self.state, state, [self isCancelled])) {
         return;
     }
     
     [self.lock lock];
-    NSString *oldStateKey = LDThirdAFKeyPathFromOperationState(self.state);
-    NSString *newStateKey = LDThirdAFKeyPathFromOperationState(state);
+    NSString *oldStateKey = LDSDKAFKeyPathFromOperationState(self.state);
+    NSString *newStateKey = LDSDKAFKeyPathFromOperationState(state);
     
     [self willChangeValueForKey:newStateKey];
     [self willChangeValueForKey:oldStateKey];
@@ -455,17 +455,17 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-            [notificationCenter postNotificationName:LDThirdAFNetworkingOperationDidFinishNotification object:self];
+            [notificationCenter postNotificationName:LDSDKAFNetworkingOperationDidFinishNotification object:self];
         });
     }
     
-    self.state = LDThirdAFOperationPausedState;
+    self.state = LDSDKAFOperationPausedState;
     
     [self.lock unlock];
 }
 
 - (BOOL)isPaused {
-    return self.state == LDThirdAFOperationPausedState;
+    return self.state == LDSDKAFOperationPausedState;
 }
 
 - (void)resume {
@@ -474,7 +474,7 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
     }
     
     [self.lock lock];
-    self.state = LDThirdAFOperationReadyState;
+    self.state = LDSDKAFOperationReadyState;
     
     [self start];
     [self.lock unlock];
@@ -483,15 +483,15 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 #pragma mark - NSOperation
 
 - (BOOL)isReady {
-    return self.state == LDThirdAFOperationReadyState && [super isReady];
+    return self.state == LDSDKAFOperationReadyState && [super isReady];
 }
 
 - (BOOL)isExecuting {
-    return self.state == LDThirdAFOperationExecutingState;
+    return self.state == LDSDKAFOperationExecutingState;
 }
 
 - (BOOL)isFinished {
-    return self.state == LDThirdAFOperationFinishedState;
+    return self.state == LDSDKAFOperationFinishedState;
 }
 
 - (BOOL)isConcurrent {
@@ -501,7 +501,7 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 - (void)start {
     [self.lock lock];
     if ([self isReady]) {
-        self.state = LDThirdAFOperationExecutingState;
+        self.state = LDSDKAFOperationExecutingState;
         
         [self performSelector:@selector(operationDidStart) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
     }
@@ -524,7 +524,7 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
     [self.lock unlock];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:LDThirdAFNetworkingOperationDidStartNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LDSDKAFNetworkingOperationDidStartNotification object:self];
     });
     
     if ([self isCancelled]) {
@@ -539,10 +539,10 @@ static BOOL LDThirdAFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 }
 
 - (void)finish {
-    self.state = LDThirdAFOperationFinishedState;
+    self.state = LDSDKAFOperationFinishedState;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:LDThirdAFNetworkingOperationDidFinishNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LDSDKAFNetworkingOperationDidFinishNotification object:self];
     });
 }
 
@@ -593,9 +593,9 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
         for (CFIndex i = 0; i < certificateCount; i++) {
             SecCertificateRef certificate = SecTrustGetCertificateAtIndex(serverTrust, i);
             
-            if (self.SSLPinningMode == LDThirdAFSSLPinningModeCertificate) {
+            if (self.SSLPinningMode == LDSDKAFSSLPinningModeCertificate) {
                 [trustChain addObject:(__bridge_transfer NSData *)SecCertificateCopyData(certificate)];
-            } else if (self.SSLPinningMode == LDThirdAFSSLPinningModePublicKey) {
+            } else if (self.SSLPinningMode == LDSDKAFSSLPinningModePublicKey) {
                 SecCertificateRef someCertificates[] = {certificate};
                 CFArrayRef certificates = CFArrayCreate(NULL, (const void **)someCertificates, 1, NULL);
                 
@@ -621,13 +621,13 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
         CFRelease(policy);
         
         switch (self.SSLPinningMode) {
-            case LDThirdAFSSLPinningModePublicKey: {
+            case LDSDKAFSSLPinningModePublicKey: {
                 NSArray *pinnedPublicKeys = [self.class pinnedPublicKeys];
                 NSAssert([pinnedPublicKeys count] > 0, @"LDSDKAFSSLPinningModePublicKey needs at least one key file in the application bundle");
 
                 for (id publicKey in trustChain) {
                     for (id pinnedPublicKey in pinnedPublicKeys) {
-                        if (LDThirdAFSecKeyIsEqualToKey((__bridge SecKeyRef)publicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
+                        if (LDSDKAFSecKeyIsEqualToKey((__bridge SecKeyRef)publicKey, (__bridge SecKeyRef)pinnedPublicKey)) {
                             NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
                             [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
                             return;
@@ -639,7 +639,7 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 [[challenge sender] cancelAuthenticationChallenge:challenge];
                 break;
             }
-            case LDThirdAFSSLPinningModeCertificate: {
+            case LDSDKAFSSLPinningModeCertificate: {
                 NSAssert([[self.class pinnedCertificates] count] > 0, @"LDSDKAFSSLPinningModeCertificate needs at least one certificate file in the application bundle");
                 for (id serverCertificateData in trustChain) {
                     if ([[self.class pinnedCertificates] containsObject:serverCertificateData]) {
@@ -653,7 +653,7 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 [[challenge sender] cancelAuthenticationChallenge:challenge];
                 break;
             }
-            case LDThirdAFSSLPinningModeNone: {
+            case LDSDKAFSSLPinningModeNone: {
                 if (self.allowsInvalidSSLCertificate){
                     NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
                     [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
@@ -800,7 +800,7 @@ didReceiveResponse:(NSURLResponse *)response
         return nil;
     }
     
-    self.state = (LDThirdAFOperationState)[aDecoder decodeIntegerForKey:@"state"];
+    self.state = (LDSDKAFOperationState)[aDecoder decodeIntegerForKey:@"state"];
     self.cancelled = [aDecoder decodeBoolForKey:@"isCancelled"];
     self.response = [aDecoder decodeObjectForKey:@"response"];
     self.error = [aDecoder decodeObjectForKey:@"error"];
@@ -817,9 +817,9 @@ didReceiveResponse:(NSURLResponse *)response
     [aCoder encodeObject:self.request forKey:@"request"];
     
     switch (self.state) {
-        case LDThirdAFOperationExecutingState:
-        case LDThirdAFOperationPausedState:
-            [aCoder encodeInteger:LDThirdAFOperationReadyState forKey:@"state"];
+        case LDSDKAFOperationExecutingState:
+        case LDSDKAFOperationPausedState:
+            [aCoder encodeInteger:LDSDKAFOperationReadyState forKey:@"state"];
             break;
         default:
             [aCoder encodeInteger:self.state forKey:@"state"];
@@ -837,7 +837,7 @@ didReceiveResponse:(NSURLResponse *)response
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    LDThirdAFURLConnectionOperation *operation = [(LDThirdAFURLConnectionOperation *)[[self class] allocWithZone:zone] initWithRequest:self.request];
+    LDSDKAFURLConnectionOperation *operation = [(LDSDKAFURLConnectionOperation *)[[self class] allocWithZone:zone] initWithRequest:self.request];
     
     operation.uploadProgress = self.uploadProgress;
     operation.downloadProgress = self.downloadProgress;

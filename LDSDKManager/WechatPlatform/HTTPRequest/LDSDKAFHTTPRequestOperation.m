@@ -1,4 +1,4 @@
-// LDThirdAFHTTPRequestOperation.m
+// LDSDKAFHTTPRequestOperation.m
 //
 // Copyright (c) 2011 Gowalla (http://gowalla.com/)
 //
@@ -25,15 +25,15 @@
 
 // Workaround for change in imp_implementationWithBlock() with Xcode 4.5
 #if defined(__IPHONE_6_0) || defined(__MAC_10_8)
-#define LDThirdAF_CAST_TO_BLOCK id
+#define LDSDKAF_CAST_TO_BLOCK id
 #else
-#define LDThirdAF_CAST_TO_BLOCK __bridge void *
+#define LDSDKAF_CAST_TO_BLOCK __bridge void *
 #endif
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wstrict-selector-match"
 
-NSSet * LDThirdAFContentTypesFromHTTPHeader(NSString *string) {
+NSSet * LDSDKAFContentTypesFromHTTPHeader(NSString *string) {
     if (!string) {
         return nil;
     }
@@ -57,7 +57,7 @@ NSSet * LDThirdAFContentTypesFromHTTPHeader(NSString *string) {
     return [NSSet setWithSet:mutableContentTypes];
 }
 
-static void LDThirdAFGetMediaTypeAndSubtypeWithString(NSString *string, NSString **type, NSString **subtype) {
+static void LDSDKAFGetMediaTypeAndSubtypeWithString(NSString *string, NSString **type, NSString **subtype) {
     if (!string) {
         return;
     }
@@ -69,7 +69,7 @@ static void LDThirdAFGetMediaTypeAndSubtypeWithString(NSString *string, NSString
     [scanner scanUpToString:@";" intoString:subtype];
 }
 
-static NSString * LDThirdAFStringFromIndexSet(NSIndexSet *indexSet) {
+static NSString * LDSDKAFStringFromIndexSet(NSIndexSet *indexSet) {
     NSMutableString *string = [NSMutableString string];
 
     NSRange range = NSMakeRange([indexSet firstIndex], 1);
@@ -99,22 +99,22 @@ static NSString * LDThirdAFStringFromIndexSet(NSIndexSet *indexSet) {
     return string;
 }
 
-static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klass, SEL selector, id block) {
+static void LDSDKAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klass, SEL selector, id block) {
     Method originalMethod = class_getClassMethod(klass, selector);
-    IMP implementation = imp_implementationWithBlock((LDThirdAF_CAST_TO_BLOCK)block);
+    IMP implementation = imp_implementationWithBlock((LDSDKAF_CAST_TO_BLOCK)block);
     class_replaceMethod(objc_getMetaClass([NSStringFromClass(klass) UTF8String]), selector, implementation, method_getTypeEncoding(originalMethod));
 }
 
 #pragma mark -
 
-@interface LDThirdAFHTTPRequestOperation ()
+@interface LDSDKAFHTTPRequestOperation ()
 @property (readwrite, nonatomic, strong) NSURLRequest *request;
 @property (readwrite, nonatomic, strong) NSHTTPURLResponse *response;
 @property (readwrite, nonatomic, strong) NSError *HTTPError;
 @property (readwrite, nonatomic, strong) NSRecursiveLock *lock;
 @end
 
-@implementation LDThirdAFHTTPRequestOperation
+@implementation LDSDKAFHTTPRequestOperation
 @synthesize HTTPError = _HTTPError;
 @synthesize successCallbackQueue = _successCallbackQueue;
 @synthesize failureCallbackQueue = _failureCallbackQueue;
@@ -145,18 +145,18 @@ static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klas
             NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
             [userInfo setValue:self.responseString forKey:NSLocalizedRecoverySuggestionErrorKey];
             [userInfo setValue:[self.request URL] forKey:NSURLErrorFailingURLErrorKey];
-            [userInfo setValue:self.request forKey:LDThirdAFNetworkingOperationFailingURLRequestErrorKey];
-            [userInfo setValue:self.response forKey:LDThirdAFNetworkingOperationFailingURLResponseErrorKey];
+            [userInfo setValue:self.request forKey:LDSDKAFNetworkingOperationFailingURLRequestErrorKey];
+            [userInfo setValue:self.response forKey:LDSDKAFNetworkingOperationFailingURLResponseErrorKey];
 
             if (![self hasAcceptableStatusCode]) {
                 NSUInteger statusCode = ([self.response isKindOfClass:[NSHTTPURLResponse class]]) ? (NSUInteger)[self.response statusCode] : 200;
-                [userInfo setValue:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Expected status code in (%@), got %d", @"LDSDKAFNetworking", nil), LDThirdAFStringFromIndexSet([[self class] acceptableStatusCodes]), statusCode] forKey:NSLocalizedDescriptionKey];
-                self.HTTPError = [[NSError alloc] initWithDomain:LDThirdAFNetworkingErrorDomain code:NSURLErrorBadServerResponse userInfo:userInfo];
+                [userInfo setValue:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Expected status code in (%@), got %d", @"LDSDKAFNetworking", nil), LDSDKAFStringFromIndexSet([[self class] acceptableStatusCodes]), statusCode] forKey:NSLocalizedDescriptionKey];
+                self.HTTPError = [[NSError alloc] initWithDomain:LDSDKAFNetworkingErrorDomain code:NSURLErrorBadServerResponse userInfo:userInfo];
             } else if (![self hasAcceptableContentType]) {
                 // Don't invalidate content type if there is no content
                 if ([self.responseData length] > 0) {
                     [userInfo setValue:[NSString stringWithFormat:NSLocalizedStringFromTable(@"Expected content type %@, got %@", @"LDSDKAFNetworking", nil), [[self class] acceptableContentTypes], [self.response MIMEType]] forKey:NSLocalizedDescriptionKey];
-                    self.HTTPError = [[NSError alloc] initWithDomain:LDThirdAFNetworkingErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
+                    self.HTTPError = [[NSError alloc] initWithDomain:LDSDKAFNetworkingErrorDomain code:NSURLErrorCannotDecodeContentData userInfo:userInfo];
                 }
             }
         }
@@ -175,7 +175,7 @@ static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klas
     // See http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.4.1
     if (self.response && !self.response.textEncodingName && self.responseData && [self.response respondsToSelector:@selector(allHeaderFields)]) {
         NSString *type = nil;
-        LDThirdAFGetMediaTypeAndSubtypeWithString([[self.response allHeaderFields] valueForKey:@"Content-Type"], &type, nil);
+        LDSDKAFGetMediaTypeAndSubtypeWithString([[self.response allHeaderFields] valueForKey:@"Content-Type"], &type, nil);
 
         if ([type isEqualToString:@"text"]) {
             return NSISOLatin1StringEncoding;
@@ -263,10 +263,10 @@ static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klas
     }
 }
 
-- (void)setCompletionBlockWithSuccess:(void (^)(LDThirdAFHTTPRequestOperation *operation, id responseObject))success
-                              failure:(void (^)(LDThirdAFHTTPRequestOperation *operation, NSError *error))failure
+- (void)setCompletionBlockWithSuccess:(void (^)(LDSDKAFHTTPRequestOperation *operation, id responseObject))success
+                              failure:(void (^)(LDSDKAFHTTPRequestOperation *operation, NSError *error))failure
 {
-    // completionBlock is manually nilled out in LDThirdAFURLConnectionOperation to break the retain cycle.
+    // completionBlock is manually nilled out in LDSDKAFURLConnectionOperation to break the retain cycle.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
 #pragma clang diagnostic ignored "-Wgnu"
@@ -288,7 +288,7 @@ static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klas
 #pragma clang diagnostic pop
 }
 
-#pragma mark - LDThirdAFHTTPRequestOperation
+#pragma mark - LDSDKAFHTTPRequestOperation
 
 + (NSIndexSet *)acceptableStatusCodes {
     return [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(200, 100)];
@@ -297,7 +297,7 @@ static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klas
 + (void)addAcceptableStatusCodes:(NSIndexSet *)statusCodes {
     NSMutableIndexSet *mutableStatusCodes = [[NSMutableIndexSet alloc] initWithIndexSet:[self acceptableStatusCodes]];
     [mutableStatusCodes addIndexes:statusCodes];
-    LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock([self class], @selector(acceptableStatusCodes), ^(__unused id _self) {
+    LDSDKAFSwizzleClassMethodWithClassAndSelectorUsingBlock([self class], @selector(acceptableStatusCodes), ^(__unused id _self) {
         return mutableStatusCodes;
     });
 }
@@ -309,17 +309,17 @@ static void LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klas
 + (void)addAcceptableContentTypes:(NSSet *)contentTypes {
     NSMutableSet *mutableContentTypes = [[NSMutableSet alloc] initWithSet:[self acceptableContentTypes] copyItems:YES];
     [mutableContentTypes unionSet:contentTypes];
-    LDThirdAFSwizzleClassMethodWithClassAndSelectorUsingBlock([self class], @selector(acceptableContentTypes), ^(__unused id _self) {
+    LDSDKAFSwizzleClassMethodWithClassAndSelectorUsingBlock([self class], @selector(acceptableContentTypes), ^(__unused id _self) {
         return mutableContentTypes;
     });
 }
 
 + (BOOL)canProcessRequest:(NSURLRequest *)request {
-    if ([[self class] isEqual:[LDThirdAFHTTPRequestOperation class]]) {
+    if ([[self class] isEqual:[LDSDKAFHTTPRequestOperation class]]) {
         return YES;
     }
 
-    return [[self acceptableContentTypes] intersectsSet:LDThirdAFContentTypesFromHTTPHeader([request valueForHTTPHeaderField:@"Accept"])];
+    return [[self acceptableContentTypes] intersectsSet:LDSDKAFContentTypesFromHTTPHeader([request valueForHTTPHeaderField:@"Accept"])];
 }
 
 @end

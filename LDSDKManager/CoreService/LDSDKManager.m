@@ -40,16 +40,6 @@ static NSArray *sdkServiceConfigList = nil;
 
 @implementation LDSDKManager
 
-+ (instancetype)sharedManager
-{
-    static LDSDKManager *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
-
 /**
  *  是否安装客户端
  *
@@ -61,7 +51,7 @@ static NSArray *sdkServiceConfigList = nil;
 {
     Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
     if(registerServiceImplCls != nil){
-        return [registerServiceImplCls platformInstalled];
+        return [[registerServiceImplCls sharedService] platformInstalled];
     } else {
         if (type == LDSDKPlatformAliPay) {
             return YES;
@@ -111,7 +101,7 @@ static NSArray *sdkServiceConfigList = nil;
         LDSDKPlatformType platformType = [onePlatformConfig[LDSDKConfigAppPlatformTypeKey] intValue];
         Class registerServiceImplCls = [self getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceRegister];
         if(registerServiceImplCls != nil){
-            [registerServiceImplCls registerWithPlatformConfig:onePlatformConfig];
+            [[registerServiceImplCls sharedService] registerWithPlatformConfig:onePlatformConfig];
         }
     }
 }
@@ -125,7 +115,7 @@ static NSArray *sdkServiceConfigList = nil;
  */
 + (BOOL)handleOpenURL:(NSURL *)url
 {
-    if ([[LDSDKManager sharedManager] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
+    if ([LDSDKManager  handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
         return YES;
     }
     
@@ -136,7 +126,7 @@ static NSArray *sdkServiceConfigList = nil;
     }
     NSString *scheme = [[url scheme] lowercaseString];
     if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [[LDSDKManager sharedManager] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
+        [LDSDKManager  handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
         return YES;
     }
     
@@ -147,7 +137,7 @@ static NSArray *sdkServiceConfigList = nil;
 {
     Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
     if(registerServiceImplCls != nil){
-        return [registerServiceImplCls handleResultUrl:url];
+        return [[registerServiceImplCls sharedService] handleResultUrl:url];
     }
     return NO;
 }
@@ -159,7 +149,7 @@ static NSArray *sdkServiceConfigList = nil;
  *  @param orderString 签名后的订单信息字符串
  *  @param callback    回调
  */
-- (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
++ (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
     Class payServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:payType serviceType:LDSDKServicePay];
     if(payServiceImplCls != nil){
@@ -179,7 +169,7 @@ static NSArray *sdkServiceConfigList = nil;
  *  @param result   支付结果
  *  @param callback 支付宝负责的回调
  */
-- (BOOL)handlePayType:(LDSDKPlatformType)payType resultURL:(NSURL *)result callback:(void (^)(NSDictionary *))callback
++ (BOOL)handlePayType:(LDSDKPlatformType)payType resultURL:(NSURL *)result callback:(void (^)(NSDictionary *))callback
 {
     Class payServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:payType serviceType:LDSDKServicePay];
     if(payServiceImplCls != nil){
@@ -192,7 +182,7 @@ static NSArray *sdkServiceConfigList = nil;
 #pragma mark -
 #pragma mark - SDK Share Interface
 
-- (NSArray *)availableSharePlatformList
++ (NSArray *)availableSharePlatformList
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
     if ([LDSDKManager isRegistered:LDSDKPlatformQQ]) {
@@ -210,19 +200,19 @@ static NSArray *sdkServiceConfigList = nil;
     return [NSArray arrayWithArray:result];
 }
 
-- (BOOL)isAvailableShareToPlatform:(LDSDKPlatformType)platformType;
++ (BOOL)isAvailableShareToPlatform:(LDSDKPlatformType)platformType;
 {
     return [LDSDKManager isRegistered:platformType];
 }
 
 
-- (void)shareToPlatform:(LDSDKPlatformType)platformType
++ (void)shareToPlatform:(LDSDKPlatformType)platformType
             shareModule:(LDSDKShareToModule)shareModule
                withDict:(NSDictionary *)dict
              onComplete:(LDSDKShareCallback)complete{
     Class shareServiceImplCls = [[self class] getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceShare];
     if(shareServiceImplCls != nil){
-        [[shareServiceImplCls sharedService] shareWithDict:dict shareModule:shareModule onComplete:complete];
+        [[shareServiceImplCls sharedService] shareWithContent:dict shareModule:shareModule onComplete:complete];
     } else {
         if(complete){
             NSError *errorTmp = [NSError errorWithDomain:@"SDK分享组件" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先导入分享平台的SDK", @"NSLocalizedDescription", nil]];
@@ -234,18 +224,18 @@ static NSArray *sdkServiceConfigList = nil;
 #pragma mark -
 #pragma mark - SDK Login Interface
 
-- (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type
++ (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type
 {
     Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
         return [LDSDKManager isAppInstalled:type] &&
-               [loginServiceImplCls platformLoginEnabled] &&
+               [[loginServiceImplCls sharedService] platformLoginEnabled] &&
                [LDSDKManager isRegistered:type];
     }
     return NO;
 }
 
-- (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback
++ (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback
 {
     Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
@@ -253,7 +243,7 @@ static NSArray *sdkServiceConfigList = nil;
     }
 }
 
-- (void)logoutFromPlatformType:(LDSDKPlatformType)type
++ (void)logoutFromPlatformType:(LDSDKPlatformType)type
 {
     Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
@@ -278,12 +268,12 @@ static NSArray *sdkServiceConfigList = nil;
     for(NSDictionary *oneSDKServiceConfig in sdkServiceConfigList){
         //find the specified platform
         if([oneSDKServiceConfig[@"platformType"] intValue] == platformType){
-            NSArray *configServiceList = oneSDKServiceConfig[@"configServiceList"];
-            if(configServiceList != nil && configServiceList.count > 0){
-                for(NSDictionary *configService in configServiceList){
+            NSArray *supportTypes = oneSDKServiceConfig[@"supportType"];
+            if(supportTypes != nil && supportTypes.count > 0){
+                for(NSNumber *supportService in supportTypes){
                     //find the specified service
-                    if([configService[@"serviceType"] intValue] == serviceType){
-                        serviceProvider = NSClassFromString(configService[@"serviceProvider"]);
+                    if([supportService intValue] == serviceType){
+                        serviceProvider = NSClassFromString(oneSDKServiceConfig[@"serviceProvider"]);
                         break;
                     }
                 }//for

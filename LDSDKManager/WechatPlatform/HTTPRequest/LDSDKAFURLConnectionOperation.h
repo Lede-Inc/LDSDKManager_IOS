@@ -1,4 +1,4 @@
-// LDThirdAFURLConnectionOperation.h
+// LDSDKAFURLConnectionOperation.h
 //
 // Copyright (c) 2011 Gowalla (http://gowalla.com/)
 //
@@ -25,17 +25,17 @@
 #import <Availability.h>
 
 /**
- `LDThirdAFURLConnectionOperation` is a subclass of `NSOperation` that implements `NSURLConnection` delegate methods.
+ `LDSDKAFURLConnectionOperation` is a subclass of `NSOperation` that implements `NSURLConnection` delegate methods.
 
  ## Subclassing Notes
 
  This is the base class of all network request operations. You may wish to create your own subclass in order to implement additional `NSURLConnection` delegate methods (see "`NSURLConnection` Delegate Methods" below), or to provide additional properties and/or class constructors.
 
- If you are creating a subclass that communicates over the HTTP or HTTPS protocols, you may want to consider subclassing `LDThirdAFHTTPRequestOperation` instead, as it supports specifying acceptable content types or status codes.
+ If you are creating a subclass that communicates over the HTTP or HTTPS protocols, you may want to consider subclassing `LDSDKAFHTTPRequestOperation` instead, as it supports specifying acceptable content types or status codes.
 
  ## NSURLConnection Delegate Methods
 
- `LDThirdAFURLConnectionOperation` implements the following `NSURLConnection` delegate methods:
+ `LDSDKAFURLConnectionOperation` implements the following `NSURLConnection` delegate methods:
 
  - `connection:didReceiveResponse:`
  - `connection:didReceiveData:`
@@ -50,13 +50,13 @@
 
  ## Class Constructors
 
- Class constructors, or methods that return an unowned instance, are the preferred way for subclasses to encapsulate any particular logic for handling the setup or parsing of response data. For instance, `LDThirdAFJSONRequestOperation` provides `JSONRequestOperationWithRequest:success:failure:`, which takes block arguments, whose parameter on for a successful request is the JSON object initialized from the `response data`.
+ Class constructors, or methods that return an unowned instance, are the preferred way for subclasses to encapsulate any particular logic for handling the setup or parsing of response data. For instance, `LDSDKAFJSONRequestOperation` provides `JSONRequestOperationWithRequest:success:failure:`, which takes block arguments, whose parameter on for a successful request is the JSON object initialized from the `response data`.
 
  ## Callbacks and Completion Blocks
 
- The built-in `completionBlock` provided by `NSOperation` allows for custom behavior to be executed after the request finishes. It is a common pattern for class constructors in subclasses to take callback block parameters, and execute them conditionally in the body of its `completionBlock`. Make sure to handle cancelled operations appropriately when setting a `completionBlock` (i.e. returning early before parsing response data). See the implementation of any of the `LDThirdAFHTTPRequestOperation` subclasses for an example of this.
+ The built-in `completionBlock` provided by `NSOperation` allows for custom behavior to be executed after the request finishes. It is a common pattern for class constructors in subclasses to take callback block parameters, and execute them conditionally in the body of its `completionBlock`. Make sure to handle cancelled operations appropriately when setting a `completionBlock` (i.e. returning early before parsing response data). See the implementation of any of the `LDSDKAFHTTPRequestOperation` subclasses for an example of this.
 
- Subclasses are strongly discouraged from overriding `setCompletionBlock:`, as `LDThirdAFURLConnectionOperation`'s implementation includes a workaround to mitigate retain cycles, and what Apple rather ominously refers to as ["The Deallocation Problem"](http://developer.apple.com/library/ios/#technotes/tn2109/).
+ Subclasses are strongly discouraged from overriding `setCompletionBlock:`, as `LDSDKAFURLConnectionOperation`'s implementation includes a workaround to mitigate retain cycles, and what Apple rather ominously refers to as ["The Deallocation Problem"](http://developer.apple.com/library/ios/#technotes/tn2109/).
  
  ## SSL Pinning
  
@@ -64,11 +64,11 @@
  
  SSL with certificate pinning is strongly recommended for any application that transmits sensitive information to an external webservice.
 
- When `defaultSSLPinningMode` is defined on `LDThirdAFHTTPClient` and the Security framework is linked, connections will be validated on all matching certificates with a `.cer` extension in the bundle root.
+ When `defaultSSLPinningMode` is defined on `LDSDKAFHTTPClient` and the Security framework is linked, connections will be validated on all matching certificates with a `.cer` extension in the bundle root.
 
  ## NSCoding & NSCopying Conformance
 
- `LDThirdAFURLConnectionOperation` conforms to the `NSCoding` and `NSCopying` protocols, allowing operations to be archived to disk, and copied in memory, respectively. However, because of the intrinsic limitations of capturing the exact state of an operation at a particular moment, there are some important caveats to keep in mind:
+ `LDSDKAFURLConnectionOperation` conforms to the `NSCoding` and `NSCopying` protocols, allowing operations to be archived to disk, and copied in memory, respectively. However, because of the intrinsic limitations of capturing the exact state of an operation at a particular moment, there are some important caveats to keep in mind:
 
  ### NSCoding Caveats
 
@@ -83,12 +83,12 @@
  */
 
 typedef enum {
-    LDThirdAFSSLPinningModeNone,
-    LDThirdAFSSLPinningModePublicKey,
-    LDThirdAFSSLPinningModeCertificate,
-} LDThirdAFURLConnectionOperationSSLPinningMode;
+    LDSDKAFSSLPinningModeNone,
+    LDSDKAFSSLPinningModePublicKey,
+    LDSDKAFSSLPinningModeCertificate,
+} LDSDKAFURLConnectionOperationSSLPinningMode;
 
-@interface LDThirdAFURLConnectionOperation : NSOperation <NSURLConnectionDelegate,
+@interface LDSDKAFURLConnectionOperation : NSOperation <NSURLConnectionDelegate,
 #if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 50000) || \
     (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1080)
 NSURLConnectionDataDelegate, 
@@ -126,7 +126,7 @@ NSCoding, NSCopying>
 /**
  Whether the connection should accept an invalid SSL certificate.
  
- If `_LDThirdAFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_` is set, this property defaults to `YES` for backwards compatibility. Otherwise, this property defaults to `NO`.
+ If `_LDSDKAFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_` is set, this property defaults to `YES` for backwards compatibility. Otherwise, this property defaults to `NO`.
  */
 @property (nonatomic, assign) BOOL allowsInvalidSSLCertificate;
 
@@ -170,11 +170,11 @@ NSCoding, NSCopying>
 @property (nonatomic, strong) NSURLCredential *credential;
 
 /**
- The pinning mode which will be used for SSL connections. `LDThirdAFSSLPinningModePublicKey` by default.
+ The pinning mode which will be used for SSL connections. `LDSDKAFSSLPinningModePublicKey` by default.
  
- SSL Pinning requires that the Security framework is linked with the binary. See the "SSL Pinning" section in the `LDThirdAFURLConnectionOperation`" header for more information.
+ SSL Pinning requires that the Security framework is linked with the binary. See the "SSL Pinning" section in the `LDSDKAFURLConnectionOperation`" header for more information.
  */
-@property (nonatomic, assign) LDThirdAFURLConnectionOperationSSLPinningMode SSLPinningMode;
+@property (nonatomic, assign) LDSDKAFURLConnectionOperationSSLPinningMode SSLPinningMode;
 
 ///------------------------
 /// @name Accessing Streams
@@ -204,7 +204,7 @@ NSCoding, NSCopying>
 @property (nonatomic, strong) NSDictionary *userInfo;
 
 ///------------------------------------------------------
-/// @name Initializing an LDThirdAFURLConnectionOperation Object
+/// @name Initializing an LDSDKAFURLConnectionOperation Object
 ///------------------------------------------------------
 
 /**
@@ -237,7 +237,7 @@ NSCoding, NSCopying>
 /**
  Resumes the execution of the paused request operation.
 
- Pause/Resume behavior varies depending on the underlying implementation for the operation class. In its base implementation, resuming a paused requests restarts the original request. However, since HTTP defines a specification for how to request a specific content range, `LDThirdAFHTTPRequestOperation` will resume downloading the request from where it left off, instead of restarting the original request.
+ Pause/Resume behavior varies depending on the underlying implementation for the operation class. In its base implementation, resuming a paused requests restarts the original request. However, since HTTP defines a specification for how to request a specific content range, `LDSDKAFHTTPRequestOperation` will resume downloading the request from where it left off, instead of restarting the original request.
  */
 - (void)resume;
 
@@ -308,52 +308,52 @@ NSCoding, NSCopying>
 /**
  ## SSL Pinning Options
 
- The following constants are provided by `LDThirdAFURLConnectionOperation` as possible SSL Pinning options.
+ The following constants are provided by `LDSDKAFURLConnectionOperation` as possible SSL Pinning options.
 
  enum {
- LDThirdAFSSLPinningModeNone,
- LDThirdAFSSLPinningModePublicKey,
- LDThirdAFSSLPinningModeCertificate,
+ LDSDKAFSSLPinningModeNone,
+ LDSDKAFSSLPinningModePublicKey,
+ LDSDKAFSSLPinningModeCertificate,
  }
  
- `LDThirdAFSSLPinningModeNone`
+ `LDSDKAFSSLPinningModeNone`
  Do not pin SSL connections
 
- `LDThirdAFSSLPinningModePublicKey`
+ `LDSDKAFSSLPinningModePublicKey`
  Pin SSL connections to certificate public key (SPKI).
 
- `LDThirdAFSSLPinningModeCertificate`
+ `LDSDKAFSSLPinningModeCertificate`
  Pin SSL connections to exact certificate. This may cause problems when your certificate expires and needs re-issuance.
 
  ## User info dictionary keys
 
  These keys may exist in the user info dictionary, in addition to those defined for NSError.
 
- - `NSString * const LDThirdAFNetworkingOperationFailingURLRequestErrorKey`
- - `NSString * const LDThirdAFNetworkingOperationFailingURLResponseErrorKey`
+ - `NSString * const LDSDKAFNetworkingOperationFailingURLRequestErrorKey`
+ - `NSString * const LDSDKAFNetworkingOperationFailingURLResponseErrorKey`
 
  ### Constants
 
- `LDThirdAFNetworkingOperationFailingURLRequestErrorKey`
- The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `LDThirdAFNetworkingErrorDomain`.
+ `LDSDKAFNetworkingOperationFailingURLRequestErrorKey`
+ The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `LDSDKAFNetworkingErrorDomain`.
 
- `LDThirdAFNetworkingOperationFailingURLResponseErrorKey`
- The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `LDThirdAFNetworkingErrorDomain`.
+ `LDSDKAFNetworkingOperationFailingURLResponseErrorKey`
+ The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `LDSDKAFNetworkingErrorDomain`.
 
  ## Error Domains
 
  The following error domain is predefined.
 
- - `NSString * const LDThirdAFNetworkingErrorDomain`
+ - `NSString * const LDSDKAFNetworkingErrorDomain`
 
  ### Constants
 
- `LDThirdAFNetworkingErrorDomain`
- LDThirdAFNetworking errors. Error codes for `LDThirdAFNetworkingErrorDomain` correspond to codes in `NSURLErrorDomain`.
+ `LDSDKAFNetworkingErrorDomain`
+ LDSDKAFNetworking errors. Error codes for `LDSDKAFNetworkingErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
-extern NSString * const LDThirdAFNetworkingErrorDomain;
-extern NSString * const LDThirdAFNetworkingOperationFailingURLRequestErrorKey;
-extern NSString * const LDThirdAFNetworkingOperationFailingURLResponseErrorKey;
+extern NSString * const LDSDKAFNetworkingErrorDomain;
+extern NSString * const LDSDKAFNetworkingOperationFailingURLRequestErrorKey;
+extern NSString * const LDSDKAFNetworkingOperationFailingURLResponseErrorKey;
 
 ///--------------------
 /// @name Notifications
@@ -362,9 +362,9 @@ extern NSString * const LDThirdAFNetworkingOperationFailingURLResponseErrorKey;
 /**
  Posted when an operation begins executing.
  */
-extern NSString * const LDThirdAFNetworkingOperationDidStartNotification;
+extern NSString * const LDSDKAFNetworkingOperationDidStartNotification;
 
 /**
  Posted when an operation finishes.
  */
-extern NSString * const LDThirdAFNetworkingOperationDidFinishNotification;
+extern NSString * const LDSDKAFNetworkingOperationDidFinishNotification;

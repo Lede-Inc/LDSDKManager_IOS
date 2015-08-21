@@ -23,7 +23,7 @@
     return _sharedInstance;
 }
 
--(void)shareWithDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete
+-(void)shareWithDict:(NSDictionary *)dict shareModule:(NSUInteger)shareModule onComplete:(LDSDKShareCallback)complete
 {
     if (![QQApi isQQInstalled] || ![QQApi isQQSupportApi]) {
         NSError *error = [NSError errorWithDomain:@"QQShare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装QQ客户端", @"NSLocalizedDescription", nil]];
@@ -64,7 +64,7 @@
                                         description:description
                                    previewImageData:thumbData];
         
-    } else if (oldImage) { //图片分享
+    } else if (oldImage && shareModule == 1) { //图片分享
         //原图图片信息
         UIImage *image = oldImage;
         NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
@@ -97,7 +97,7 @@
     }
     
     SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:messageObj];
-    [[LDSDKQQService defaultService] sendReq:req callback:^(QQBaseResp *resp) {
+    [[LDSDKQQService defaultService] sendReq:req shareModule:shareModule callback:^(QQBaseResp *resp) {
         if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
             [LDQQShareService handleShareResultInActivity:resp onComplete:complete];
         }

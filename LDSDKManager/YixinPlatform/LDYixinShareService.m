@@ -23,9 +23,8 @@
     return _sharedInstance;
 }
 
--(void)shareWithDict:(NSDictionary *)dict onComplete:(void (^)(BOOL, NSError *))complete
+-(void)shareWithDict:(NSDictionary *)dict shareModule:(NSUInteger)shareModule onComplete:(void (^)(BOOL, NSError *))complete
 {
-    NSLog(@"%d  %d", [YXApi isYXAppInstalled], [YXApi isYXAppSupportApi]);
     if (![YXApi isYXAppInstalled] || ![YXApi isYXAppSupportApi]) {
         
         NSError *error = [NSError errorWithDomain:@"YXShare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装易信客户端", @"NSLocalizedDescription", nil]];
@@ -94,7 +93,14 @@
     SendMessageToYXReq* req = [[SendMessageToYXReq alloc] init];
     req.bText = NO;
     req.message = message;
-    req.scene = kYXSceneSession;
+    if (shareModule == 1) {
+        req.scene = kYXSceneSession;
+    } else if (shareModule == 2) {
+        req.scene = kYXSceneTimeline;
+    } else {
+        req.scene = kYXSceneSession;
+    }
+    
     [[LDSDKYXService defaultService] sendReq:req callback:^(YXBaseResp *resp) {
         [LDYixinShareService handleShareResultInActivity:resp onComplete:complete];
     }];

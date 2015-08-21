@@ -26,10 +26,17 @@
     return _sharedInstance;
 }
 
-- (QQApiSendResultCode)sendReq:(QQBaseReq *)req callback:(LDSDKQQCallbackBlock)callbackBlock
+- (QQApiSendResultCode)sendReq:(QQBaseReq *)req shareModule:(NSUInteger)shareModule callback:(LDSDKQQCallbackBlock)callbackBlock
 {
     self.callbackBlock = callbackBlock;
-    return [QQApiInterface sendReq:req];
+    if (shareModule == 1) {
+        return [QQApiInterface sendReq:req];
+    } else if (shareModule == 2) {
+        return [QQApiInterface SendReqToQZone:req];
+    } else {
+        return EQQAPIMESSAGETYPEINVALID;
+    }
+    
 }
 
 - (BOOL)handleOpenURL:(NSURL *)url

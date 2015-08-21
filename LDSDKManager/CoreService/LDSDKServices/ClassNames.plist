@@ -15,7 +15,13 @@
 			</dict>
 			<dict>
 				<key>type</key>
-				<string>4</string>
+				<integer>3</integer>
+				<key>name</key>
+				<string>LDQQShareService</string>
+			</dict>
+			<dict>
+				<key>type</key>
+				<integer>4</integer>
 				<key>name</key>
 				<string>LDQQAuthService</string>
 			</dict>
@@ -40,6 +46,12 @@
 			</dict>
 			<dict>
 				<key>type</key>
+				<integer>3</integer>
+				<key>name</key>
+				<string>LDWechatShareService</string>
+			</dict>
+			<dict>
+				<key>type</key>
 				<integer>4</integer>
 				<key>name</key>
 				<string>LDWechatAuthService</string>
@@ -56,6 +68,12 @@
 				<integer>1</integer>
 				<key>name</key>
 				<string>LDYixinRegisterService</string>
+			</dict>
+			<dict>
+				<key>type</key>
+				<integer>3</integer>
+				<key>name</key>
+				<string>LDYixinShareService</string>
 			</dict>
 		</array>
 	</dict>

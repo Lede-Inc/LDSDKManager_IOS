@@ -23,7 +23,7 @@
     return _sharedInstance;
 }
 
--(void)shareWithDict:(NSDictionary *)dict onComplete:(LDSDKShareCallback)complete
+-(void)shareWithDict:(NSDictionary *)dict shareModule:(NSUInteger)shareModule onComplete:(LDSDKShareCallback)complete
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
         NSError *error = [NSError errorWithDomain:@"WXShare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
@@ -78,7 +78,14 @@
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
     req.bText = NO;
     req.message = message;
-    req.scene = WXSceneSession;
+    if (shareModule == 1) {
+        req.scene = WXSceneSession;
+    } else if (shareModule == 2) {
+        req.scene = WXSceneTimeline;
+    } else {
+        req.scene = WXSceneSession;
+    }
+    
     [[LDSDKWXService defaultService] sendReq:req callback:^(BaseResp *resp) {
         if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
             [LDWechatShareService handleShareResultInActivity:resp onComplete:complete];

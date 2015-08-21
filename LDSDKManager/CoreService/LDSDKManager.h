@@ -82,6 +82,13 @@ typedef NS_ENUM(NSUInteger, LDSDKShareType)
  */
 + (BOOL)isAppInstalled:(LDSDKPlatformType)type;
 
+
+/**
+ *  配置所有客户端appkey、appsecret等信息
+ */
++ (void)registerWithPlatformConfigList:(NSArray *)configList;
+
+
 /**
  *  获取某应用是否已被注册
  *
@@ -91,10 +98,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareType)
  */
 + (BOOL)isRegistered:(LDSDKPlatformType)type;
 
-/**
- *  配置所有客户端appkey、appsecret等信息
- */
-+ (void)registerWithPlatformConfigList:(NSArray *)configList;
+
 
 /**
  *  处理url返回

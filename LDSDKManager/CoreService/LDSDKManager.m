@@ -26,6 +26,15 @@ NSString *const LDShareDictWapUrlKey      = @"webpageurl";
 NSString *const LDShareDictTextKey      = @"text";
 
 
+//SDKManager管理的功能服务类型
+typedef NS_ENUM(NSUInteger, LDSDKServiceType)
+{
+    LDSDKServiceRegister = 1,  //sdk应用注册服务
+    LDSDKServiceShare,         //sdk分享服务
+    LDSDKServiceOAuth          //sdk第三方登录服务
+};
+
+
 @implementation LDSDKManager
 
 + (instancetype)sharedManager
@@ -110,28 +119,8 @@ NSString *const LDShareDictTextKey      = @"text";
     
     for(NSDictionary *onePlatformConfig in configList){
         LDSDKPlatformType platformType = [onePlatformConfig[LDSDKConfigAppPlatformTypeKey] intValue];
-        Class registerServiceImplCls = nil;
-        switch (platformType) {
-            case LDSDKPlatformWeChat:
-                registerServiceImplCls = NSClassFromString(@"LDWechatRegisterService");
-                break;
-
-            case LDSDKPlatformYiXin:
-                registerServiceImplCls = NSClassFromString(@"LDYixinRegisterService");
-                break;
-
-            case LDSDKPlatformQQ:
-                registerServiceImplCls = NSClassFromString(@"LDQQRegisterService");
-                break;
-
-            case LDSDKPlatformAliPay:
-                registerServiceImplCls = NSClassFromString(@"LDAliPayRegisterService");
-                break;
-            default:
-                break;
-        }
-
-        if(registerServiceImplCls){
+        Class registerServiceImplCls = [self getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceRegister];
+        if(registerServiceImplCls != nil){
             [registerServiceImplCls registerWithPlatformConfig:onePlatformConfig];
         }
     }
@@ -418,5 +407,47 @@ NSString *const LDShareDictTextKey      = @"text";
         }
     }
 }
+
+
+#pragma mark - 
+#pragma mark - common method
+
+/**
+ * 根据平台类型和服务类型获取服务提供者
+ */
++(Class)getServiceProviderWithPlatformType:(LDSDKPlatformType)platformType serviceType:(LDSDKServiceType)serviceType{
+    Class serviceProvider = nil;
+    switch (platformType) {
+        case LDSDKPlatformWeChat:
+            if(serviceType == LDSDKServiceRegister){
+                serviceProvider = NSClassFromString(@"LDWechatRegisterService");
+            }
+            break;
+
+        case LDSDKPlatformYiXin:
+            if(serviceType == LDSDKServiceRegister){
+                serviceProvider = NSClassFromString(@"LDYixinRegisterService");
+            }
+            break;
+
+        case LDSDKPlatformQQ:
+            if(serviceType == LDSDKServiceRegister){
+                serviceProvider = NSClassFromString(@"LDQQRegisterService");
+            }
+            break;
+
+        case LDSDKPlatformAliPay:
+            if(serviceType == LDSDKServiceRegister){
+                serviceProvider = NSClassFromString(@"LDAliPayRegisterService");
+            }
+            break;
+        default:
+            break;
+    }
+
+    return serviceProvider;
+}
+
+
 
 @end

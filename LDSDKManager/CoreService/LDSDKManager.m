@@ -11,7 +11,6 @@
 #import "LDSDKPayService.h"
 #import "LDSDKAuthService.h"
 #import "LDSDKShareService.h"
-#import "LDSDKCommon.h"
 
 NSString *const LDSDKConfigAppIdKey = @"kAppID";
 NSString *const LDSDKConfigAppSecretKey = @"kAppSecret";
@@ -66,20 +65,9 @@ static NSArray *sdkServiceConfigList = nil;
 
 + (BOOL)isRegistered:(LDSDKPlatformType)type
 {
-    switch (type) {
-        case LDSDKPlatformAliPay:
-            return [[LDSDKCommon sharedInstance].aliPayScheme length];
-        case LDSDKPlatformQQ:
-            return [[LDSDKCommon sharedInstance].qqAppId length]
-            && [[LDSDKCommon sharedInstance].qqAppKey length];
-        case LDSDKPlatformWeChat:
-            return [[LDSDKCommon sharedInstance].wxAppId length]
-            && [[LDSDKCommon sharedInstance].wxAppSecret length];
-        case LDSDKPlatformYiXin:
-            return [[LDSDKCommon sharedInstance].yxAppId length]
-            && [[LDSDKCommon sharedInstance].yxAppSecret length];
-        default:
-            break;
+    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
+    if (registerServiceImplCls != nil) {
+        return [LDSDKManager isAppInstalled:type] && [[registerServiceImplCls sharedService] isRegistered];
     }
     return NO;
 }
@@ -236,9 +224,7 @@ static NSArray *sdkServiceConfigList = nil;
        [LDSDKManager handleOpenURL:url withType:LDSDKPlatformYiXin]) {
         return YES;
     }
-    NSString *scheme = [[url scheme] lowercaseString];
-    if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [LDSDKManager handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
+    if ([LDSDKManager handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL]) {
         return YES;
     }
 
@@ -249,7 +235,7 @@ static NSArray *sdkServiceConfigList = nil;
 {
     Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
     if(registerServiceImplCls != nil){
-        return [registerServiceImplCls handleResultUrl:url];
+        return [[registerServiceImplCls sharedService] handleResultUrl:url];
     }
     return NO;
 }

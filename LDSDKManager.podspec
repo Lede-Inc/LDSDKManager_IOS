@@ -13,8 +13,7 @@ Pod::Spec.new do |s|
 
     #组件对外提供服务接口
     s.subspec 'CoreService' do |ss|
-        ss.public_header_files = 'LDSDKManager/CoreService/LDSDKManager.h',
-                                     'LDSDKManager/CoreService/LDSDKCommon.h'
+        ss.public_header_files = 'LDSDKManager/CoreService/LDSDKManager.h'
         ss.source_files = 'LDSDKManager/CoreService/**/*.{h,m,mm}'
     end
 

@@ -28,6 +28,11 @@
  */
 - (void)registerWithPlatformConfig:(NSDictionary *)config;
 
+/*!
+ *  @brief  判断是否已经获取注册权限
+ */
+- (BOOL)isRegistered;
+
 @optional
 
 /*!

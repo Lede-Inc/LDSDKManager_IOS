@@ -20,7 +20,6 @@
 		62AAD3631B85A0BD00C5E983 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3601B85A0BD00C5E983 /* Tests.m */; };
 		62AAD3B41B85A10300C5E983 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3681B85A10300C5E983 /* AlipaySDK.bundle */; };
 		62AAD3B51B85A10300C5E983 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3691B85A10300C5E983 /* AlipaySDK.framework */; };
-		62AAD3B81B85A10300C5E983 /* LDSDKCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3701B85A10300C5E983 /* LDSDKCommon.m */; };
 		62AAD3B91B85A10300C5E983 /* LDSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3721B85A10300C5E983 /* LDSDKManager.m */; };
 		62AAD3BD1B85A10300C5E983 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3801B85A10300C5E983 /* TencentOpenAPI.framework */; };
 		62AAD3BE1B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3811B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle */; };
@@ -81,8 +80,6 @@
 		62AAD3601B85A0BD00C5E983 /* Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		62AAD3681B85A10300C5E983 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		62AAD3691B85A10300C5E983 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
-		62AAD36F1B85A10300C5E983 /* LDSDKCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKCommon.h; sourceTree = "<group>"; };
-		62AAD3701B85A10300C5E983 /* LDSDKCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKCommon.m; sourceTree = "<group>"; };
 		62AAD3711B85A10300C5E983 /* LDSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKManager.h; sourceTree = "<group>"; };
 		62AAD3721B85A10300C5E983 /* LDSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKManager.m; sourceTree = "<group>"; };
 		62AAD3801B85A10300C5E983 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
@@ -279,8 +276,6 @@
 		62AAD36E1B85A10300C5E983 /* CoreService */ = {
 			isa = PBXGroup;
 			children = (
-				62AAD36F1B85A10300C5E983 /* LDSDKCommon.h */,
-				62AAD3701B85A10300C5E983 /* LDSDKCommon.m */,
 				62AAD3711B85A10300C5E983 /* LDSDKManager.h */,
 				62AAD3721B85A10300C5E983 /* LDSDKManager.m */,
 				620A13901B8AED7C00DFBCF8 /* SDKServiceConfig.plist */,
@@ -546,7 +541,6 @@
 				62AAD3C11B85A10300C5E983 /* LDSDKQQServiceImpl.m in Sources */,
 				62AAD3B91B85A10300C5E983 /* LDSDKManager.m in Sources */,
 				62AAD3C31B85A10300C5E983 /* LDSDKAFHTTPRequestOperation.m in Sources */,
-				62AAD3B81B85A10300C5E983 /* LDSDKCommon.m in Sources */,
 				62AAD3CC1B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

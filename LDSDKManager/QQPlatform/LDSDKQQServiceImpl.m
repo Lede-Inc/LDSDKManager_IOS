@@ -24,10 +24,12 @@ static NSArray *permissions = nil;
     BOOL isLogining;
     NSError *error;
     TencentOAuth *tencentOAuth;
-    NSString *authAppId;
     void(^MyBlock)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *qqerror);
     LDSDKQQCallbackBlock shareBlock;
 }
+
+@property (nonatomic, copy) NSString *authAppId;
+@property (nonatomic, copy) NSString *authAppKey;
 
 @end
 
@@ -80,8 +82,13 @@ static NSArray *permissions = nil;
 {
     tencentOAuth = [[TencentOAuth alloc] initWithAppId:appId
                                                         andDelegate:self];
-    authAppId = appId;
+    self.authAppId = appId;
     return YES;
+}
+
+- (BOOL)isRegistered
+{
+    return (self.authAppId && [self.authAppId length]);
 }
 
 
@@ -130,7 +137,7 @@ static NSArray *permissions = nil;
         isLogining = YES;
         if (!tencentOAuth) {
             NSLog(@"tencentOauth && permissions = %@", permissions);
-            tencentOAuth = [[TencentOAuth alloc] initWithAppId:authAppId
+            tencentOAuth = [[TencentOAuth alloc] initWithAppId:self.authAppId
                                                         andDelegate:self];
         }
         //此处可set Token、oppenId、有效期 等参数

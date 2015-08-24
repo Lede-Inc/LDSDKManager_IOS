@@ -26,8 +26,6 @@
 
 @interface LDSDKWXServiceImpl ()<WXApiDelegate> {
     NSError *error;
-    NSString *authAppId;
-    NSString *authAppSecret;
     NSDictionary *oauthDict;
     void(^MyBlock)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *wxerror);
     
@@ -36,6 +34,9 @@
     BOOL _shouldHandleWXPay;
     LDSDKPayCallback _wxCallback;
 }
+
+@property (nonatomic, copy) NSString *authAppId;
+@property (nonatomic, copy) NSString *authAppSecret;
 
 @end
 
@@ -79,9 +80,15 @@
         return NO;
     }
     
-    authAppId = addId;
-    authAppSecret = secret;
+    self.authAppId = addId;
+    self.authAppSecret = secret;
     return YES;
+}
+
+- (BOOL)isRegistered
+{
+    return (self.authAppId && [self.authAppId length]
+            && self.authAppSecret && [self.authAppSecret length]);
 }
 
 
@@ -163,8 +170,8 @@
     }
     
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
-    [paramDict setObject:authAppId forKey:kWX_APPID_KEY]; //@"wxfe3c0a50a4cd3f92"
-    [paramDict setObject:authAppSecret forKey:kWX_APPSECRET_KEY]; //@"695852ffc8626d9c4c65a394cc4a7eb7"
+    [paramDict setObject:self.authAppId forKey:kWX_APPID_KEY]; //@"wxfe3c0a50a4cd3f92"
+    [paramDict setObject:self.authAppSecret forKey:kWX_APPSECRET_KEY]; //@"695852ffc8626d9c4c65a394cc4a7eb7"
     [paramDict setObject:@"authorization_code" forKey:@"grant_type"];
     [paramDict setObject:code forKey:kWX_APPCODE_KEY];
     LDSDKAFHTTPRequestOperation *loadOperation = [[LDSDKHttpClient sharedClient]

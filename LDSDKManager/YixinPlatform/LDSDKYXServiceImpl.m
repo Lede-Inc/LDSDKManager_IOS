@@ -14,6 +14,8 @@
 
 @interface LDSDKYXServiceImpl ()<YXApiDelegate>
 
+@property (nonatomic, copy) NSString *yxAppid;
+@property (nonatomic, copy) NSString *yxAppSecret;
 @property (nonatomic, copy) LDSDKYXCallbackBlock callbackBlock;
 
 @end
@@ -47,7 +49,13 @@
     //    NSString *yxAppSecret = config[LDSDKRegisterAppSecretKey];
     if (yxAppId && [yxAppId length]) {
         [YXApi registerApp:yxAppId];
+        self.yxAppid = yxAppId;
     }
+}
+
+- (BOOL)isRegistered
+{
+    return (self.yxAppid && [self.yxAppid length]);
 }
 
 

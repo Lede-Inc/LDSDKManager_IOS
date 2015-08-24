@@ -8,7 +8,14 @@
 
 #import "LDSDKAliPayServiceImpl.h"
 #import <AlipaySDK/AlipaySDK.h>
-#import "LDSDKCommon.h"
+
+#import "LDSDKManager.h"
+
+@interface LDSDKAliPayServiceImpl ()
+
+@property (strong, nonatomic) NSString *aliPayScheme;
+
+@end
 
 @implementation LDSDKAliPayServiceImpl
 
@@ -32,6 +39,17 @@
 
 
 - (void)registerWithPlatformConfig:(NSDictionary *)config{
+    if(config == nil || config.allKeys.count == 0) return;
+    
+    NSString *appScheme = config[LDSDKConfigAppSchemeKey];
+    if (appScheme && [appScheme length]) {
+        self.aliPayScheme = appScheme;
+    }
+}
+
+- (BOOL)isRegistered
+{
+    return (self.aliPayScheme && [self.aliPayScheme length]);
 }
 
 
@@ -46,16 +64,19 @@
 
 -(BOOL)payProcessOrderWithPaymentResult:(NSURL *)url standbyCallback:(void (^)(NSDictionary *))callback
 {
-    NSLog(@"alipayProcessOrder");
-    [self aliPayProcessOrderWithPaymentResult:url standbyCallback:callback];
-    return YES;
+    if ([url.scheme.lowercaseString isEqualToString:self.aliPayScheme]) {
+        [self aliPayProcessOrderWithPaymentResult:url standbyCallback:callback];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 
 #pragma mark - alipay
 - (void)aliPayOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
-    [[AlipaySDK defaultService] payOrder:orderString fromScheme:[LDSDKCommon sharedInstance].aliPayScheme callback:^(NSDictionary *resultDic) {
+    [[AlipaySDK defaultService] payOrder:orderString fromScheme:self.aliPayScheme callback:^(NSDictionary *resultDic) {
         NSString *signString = [resultDic objectForKey:@"result"];
         NSString *memo = [resultDic objectForKey:@"memo"];
         NSInteger resultStatus = [[resultDic objectForKey:@"resultStatus"] integerValue];

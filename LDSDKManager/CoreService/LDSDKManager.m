@@ -19,11 +19,11 @@ NSString *const LDSDKConfigAppSchemeKey = @"kAppScheme";
 NSString *const LDSDKConfigAppPlatformTypeKey = @"kAppPlatformType";
 NSString *const LDSDKConfigAppDescriptionKey   = @"kAppDescription";
 
-NSString *const LDShareDictTitleKey       = @"title";
-NSString *const LDShareDictDescriptionKey = @"description";
-NSString *const LDShareDictImageUrlKey    = @"imageurl";
-NSString *const LDShareDictWapUrlKey      = @"webpageurl";
-NSString *const LDShareDictTextKey      = @"text";
+NSString *const LDSDKShareContentTitleKey       = @"title";
+NSString *const LDSDKShareContentDescriptionKey = @"description";
+NSString *const LDSDKShareContentImageUrlKey    = @"imageurl";
+NSString *const LDSDKShareContentWapUrlKey      = @"webpageurl";
+NSString *const LDSDKShareContentTextKey      = @"text";
 
 
 //SDKManager管理的功能服务类型
@@ -50,13 +50,13 @@ static NSArray *sdkServiceConfigList = nil;
  *
  *  @return YES则已安装
  */
-+ (BOOL)isAppInstalled:(LDSDKPlatformType)type
++ (BOOL)isSDKPlatformAppInstalled:(LDSDKPlatformType)platformType
 {
-    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
+    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceRegister];
     if(registerServiceImplCls != nil){
         return [[registerServiceImplCls sharedService] platformInstalled];
     } else {
-        if (type == LDSDKPlatformAliPay) {
+        if (platformType == LDSDKPlatformAliPay) {
             return YES;
         } else {
             return NO;
@@ -64,9 +64,9 @@ static NSArray *sdkServiceConfigList = nil;
     }
 }
 
-+ (BOOL)isRegistered:(LDSDKPlatformType)type
++ (BOOL)isRegisteredOnPlatform:(LDSDKPlatformType)platformType
 {
-    switch (type) {
+    switch (platformType) {
         case LDSDKPlatformAliPay:
             return [[LDSDKCommon sharedInstance].aliPayScheme length];
         case LDSDKPlatformQQ:
@@ -149,15 +149,15 @@ static NSArray *sdkServiceConfigList = nil;
 + (NSArray *)availableSharePlatformList
 {
     NSMutableArray *result = [[NSMutableArray alloc] init];
-    if ([LDSDKManager isRegistered:LDSDKPlatformQQ]) {
+    if ([LDSDKManager isRegisteredOnPlatform:LDSDKPlatformQQ]) {
         [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformQQ]];
     }
     
-    if ([LDSDKManager isRegistered:LDSDKPlatformWeChat]) {
+    if ([LDSDKManager isRegisteredOnPlatform:LDSDKPlatformWeChat]) {
         [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformWeChat]];
     }
     
-    if ([LDSDKManager isRegistered:LDSDKPlatformYiXin]) {
+    if ([LDSDKManager isRegisteredOnPlatform:LDSDKPlatformYiXin]) {
         [result addObject:[NSNumber numberWithUnsignedInteger:LDSDKPlatformYiXin]];
     }
     
@@ -166,7 +166,7 @@ static NSArray *sdkServiceConfigList = nil;
 
 + (BOOL)isAvailableShareToPlatform:(LDSDKPlatformType)platformType;
 {
-    return [LDSDKManager isRegistered:platformType];
+    return [LDSDKManager isRegisteredOnPlatform:platformType];
 }
 
 
@@ -188,28 +188,28 @@ static NSArray *sdkServiceConfigList = nil;
 #pragma mark -
 #pragma mark - SDK Login Interface
 
-+ (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type
++ (BOOL)isLoginEnabledOnPlatform:(LDSDKPlatformType)platformType
 {
-    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
+    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
-        return [LDSDKManager isAppInstalled:type] &&
+        return [LDSDKManager isSDKPlatformAppInstalled:platformType] &&
                [[loginServiceImplCls sharedService] platformLoginEnabled] &&
-               [LDSDKManager isRegistered:type];
+               [LDSDKManager isRegisteredOnPlatform:platformType];
     }
     return NO;
 }
 
-+ (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback
++ (void)loginToPlatform:(LDSDKPlatformType)platformType withCallback:(LDSDKLoginCallback)callback
 {
-    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
+    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
         [[loginServiceImplCls sharedService] platformLoginWithCallback:callback];
     }
 }
 
-+ (void)logoutFromPlatformType:(LDSDKPlatformType)type
++ (void)logoutFromPlatform:(LDSDKPlatformType)platformType
 {
-    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:type serviceType:LDSDKServiceOAuth];
+    Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
         [[loginServiceImplCls sharedService] platformLogout];
     }

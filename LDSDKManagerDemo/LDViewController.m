@@ -117,7 +117,7 @@
 
 -(void)loginByWX
 {
-    [LDSDKManager loginFromPlatformType:LDSDKPlatformWeChat withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+    [LDSDKManager loginToPlatform:LDSDKPlatformWeChat withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
                 [infoLabel setText:@"授权成功"];
@@ -135,7 +135,7 @@
 
 -(void)loginByQQ
 {
-    [LDSDKManager loginFromPlatformType:LDSDKPlatformQQ withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+    [LDSDKManager loginToPlatform:LDSDKPlatformQQ withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
                 [infoLabel setText:@"授权成功"];
@@ -155,11 +155,11 @@
 {
     NSLog(@"shareByQQ");
     NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @"测试分享", LDShareDictTitleKey,
-                               @"测试分享详情", LDShareDictDescriptionKey,
-                               @"www.baidu.com",LDShareDictWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
-                               @"text", LDShareDictTextKey,
+                               @"测试分享", LDSDKShareContentTitleKey,
+                               @"测试分享详情", LDSDKShareContentDescriptionKey,
+                               @"www.baidu.com",LDSDKShareContentWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               @"text", LDSDKShareContentTextKey,
                                nil];
     [LDSDKManager shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
@@ -174,11 +174,11 @@
 {
     NSLog(@"shareByWX");
     NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @"测试分享", LDShareDictTitleKey,
-                               @"测试分享详情", LDShareDictDescriptionKey,
-                               @"www.baidu.com",LDShareDictWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
-                               @"text", LDShareDictTextKey,
+                               @"测试分享", LDSDKShareContentTitleKey,
+                               @"测试分享详情", LDSDKShareContentDescriptionKey,
+                               @"www.baidu.com",LDSDKShareContentWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               @"text", LDSDKShareContentTextKey,
                                nil];
     [LDSDKManager shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
@@ -193,11 +193,11 @@
 {
     NSLog(@"shareByWX");
     NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @"测试分享", LDShareDictTitleKey,
-                               @"测试分享详情", LDShareDictDescriptionKey,
-                               @"www.baidu.com",LDShareDictWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
-                               @"text", LDShareDictTextKey,
+                               @"测试分享", LDSDKShareContentTitleKey,
+                               @"测试分享详情", LDSDKShareContentDescriptionKey,
+                               @"www.baidu.com",LDSDKShareContentWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               @"text", LDSDKShareContentTextKey,
                                nil];
     [LDSDKManager shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
@@ -212,11 +212,11 @@
 {
     NSLog(@"shareByWX");
     NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @"测试分享", LDShareDictTitleKey,
-                               @"测试分享详情", LDShareDictDescriptionKey,
-                               @"www.baidu.com",LDShareDictWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
-                               @"text", LDShareDictTextKey,
+                               @"测试分享", LDSDKShareContentTitleKey,
+                               @"测试分享详情", LDSDKShareContentDescriptionKey,
+                               @"www.baidu.com",LDSDKShareContentWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               @"text", LDSDKShareContentTextKey,
                                nil];
     [LDSDKManager shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
@@ -231,11 +231,11 @@
 {
     NSLog(@"shareByWX");
     NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @"测试分享", LDShareDictTitleKey,
-                               @"测试分享详情", LDShareDictDescriptionKey,
-                               @"www.baidu.com",LDShareDictWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
-                               @"text", LDShareDictTextKey,
+                               @"测试分享", LDSDKShareContentTitleKey,
+                               @"测试分享详情", LDSDKShareContentDescriptionKey,
+                               @"www.baidu.com",LDSDKShareContentWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               @"text", LDSDKShareContentTextKey,
                                nil];
     [LDSDKManager shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {
@@ -250,11 +250,11 @@
 {
     NSLog(@"shareByYX");
     NSDictionary *shareDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                               @"测试分享", LDShareDictTitleKey,
-                               @"测试分享详情", LDShareDictDescriptionKey,
-                               @"www.baidu.com",LDShareDictWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDShareDictImageUrlKey,
-                               @"text", LDShareDictTextKey,
+                               @"测试分享", LDSDKShareContentTitleKey,
+                               @"测试分享详情", LDSDKShareContentDescriptionKey,
+                               @"www.baidu.com",LDSDKShareContentWapUrlKey,
+                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               @"text", LDSDKShareContentTextKey,
                                nil];
     [LDSDKManager shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
         if (success) {

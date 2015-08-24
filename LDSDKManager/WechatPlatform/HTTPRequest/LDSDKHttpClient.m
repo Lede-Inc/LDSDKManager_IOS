@@ -1,5 +1,5 @@
 //
-//  LDThirdHttpClient.m
+//  LDSDKHttpClient.m
 //  TestThirdPlatform
 //
 //  Created by ss on 15/8/17.
@@ -20,11 +20,11 @@
     return _sharedClient;
 }
 
-- (LDThirdAFHTTPRequestOperation *)HTTPRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters
+- (LDSDKAFHTTPRequestOperation *)HTTPRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters
 {
     path = [self interfaceHeaderPath:path];
     NSMutableURLRequest *request = [self requestWithMethod:method path:path parameters:parameters];
-    LDThirdAFHTTPRequestOperation *httpRequest = [[LDThirdAFHTTPRequestOperation alloc] initWithRequest:request];
+    LDSDKAFHTTPRequestOperation *httpRequest = [[LDSDKAFHTTPRequestOperation alloc] initWithRequest:request];
     
 #ifdef  TEST_VERSION_
     NSLog(@"%@",request.URL.absoluteString);

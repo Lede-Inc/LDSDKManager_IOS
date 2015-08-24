@@ -1,5 +1,5 @@
 //
-//  LDThirdHttpClient.h
+//  LDSDKHttpClient.h
 //  TestThirdPlatform
 //
 //  Created by ss on 15/8/17.
@@ -10,13 +10,13 @@
 #import "LDSDKAFHTTPClient.h"
 #import "LDSDKAFHTTPRequestOperation.h"
 
-@interface LDSDKHttpClient : LDThirdAFHTTPClient
+@interface LDSDKHttpClient : LDSDKAFHTTPClient
 
 @property (nonatomic,copy) NSString *interfaceHeaderString; //所有URL附带的统一查询参数
 
 
 + (LDSDKHttpClient *)sharedClient;
 
-- (LDThirdAFHTTPRequestOperation *)HTTPRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
+- (LDSDKAFHTTPRequestOperation *)HTTPRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
 
 @end

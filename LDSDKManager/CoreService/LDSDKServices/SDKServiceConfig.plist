@@ -5,96 +5,49 @@
 	<dict>
 		<key>platformType</key>
 		<integer>1</integer>
-		<key>configServiceList</key>
+		<key>supportType</key>
 		<array>
-			<dict>
-				<key>serviceType</key>
-				<integer>1</integer>
-				<key>serviceProvider</key>
-				<string>LDQQRegisterService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<integer>3</integer>
-				<key>serviceProvider</key>
-				<string>LDQQShareService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<string>4</string>
-				<key>serviceProvider</key>
-				<string>LDQQAuthService</string>
-			</dict>
+			<integer>1</integer>
+			<integer>3</integer>
+			<integer>4</integer>
 		</array>
+		<key>serviceProvider</key>
+		<string>LDSDKQQService</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
 		<integer>2</integer>
-		<key>configServiceList</key>
+		<key>supportType</key>
 		<array>
-			<dict>
-				<key>serviceType</key>
-				<integer>1</integer>
-				<key>serviceProvider</key>
-				<string>LDWechatRegisterService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<integer>2</integer>
-				<key>serviceProvider</key>
-				<string>LDWechatPayService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<integer>3</integer>
-				<key>serviceProvider</key>
-				<string>LDWechatShareService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<string>4</string>
-				<key>serviceProvider</key>
-				<string>LDWechatAuthService</string>
-			</dict>
+			<integer>1</integer>
+			<integer>2</integer>
+			<integer>3</integer>
+			<integer>4</integer>
 		</array>
+		<key>serviceProvider</key>
+		<string>LDSDKWXService</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
 		<integer>3</integer>
-		<key>configServiceList</key>
+		<key>supportType</key>
 		<array>
-			<dict>
-				<key>serviceType</key>
-				<integer>1</integer>
-				<key>serviceProvider</key>
-				<string>LDYixinRegisterService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<string>3</string>
-				<key>serviceProvider</key>
-				<string>LDYixinShareService</string>
-			</dict>
+			<integer>1</integer>
+			<integer>3</integer>
 		</array>
+		<key>serviceProvider</key>
+		<string>LDSDKYXService</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
 		<integer>4</integer>
-		<key>configServiceList</key>
+		<key>supportType</key>
 		<array>
-			<dict>
-				<key>serviceType</key>
-				<integer>1</integer>
-				<key>serviceProvider</key>
-				<string>LDAliPayRegisterService</string>
-			</dict>
-			<dict>
-				<key>serviceType</key>
-				<integer>2</integer>
-				<key>serviceProvider</key>
-				<string>LDAliPayService</string>
-			</dict>
+			<integer>1</integer>
+			<integer>2</integer>
 		</array>
+		<key>serviceProvider</key>
+		<string>LDSDKAliPayService</string>
 	</dict>
 </array>
 </plist>

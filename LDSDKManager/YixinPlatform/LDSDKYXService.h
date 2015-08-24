@@ -7,18 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LDSDKRegisterService.h"
+#import "LDSDKShareService.h"
 
 @class YXBaseReq;
 @class YXBaseResp;
 
 typedef void(^LDSDKYXCallbackBlock)(YXBaseResp *resp);
 
-@interface LDSDKYXService : NSObject
-
-+ (instancetype)defaultService;
-
-- (BOOL)sendReq:(YXBaseReq *)req callback:(LDSDKYXCallbackBlock)callbackBlock;
-
-- (BOOL)handleOpenURL:(NSURL *)url;
+@interface LDSDKYXService : NSObject <LDSDKRegisterService, LDSDKShareService>
 
 @end

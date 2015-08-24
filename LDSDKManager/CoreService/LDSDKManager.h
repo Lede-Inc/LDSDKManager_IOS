@@ -65,8 +65,6 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  */
 @interface LDSDKManager : NSObject
 
-+ (instancetype)sharedManager;
-
 /**
  *  查询是否安装某个第三方SDK应用
  *
@@ -110,13 +108,13 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *  @param orderString 签名后的订单信息字符串
  *  @param callback    回调
  */
-- (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback;
++ (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback;
 
 /**
  *  获得支持分享的平台列表
  *  @return array中保存的是平台enum的列表
  */
-- (NSArray *)availableSharePlatformList;
++ (NSArray *)availableSharePlatformList;
 
 /**
  *  判断是否支持某个平台的分享
@@ -125,7 +123,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *
  *  @return 支持分享，返回YES，否则返回NO
  */
-- (BOOL)isAvailableShareToPlatform:(LDSDKPlatformType)platformType;
++ (BOOL)isAvailableShareToPlatform:(LDSDKPlatformType)platformType;
 
 /**
  *  第三方分享
@@ -135,7 +133,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *  @param dict         分享内容的字典，参照key
  *  @param complete     分享结果回调
  */
-- (void)shareToPlatform:(LDSDKPlatformType)platformType
++ (void)shareToPlatform:(LDSDKPlatformType)platformType
             shareModule:(LDSDKShareToModule)shareModule
                withDict:(NSDictionary *)dict
              onComplete:(LDSDKShareCallback)complete;
@@ -147,7 +145,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *
  *  @return 支持登陆，返回YES，否则返回NO
  */
-- (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type;
++ (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type;
 
 /**
  *  第三方登陆
@@ -155,13 +153,13 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *  @param type     登陆类型
  *  @param callback 登陆之后的回调，返回包括auth信息，用户信息以及错误信息
  */
-- (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback;
++ (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback;
 
 /**
  *  第三方登出
  *
  *  @param type     分享类型，目前只有QQ支持登出
  */
-- (void)logoutFromPlatformType:(LDSDKPlatformType)type;
++ (void)logoutFromPlatformType:(LDSDKPlatformType)type;
 
 @end

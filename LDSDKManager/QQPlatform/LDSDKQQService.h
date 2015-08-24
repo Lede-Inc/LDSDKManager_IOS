@@ -7,16 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <TencentOpenAPI/QQApiInterface.h>
+#import "LDSDKAuthService.h"
+#import "LDSDKRegisterService.h"
+#import "LDSDKShareService.h"
+
+#define kQQ_OPENID_KEY   @"openId"
+#define kQQ_TOKEN_KEY    @"access_token"
+#define kQQ_NICKNAME_KEY @"nickname"
+#define kQQ_EXPIRADATE_KEY @"expirationDate"
+#define kQQ_AVATARURL_KEY  @"figureurl_qq_2"
+
+@class QQBaseReq;
+@class QQBaseResp;
 
 typedef void(^LDSDKQQCallbackBlock)(QQBaseResp *resp);
 
-@interface LDSDKQQService : NSObject
-
-+ (instancetype)defaultService;
-
-- (QQApiSendResultCode)sendReq:(QQBaseReq *)req shareModule:(NSUInteger)shareModule callback:(LDSDKQQCallbackBlock)callbackBlock;
-
-- (BOOL)handleOpenURL:(NSURL *)url;
+@interface LDSDKQQService : NSObject <LDSDKAuthService, LDSDKRegisterService, LDSDKShareService>
 
 @end

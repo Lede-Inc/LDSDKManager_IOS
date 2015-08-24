@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		508CA8D71B8729F900F3F3F8 /* LDSDKAliPayService.m in Sources */ = {isa = PBXBuildFile; fileRef = 508CA8D61B8729F900F3F3F8 /* LDSDKAliPayService.m */; };
 		5092D48D1B86C288006937B2 /* SDKServiceConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5092D48C1B86C288006937B2 /* SDKServiceConfig.plist */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -19,32 +20,21 @@
 		62AAD3631B85A0BD00C5E983 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3601B85A0BD00C5E983 /* Tests.m */; };
 		62AAD3B41B85A10300C5E983 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3681B85A10300C5E983 /* AlipaySDK.bundle */; };
 		62AAD3B51B85A10300C5E983 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3691B85A10300C5E983 /* AlipaySDK.framework */; };
-		62AAD3B61B85A10300C5E983 /* LDAliPayRegisterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD36B1B85A10300C5E983 /* LDAliPayRegisterService.m */; };
-		62AAD3B71B85A10300C5E983 /* LDAliPayService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD36D1B85A10300C5E983 /* LDAliPayService.m */; };
 		62AAD3B81B85A10300C5E983 /* LDSDKCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3701B85A10300C5E983 /* LDSDKCommon.m */; };
 		62AAD3B91B85A10300C5E983 /* LDSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3721B85A10300C5E983 /* LDSDKManager.m */; };
 		62AAD3BA1B85A10300C5E983 /* UIImage+LDSDKShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3791B85A10300C5E983 /* UIImage+LDSDKShare.m */; };
-		62AAD3BB1B85A10300C5E983 /* LDQQAuthService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD37C1B85A10300C5E983 /* LDQQAuthService.m */; };
-		62AAD3BC1B85A10300C5E983 /* LDQQRegisterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD37E1B85A10300C5E983 /* LDQQRegisterService.m */; };
 		62AAD3BD1B85A10300C5E983 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3801B85A10300C5E983 /* TencentOpenAPI.framework */; };
 		62AAD3BE1B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3811B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle */; };
-		62AAD3BF1B85A10300C5E983 /* LDQQShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3831B85A10300C5E983 /* LDQQShareService.m */; };
 		62AAD3C11B85A10300C5E983 /* LDSDKQQService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3871B85A10300C5E983 /* LDSDKQQService.m */; };
 		62AAD3C21B85A10300C5E983 /* LDSDKAFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD38B1B85A10300C5E983 /* LDSDKAFHTTPClient.m */; };
 		62AAD3C31B85A10300C5E983 /* LDSDKAFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD38D1B85A10300C5E983 /* LDSDKAFHTTPRequestOperation.m */; };
 		62AAD3C41B85A10300C5E983 /* LDSDKAFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD38F1B85A10300C5E983 /* LDSDKAFURLConnectionOperation.m */; };
 		62AAD3C51B85A10300C5E983 /* LDSDKHttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3911B85A10300C5E983 /* LDSDKHttpClient.m */; };
 		62AAD3C61B85A10300C5E983 /* LDSDKWXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3931B85A10300C5E983 /* LDSDKWXService.m */; };
-		62AAD3C71B85A10300C5E983 /* LDWechatAuthService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3951B85A10300C5E983 /* LDWechatAuthService.m */; };
-		62AAD3C81B85A10300C5E983 /* LDWechatPayService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3971B85A10300C5E983 /* LDWechatPayService.m */; };
-		62AAD3C91B85A10300C5E983 /* LDWechatRegisterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3991B85A10300C5E983 /* LDWechatRegisterService.m */; };
-		62AAD3CA1B85A10300C5E983 /* LDWechatShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD39B1B85A10300C5E983 /* LDWechatShareService.m */; };
 		62AAD3CC1B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3A01B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m */; };
 		62AAD3CD1B85A10300C5E983 /* NSString+LDSDKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3A21B85A10300C5E983 /* NSString+LDSDKAdditions.m */; };
 		62AAD3CE1B85A10300C5E983 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3A41B85A10300C5E983 /* libWeChatSDK.a */; };
 		62AAD3CF1B85A10300C5E983 /* LDSDKYXService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3A91B85A10300C5E983 /* LDSDKYXService.m */; };
-		62AAD3D01B85A10300C5E983 /* LDYixinRegisterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3AB1B85A10300C5E983 /* LDYixinRegisterService.m */; };
-		62AAD3D11B85A10300C5E983 /* LDYixinShareService.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3AD1B85A10300C5E983 /* LDYixinShareService.m */; };
 		62AAD3D31B85A10300C5E983 /* libYixinSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3B11B85A10300C5E983 /* libYixinSDK.a */; };
 		62AAD3D51B85A58300C5E983 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3D41B85A58300C5E983 /* libsqlite3.0.dylib */; };
 		62AAD3D71B85A62B00C5E983 /* LDSDKManager.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3D61B85A62B00C5E983 /* LDSDKManager.podspec */; };
@@ -65,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		508CA8D51B8729F900F3F3F8 /* LDSDKAliPayService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKAliPayService.h; sourceTree = "<group>"; };
+		508CA8D61B8729F900F3F3F8 /* LDSDKAliPayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKAliPayService.m; sourceTree = "<group>"; };
 		5092D48C1B86C288006937B2 /* SDKServiceConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SDKServiceConfig.plist; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* LDSDKManager_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDSDKManager_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -84,10 +76,6 @@
 		62AAD3601B85A0BD00C5E983 /* Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		62AAD3681B85A10300C5E983 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		62AAD3691B85A10300C5E983 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
-		62AAD36A1B85A10300C5E983 /* LDAliPayRegisterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDAliPayRegisterService.h; sourceTree = "<group>"; };
-		62AAD36B1B85A10300C5E983 /* LDAliPayRegisterService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDAliPayRegisterService.m; sourceTree = "<group>"; };
-		62AAD36C1B85A10300C5E983 /* LDAliPayService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDAliPayService.h; sourceTree = "<group>"; };
-		62AAD36D1B85A10300C5E983 /* LDAliPayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDAliPayService.m; sourceTree = "<group>"; };
 		62AAD36F1B85A10300C5E983 /* LDSDKCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKCommon.h; sourceTree = "<group>"; };
 		62AAD3701B85A10300C5E983 /* LDSDKCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKCommon.m; sourceTree = "<group>"; };
 		62AAD3711B85A10300C5E983 /* LDSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKManager.h; sourceTree = "<group>"; };
@@ -98,14 +86,8 @@
 		62AAD3771B85A10300C5E983 /* LDSDKShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKShareService.h; sourceTree = "<group>"; };
 		62AAD3781B85A10300C5E983 /* UIImage+LDSDKShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LDSDKShare.h"; sourceTree = "<group>"; };
 		62AAD3791B85A10300C5E983 /* UIImage+LDSDKShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LDSDKShare.m"; sourceTree = "<group>"; };
-		62AAD37B1B85A10300C5E983 /* LDQQAuthService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDQQAuthService.h; sourceTree = "<group>"; };
-		62AAD37C1B85A10300C5E983 /* LDQQAuthService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDQQAuthService.m; sourceTree = "<group>"; };
-		62AAD37D1B85A10300C5E983 /* LDQQRegisterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDQQRegisterService.h; sourceTree = "<group>"; };
-		62AAD37E1B85A10300C5E983 /* LDQQRegisterService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDQQRegisterService.m; sourceTree = "<group>"; };
 		62AAD3801B85A10300C5E983 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		62AAD3811B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
-		62AAD3821B85A10300C5E983 /* LDQQShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDQQShareService.h; sourceTree = "<group>"; };
-		62AAD3831B85A10300C5E983 /* LDQQShareService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDQQShareService.m; sourceTree = "<group>"; };
 		62AAD3861B85A10300C5E983 /* LDSDKQQService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKQQService.h; sourceTree = "<group>"; };
 		62AAD3871B85A10300C5E983 /* LDSDKQQService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKQQService.m; sourceTree = "<group>"; };
 		62AAD38A1B85A10300C5E983 /* LDSDKAFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKAFHTTPClient.h; sourceTree = "<group>"; };
@@ -118,14 +100,6 @@
 		62AAD3911B85A10300C5E983 /* LDSDKHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKHttpClient.m; sourceTree = "<group>"; };
 		62AAD3921B85A10300C5E983 /* LDSDKWXService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKWXService.h; sourceTree = "<group>"; };
 		62AAD3931B85A10300C5E983 /* LDSDKWXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKWXService.m; sourceTree = "<group>"; };
-		62AAD3941B85A10300C5E983 /* LDWechatAuthService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDWechatAuthService.h; sourceTree = "<group>"; };
-		62AAD3951B85A10300C5E983 /* LDWechatAuthService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDWechatAuthService.m; sourceTree = "<group>"; };
-		62AAD3961B85A10300C5E983 /* LDWechatPayService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDWechatPayService.h; sourceTree = "<group>"; };
-		62AAD3971B85A10300C5E983 /* LDWechatPayService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDWechatPayService.m; sourceTree = "<group>"; };
-		62AAD3981B85A10300C5E983 /* LDWechatRegisterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDWechatRegisterService.h; sourceTree = "<group>"; };
-		62AAD3991B85A10300C5E983 /* LDWechatRegisterService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDWechatRegisterService.m; sourceTree = "<group>"; };
-		62AAD39A1B85A10300C5E983 /* LDWechatShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDWechatShareService.h; sourceTree = "<group>"; };
-		62AAD39B1B85A10300C5E983 /* LDWechatShareService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDWechatShareService.m; sourceTree = "<group>"; };
 		62AAD39F1B85A10300C5E983 /* NSDictionary+LDSDKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LDSDKAdditions.h"; sourceTree = "<group>"; };
 		62AAD3A01B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LDSDKAdditions.m"; sourceTree = "<group>"; };
 		62AAD3A11B85A10300C5E983 /* NSString+LDSDKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LDSDKAdditions.h"; sourceTree = "<group>"; };
@@ -135,10 +109,6 @@
 		62AAD3A61B85A10300C5E983 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		62AAD3A81B85A10300C5E983 /* LDSDKYXService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKYXService.h; sourceTree = "<group>"; };
 		62AAD3A91B85A10300C5E983 /* LDSDKYXService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKYXService.m; sourceTree = "<group>"; };
-		62AAD3AA1B85A10300C5E983 /* LDYixinRegisterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDYixinRegisterService.h; sourceTree = "<group>"; };
-		62AAD3AB1B85A10300C5E983 /* LDYixinRegisterService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDYixinRegisterService.m; sourceTree = "<group>"; };
-		62AAD3AC1B85A10300C5E983 /* LDYixinShareService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDYixinShareService.h; sourceTree = "<group>"; };
-		62AAD3AD1B85A10300C5E983 /* LDYixinShareService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDYixinShareService.m; sourceTree = "<group>"; };
 		62AAD3B11B85A10300C5E983 /* libYixinSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libYixinSDK.a; sourceTree = "<group>"; };
 		62AAD3B21B85A10300C5E983 /* YXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YXApi.h; sourceTree = "<group>"; };
 		62AAD3B31B85A10300C5E983 /* YXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YXApiObject.h; sourceTree = "<group>"; };
@@ -272,10 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				62AAD3671B85A10300C5E983 /* AliSDK */,
-				62AAD36A1B85A10300C5E983 /* LDAliPayRegisterService.h */,
-				62AAD36B1B85A10300C5E983 /* LDAliPayRegisterService.m */,
-				62AAD36C1B85A10300C5E983 /* LDAliPayService.h */,
-				62AAD36D1B85A10300C5E983 /* LDAliPayService.m */,
+				508CA8D51B8729F900F3F3F8 /* LDSDKAliPayService.h */,
+				508CA8D61B8729F900F3F3F8 /* LDSDKAliPayService.m */,
 			);
 			path = AlipayPlatform;
 			sourceTree = "<group>";
@@ -318,13 +286,7 @@
 		62AAD37A1B85A10300C5E983 /* QQPlatform */ = {
 			isa = PBXGroup;
 			children = (
-				62AAD37B1B85A10300C5E983 /* LDQQAuthService.h */,
-				62AAD37C1B85A10300C5E983 /* LDQQAuthService.m */,
-				62AAD37D1B85A10300C5E983 /* LDQQRegisterService.h */,
-				62AAD37E1B85A10300C5E983 /* LDQQRegisterService.m */,
 				62AAD37F1B85A10300C5E983 /* LDQQSDK */,
-				62AAD3821B85A10300C5E983 /* LDQQShareService.h */,
-				62AAD3831B85A10300C5E983 /* LDQQShareService.m */,
 				62AAD3861B85A10300C5E983 /* LDSDKQQService.h */,
 				62AAD3871B85A10300C5E983 /* LDSDKQQService.m */,
 			);
@@ -346,14 +308,6 @@
 				62AAD3891B85A10300C5E983 /* HTTPRequest */,
 				62AAD3921B85A10300C5E983 /* LDSDKWXService.h */,
 				62AAD3931B85A10300C5E983 /* LDSDKWXService.m */,
-				62AAD3941B85A10300C5E983 /* LDWechatAuthService.h */,
-				62AAD3951B85A10300C5E983 /* LDWechatAuthService.m */,
-				62AAD3961B85A10300C5E983 /* LDWechatPayService.h */,
-				62AAD3971B85A10300C5E983 /* LDWechatPayService.m */,
-				62AAD3981B85A10300C5E983 /* LDWechatRegisterService.h */,
-				62AAD3991B85A10300C5E983 /* LDWechatRegisterService.m */,
-				62AAD39A1B85A10300C5E983 /* LDWechatShareService.h */,
-				62AAD39B1B85A10300C5E983 /* LDWechatShareService.m */,
 				62AAD39E1B85A10300C5E983 /* WechatCommon */,
 				62AAD3A31B85A10300C5E983 /* WeChatSDK */,
 			);
@@ -401,10 +355,6 @@
 			children = (
 				62AAD3A81B85A10300C5E983 /* LDSDKYXService.h */,
 				62AAD3A91B85A10300C5E983 /* LDSDKYXService.m */,
-				62AAD3AA1B85A10300C5E983 /* LDYixinRegisterService.h */,
-				62AAD3AB1B85A10300C5E983 /* LDYixinRegisterService.m */,
-				62AAD3AC1B85A10300C5E983 /* LDYixinShareService.h */,
-				62AAD3AD1B85A10300C5E983 /* LDYixinShareService.m */,
 				62AAD3B01B85A10300C5E983 /* YiXinSDK */,
 			);
 			path = YixinPlatform;
@@ -575,32 +525,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62AAD3C81B85A10300C5E983 /* LDWechatPayService.m in Sources */,
 				62AAD3CF1B85A10300C5E983 /* LDSDKYXService.m in Sources */,
-				62AAD3C91B85A10300C5E983 /* LDWechatRegisterService.m in Sources */,
 				62AAD3581B85A01F00C5E983 /* LDViewController.m in Sources */,
-				62AAD3B61B85A10300C5E983 /* LDAliPayRegisterService.m in Sources */,
-				62AAD3C71B85A10300C5E983 /* LDWechatAuthService.m in Sources */,
 				62AAD3C51B85A10300C5E983 /* LDSDKHttpClient.m in Sources */,
 				62AAD3C61B85A10300C5E983 /* LDSDKWXService.m in Sources */,
 				62AAD3C41B85A10300C5E983 /* LDSDKAFURLConnectionOperation.m in Sources */,
 				62AAD3631B85A0BD00C5E983 /* Tests.m in Sources */,
 				62AAD3591B85A01F00C5E983 /* main.m in Sources */,
 				62AAD3BA1B85A10300C5E983 /* UIImage+LDSDKShare.m in Sources */,
-				62AAD3D01B85A10300C5E983 /* LDYixinRegisterService.m in Sources */,
-				62AAD3CA1B85A10300C5E983 /* LDWechatShareService.m in Sources */,
-				62AAD3D11B85A10300C5E983 /* LDYixinShareService.m in Sources */,
 				62AAD3C21B85A10300C5E983 /* LDSDKAFHTTPClient.m in Sources */,
 				62AAD3561B85A01F00C5E983 /* LDAppDelegate.m in Sources */,
 				62AAD3CD1B85A10300C5E983 /* NSString+LDSDKAdditions.m in Sources */,
-				62AAD3B71B85A10300C5E983 /* LDAliPayService.m in Sources */,
+				508CA8D71B8729F900F3F3F8 /* LDSDKAliPayService.m in Sources */,
 				62AAD3C11B85A10300C5E983 /* LDSDKQQService.m in Sources */,
 				62AAD3B91B85A10300C5E983 /* LDSDKManager.m in Sources */,
 				62AAD3C31B85A10300C5E983 /* LDSDKAFHTTPRequestOperation.m in Sources */,
-				62AAD3BC1B85A10300C5E983 /* LDQQRegisterService.m in Sources */,
 				62AAD3B81B85A10300C5E983 /* LDSDKCommon.m in Sources */,
-				62AAD3BB1B85A10300C5E983 /* LDQQAuthService.m in Sources */,
-				62AAD3BF1B85A10300C5E983 /* LDQQShareService.m in Sources */,
 				62AAD3CC1B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

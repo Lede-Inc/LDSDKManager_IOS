@@ -1,37 +1,53 @@
 //
-//  LDAliPayService.m
-//  LDThirdLib
+//  LDSDKAliPayService.m
+//  LDSDKManager
 //
-//  Created by ss on 15/8/12.
-//  Copyright (c) 2015年 ss. All rights reserved.
+//  Created by ss on 15/8/21.
+//  Copyright (c) 2015年 张海洋. All rights reserved.
 //
 
-#import "LDAliPayService.h"
+#import "LDSDKAliPayService.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "LDSDKCommon.h"
 
-@implementation LDAliPayService
+@implementation LDSDKAliPayService
 
 + (instancetype)sharedService
 {
-    static LDAliPayService *_sharedInstance = nil;
+    static LDSDKAliPayService *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[self alloc] init];
+        sharedInstance = [[self alloc] init];
     });
-    return _sharedInstance;
+    return sharedInstance;
 }
+
+
+#pragma mark -
+#pragma mark - 配置部分
+
+- (BOOL)platformInstalled{
+    return YES;
+}
+
+
+- (void)registerWithPlatformConfig:(NSDictionary *)config{
+}
+
+
+#pragma mark -
+#pragma mark -  支付部分
 
 -(void)payOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
     NSLog(@"AliPay");
-    [[LDAliPayService sharedService] aliPayOrderString:orderString callback:callback];
+    [self aliPayOrderString:orderString callback:callback];
 }
 
 -(BOOL)payProcessOrderWithPaymentResult:(NSURL *)url standbyCallback:(void (^)(NSDictionary *))callback
 {
     NSLog(@"alipayProcessOrder");
-    [[LDAliPayService sharedService] aliPayProcessOrderWithPaymentResult:url standbyCallback:callback];
+    [self aliPayProcessOrderWithPaymentResult:url standbyCallback:callback];
     return YES;
 }
 

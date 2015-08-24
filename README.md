@@ -71,25 +71,92 @@
     	    return [LDSDKManager handleOpenURL:url];
     	}
 
-3. 需要登陆时，提供对应函数：
+3. 需要登陆时，提供对应函数及回调：
 
+        /*!
+         *  @brief  第三方SDK登录回调
+         *
+         *  @param oauthInfo 登录口令信息
+         *  @param userInfo  第三方用户基本信息
+         *  @param error
+         */
+        typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error);
+
+	    //判断该平台是否安装，决定是否显示该登陆方式
         + (BOOL)isAppInstalled:(LDSDKPlatformType)type；
+
+        //登陆
         + (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback;
 
-4. 需要分享时，提供对应函数：
+4. 需要分享时，提供对应函数及回调：
 
+        /*!
+         *  @brief  第三方SDK分享回调
+         *
+         *  @param success 是否分享成功
+         *  @param error
+         */
+        typedef void(^LDSDKShareCallback)(BOOL success, NSError *error);
+
+        //返回支持的分享平台列表
         + (NSArray *)availableSharePlatformList;
+
+        /**
+         *  第三方分享
+         *
+         *  @param platformType 分享平台类型
+         *  @param shareModule  平台分享模块
+         *  @param dict         分享内容的字典
+         *  @param complete     分享结果回调
+         */
         + (void)shareToPlatform:(LDSDKPlatformType)platformType
                     shareModule:(LDSDKShareToModule)shareModule
                        withDict:(NSDictionary *)dict
                      onComplete:(LDSDKShareCallback)complete;
 
+    * 分享内容字典的key
+
+        FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
+        FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
+        FOUNDATION_EXTERN NSString *const LDSDKShareContentImageUrlKey;
+        FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
+        FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
+
 5. 需要支付时，提供对应函数：
 
+        /*!
+         *  @brief  第三方SDK支付回调
+         *
+         *  @param signString 签名字符串
+         *  @param error
+         */
+        typedef void(^LDSDKPayCallback)(NSString *signString, NSError *error);
+
+        /**
+         *  支付
+         *
+         *  @param payType     支付类型，支付宝或微信
+         *  @param orderString 签名后的订单信息字符串
+         *  @param callback    回调
+         */
         + (void)payOrderWithType:(LDSDKPlatformType)payType 
                      orderString:(NSString *)orderString 
                         callback:(LDSDKPayCallback)callback;
 
+
+## LDSDKManager的框架层次
+
+>
+LDSDKManager目前有五个submodule，分别是CoreService，QQService，WechatService，YixinService，AlipayService。后边四个分别整合了QQSDK、微信SDK、易信SDK以及支付宝SDK，他们都依赖于CoreService。
+
+整合的优点在于：
+    1. 开发者无需调用SDK头文件，方便SDK的升级；
+    2. 易拓展，可以通过增加模块使得开发者无需修改代码即可支持更多的第三方SDK。
+
+
+## 如何新增一个第三方SDK
+
+>
 
 
 ## Author

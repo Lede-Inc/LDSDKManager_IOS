@@ -14,12 +14,12 @@
 
 1.  Clone线上repo仓库到本地 (第一次创建私有类库引用)
 
-pod repo add podspec https://git.ms.netease.com/commonlibraryios/podspec.git 
-pod repo update podspec
+		pod repo add podspec https://git.ms.netease.com/commonlibraryios/podspec.git 
+		pod repo update podspec
 
 2. 在项目工程的Podfile文件中加载LDSDKManager库：
 
-pod 'LDSDKManager'
+		pod 'LDSDKManager'
 
 
 ### 代码拷贝集成

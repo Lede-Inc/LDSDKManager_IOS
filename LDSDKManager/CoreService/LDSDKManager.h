@@ -13,11 +13,11 @@ FOUNDATION_EXTERN NSString *const LDSDKConfigAppSchemeKey;
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppPlatformTypeKey;
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppDescriptionKey;
 
-FOUNDATION_EXTERN NSString *const LDShareDictTitleKey;
-FOUNDATION_EXTERN NSString *const LDShareDictDescriptionKey;
-FOUNDATION_EXTERN NSString *const LDShareDictImageUrlKey;
-FOUNDATION_EXTERN NSString *const LDShareDictWapUrlKey;
-FOUNDATION_EXTERN NSString *const LDShareDictTextKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentImageUrlKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
 
 /*!
  *  @brief  第三方SDK支付回调
@@ -65,6 +65,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  */
 @interface LDSDKManager : NSObject
 
+#pragma mark - Register Service Interface
 /**
  *  查询是否安装某个第三方SDK应用
  *
@@ -72,7 +73,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *
  *  @return 已安装返回YES，
  */
-+ (BOOL)isAppInstalled:(LDSDKPlatformType)type;
++ (BOOL)isSDKPlatformAppInstalled:(LDSDKPlatformType)platformType;
 
 
 /**
@@ -88,18 +89,10 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *
  *  @return YES则已注册
  */
-+ (BOOL)isRegistered:(LDSDKPlatformType)type;
++ (BOOL)isRegisteredOnPlatform:(LDSDKPlatformType)platformType;
 
 
-
-/**
- *  处理url返回
- *
- *  @param url       第三方应用的url回调
- *
- *  @return YES则处理成功
- */
-+ (BOOL)handleOpenURL:(NSURL *)url;
+#pragma mark - SDK Pay Interface
 
 /**
  *  支付
@@ -109,6 +102,9 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *  @param callback    回调
  */
 + (void)payOrderWithType:(LDSDKPlatformType)payType orderString:(NSString *)orderString callback:(LDSDKPayCallback)callback;
+
+
+#pragma mark - SDK Share Interface
 
 /**
  *  获得支持分享的平台列表
@@ -138,6 +134,9 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
                withDict:(NSDictionary *)dict
              onComplete:(LDSDKShareCallback)complete;
 
+
+#pragma mark - SDK Login Interface
+
 /**
  *  判断是否支持这个登陆
  *
@@ -145,7 +144,7 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *
  *  @return 支持登陆，返回YES，否则返回NO
  */
-+ (BOOL)isPlatformLoginEnabled:(LDSDKPlatformType)type;
++ (BOOL)isLoginEnabledOnPlatform:(LDSDKPlatformType)platformType;
 
 /**
  *  第三方登陆
@@ -153,13 +152,26 @@ typedef NS_ENUM(NSUInteger, LDSDKShareToModule){
  *  @param type     登陆类型
  *  @param callback 登陆之后的回调，返回包括auth信息，用户信息以及错误信息
  */
-+ (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback;
++ (void)loginToPlatform:(LDSDKPlatformType)platformType withCallback:(LDSDKLoginCallback)callback;
 
 /**
  *  第三方登出
  *
  *  @param type     分享类型，目前只有QQ支持登出
  */
-+ (void)logoutFromPlatformType:(LDSDKPlatformType)type;
++ (void)logoutFromPlatform:(LDSDKPlatformType)platformType;
+
+
+#pragma mark - SDK Callback Interface
+
+/**
+ *  处理url返回
+ *
+ *  @param url       第三方应用的url回调
+ *
+ *  @return YES则处理成功
+ */
++ (BOOL)handleOpenURL:(NSURL *)url;
+
 
 @end

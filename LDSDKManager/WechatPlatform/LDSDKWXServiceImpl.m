@@ -8,8 +8,6 @@
 
 #import "LDSDKWXServiceImpl.h"
 #import "WXApi.h"
-#import "LDSDKAFHTTPRequestOperation.h"
-#import "LDSDKHttpClient.h"
 #import "NSString+LDSDKAdditions.h"
 #import "NSDictionary+LDSDKAdditions.h"
 #import "UIImage+LDSDKShare.h"
@@ -24,8 +22,7 @@
 #define kWX_GET_TOKEN_URL @"https://api.weixin.qq.com/sns/oauth2/access_token"
 #define kWX_GET_USERINFO_URL @"https://api.weixin.qq.com/sns/userinfo"
 
-@interface LDSDKWXServiceImpl ()<WXApiDelegate> {
-    NSError *error;
+@interface LDSDKWXServiceImpl ()<WXApiDelegate, NSURLConnectionDataDelegate> {
     NSDictionary *oauthDict;
     void(^MyBlock)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *wxerror);
     
@@ -117,7 +114,7 @@
 -(void)platformLoginWithCallback:(LDSDKLoginCallback)callback
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
-        error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
+        NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
         if (callback) {
             callback(nil, nil, error);
         }
@@ -145,7 +142,7 @@
                 [self wxTokenWithCode:resp.code];
             }
         } else {   //authResp.errCode == -4 //用户拒绝授权 authResp.errCode == -2 //用户取消
-            error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+            NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
             if (MyBlock) {
                 MyBlock(nil, nil, error);
             }
@@ -158,7 +155,7 @@
 
 - (void)wxTokenWithCode:(NSString *)code
 {
-    error = nil;
+    NSError *error = nil;
     oauthDict = nil;
     
     if (!code || ![code length]) {
@@ -174,41 +171,24 @@
     [paramDict setObject:self.authAppSecret forKey:kWX_APPSECRET_KEY]; //@"695852ffc8626d9c4c65a394cc4a7eb7"
     [paramDict setObject:@"authorization_code" forKey:@"grant_type"];
     [paramDict setObject:code forKey:kWX_APPCODE_KEY];
-    LDSDKAFHTTPRequestOperation *loadOperation = [[LDSDKHttpClient sharedClient]
-                                                    HTTPRequestWithMethod:@"POST"
-                                                    path:kWX_GET_TOKEN_URL
-                                                    parameters:paramDict];
-    [loadOperation setCompletionBlockWithSuccess:^(LDSDKAFHTTPRequestOperation *operation, id responseObject) {
-        if (responseObject) {
-            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-            //NSLog(@"%@",resultDic);
-            //请求用户资料数据
-            oauthDict = resultDic;
-            if (MyBlock) {
-                MyBlock(resultDic, nil, nil);
-            }
-            [self getWXUserInfoWithToken:resultDic[kWX_ACCESSTOKEN_KEY] openId:resultDic[kWX_OPENID_KEY]];
-        } else {
-            error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
-            if (MyBlock) {
-                MyBlock(nil, nil, error);
-            }
-        }
-        
-    } failure:^(LDSDKAFHTTPRequestOperation *operation, NSError *aferror) {
+    
+    NSMutableURLRequest  *request = [self requestWithMethod:@"POST" path:kWX_GET_TOKEN_URL parameters:paramDict];
+    
+    // 设置
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (connection == nil) {
         error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
         if (MyBlock) {
             MyBlock(nil, nil, error);
         }
-    }];
-    
-    [loadOperation start];
+    }
 }
 
 - (void)getWXUserInfoWithToken:(NSString *)accessToken openId:(NSString *)openId
 {
     if (!accessToken || ![accessToken length] || !openId || ![openId length]) {
-        error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+        NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
         if (MyBlock) {
             MyBlock(nil, nil, error);
         }
@@ -219,32 +199,15 @@
     [paramDict setObject:accessToken forKey:kWX_ACCESSTOKEN_KEY];
     [paramDict setObject:openId forKey:kWX_OPENID_KEY];
     
-    LDSDKAFHTTPRequestOperation *loadOperation = [[LDSDKHttpClient sharedClient]
-                                                    HTTPRequestWithMethod:@"POST"
-                                                    path:kWX_GET_USERINFO_URL
-                                                    parameters:paramDict];
+    NSMutableURLRequest  *request = [self requestWithMethod:@"POST" path:kWX_GET_USERINFO_URL parameters:paramDict];
     
-    [loadOperation setCompletionBlockWithSuccess:^(LDSDKAFHTTPRequestOperation *operation, id responseObject) {
-        if (responseObject) {
-            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-            //NSLog(@"%@",resultDic);
-            if (MyBlock) {
-                MyBlock(oauthDict, resultDic, nil);
-            }
-        } else {
-            error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
-            if (MyBlock) {
-                MyBlock(nil, nil, error);
-            }
-        }
-        
-    } failure:^(LDSDKAFHTTPRequestOperation *operation, NSError *aferror) {
-        error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (connection == nil) {
+        NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
         if (MyBlock) {
             MyBlock(nil, nil, error);
         }
-    }];
-    [loadOperation start];
+    }
 }
 
 -(void)platformLogout
@@ -260,7 +223,7 @@
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
         if (callback) {
-            error = [NSError errorWithDomain:@"wxPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
+            NSError *error = [NSError errorWithDomain:@"wxPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
             callback(nil, error);
         }
         return;
@@ -296,7 +259,7 @@
     if (!result) {
         _shouldHandleWXPay = NO;
         if (callback) {
-            error = [NSError errorWithDomain:@"wxPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"无法支付", @"NSLocalizedDescription", nil]];
+            NSError *error = [NSError errorWithDomain:@"wxPay" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"无法支付", @"NSLocalizedDescription", nil]];
             callback(nil, error);
         }
     }
@@ -312,7 +275,7 @@
 -(void)shareWithContent:(NSDictionary *)content shareModule:(NSUInteger)shareModule onComplete:(LDSDKShareCallback)complete
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
-        error = [NSError errorWithDomain:@"WXShare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
+        NSError *error = [NSError errorWithDomain:@"WXShare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
         if (complete) {
             complete(NO, error);
         }
@@ -392,14 +355,14 @@
             
             break;
         case WXErrCodeUserCancel:{
-            error = [NSError errorWithDomain:@"WXShare" code:-2 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"用户取消分享", @"NSLocalizedDescription", nil]];
+            NSError *error = [NSError errorWithDomain:@"WXShare" code:-2 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"用户取消分享", @"NSLocalizedDescription", nil]];
             if (complete) {
                 complete(NO, error);
             }
         }
             break;
         default:{
-            error = [NSError errorWithDomain:@"WXShare" code:-1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"分享失败", @"NSLocalizedDescription", nil]];
+            NSError *error = [NSError errorWithDomain:@"WXShare" code:-1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"分享失败", @"NSLocalizedDescription", nil]];
             if (complete) {
                 complete(NO, error);
             }
@@ -418,6 +381,58 @@
 {
     wxcallbackBlock = callbackBlock;
     return [WXApi sendReq:req];
+}
+
+
+#pragma mark -
+#pragma mark - 构建HTTP请求
+
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
+                                      path:(NSString *)path
+                                parameters:(NSDictionary *)parameters
+{
+    NSParameterAssert(method);
+    
+    if (!path) {
+        path = @"";
+    }
+    
+    NSURL *url = [NSURL URLWithString:path];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    [request setHTTPMethod:method];
+    
+    if (parameters) {
+        NSString *charset = (__bridge NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
+        [request setValue:[NSString stringWithFormat:@"application/x-www-form-urlencoded; charset=%@", charset] forHTTPHeaderField:@"Content-Type"];
+        [request setHTTPBody:[[self LDSDKQueryStringFromParametersWithEncoding:parameters encoding:NSUTF8StringEncoding] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    return request;
+}
+
+-(NSString *)LDSDKQueryStringFromParametersWithEncoding:(NSDictionary *)parameters encoding:(NSStringEncoding)stringEncoding {
+    NSMutableArray *mutablePairs = [NSMutableArray array];
+    for (NSString *key in [parameters allKeys]) {
+        NSString *value = [parameters objectForKey:key];
+        if (!value || [value isEqual:[NSNull null]]) {
+            [mutablePairs addObject:LDSDKAFPercentEscapedQueryStringKeyFromStringWithEncoding([key description], stringEncoding)];
+        } else {
+            [mutablePairs addObject:[NSString stringWithFormat:@"%@=%@", LDSDKAFPercentEscapedQueryStringKeyFromStringWithEncoding([key description], stringEncoding),LDSDKAFPercentEscapedQueryStringValueFromStringWithEncoding([value description], stringEncoding)]];
+        }
+    }
+    return [mutablePairs componentsJoinedByString:@"&"];
+}
+
+static NSString * const kLDSDKAFCharactersToBeEscapedInQueryString = @":/?&=;+!@#$()',*";
+
+static NSString * LDSDKAFPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+    static NSString * const kLDSDKAFCharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
+    
+    return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)kLDSDKAFCharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)kLDSDKAFCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+}
+
+static NSString * LDSDKAFPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+    return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kLDSDKAFCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
 }
 
 #pragma mark - WXApiDelegate
@@ -440,7 +455,7 @@
             PayResp *pResp = (PayResp *)resp;
             _wxCallback(pResp.returnKey, nil);
         } else {
-            error = [NSError errorWithDomain:@"wxPay" code:resp.errCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys:resp.errStr, @"NSLocalizedDescription", nil]];
+            NSError *error = [NSError errorWithDomain:@"wxPay" code:resp.errCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys:resp.errStr, @"NSLocalizedDescription", nil]];
             _wxCallback(nil, error);
         }
         _wxCallback = NULL;
@@ -450,6 +465,61 @@
     
     _shouldHandleWXPay = NO;
     
+}
+
+
+#pragma mark -
+#pragma mark - NSURLConnectionDataDelegate
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+}
+
+// 接收数据
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    NSString *urlStr = connection.currentRequest.URL.absoluteString;
+    if ([urlStr isEqualToString:kWX_GET_TOKEN_URL]) {
+        if (data) {
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            oauthDict = resultDic;
+            if (MyBlock) {
+                MyBlock(resultDic, nil, nil);
+            }
+            [self getWXUserInfoWithToken:resultDic[kWX_ACCESSTOKEN_KEY] openId:resultDic[kWX_OPENID_KEY]];
+        } else {
+            NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+            if (MyBlock) {
+                MyBlock(nil, nil, error);
+            }
+        }
+    } else if ([urlStr isEqualToString:kWX_GET_USERINFO_URL]) {
+        if (data) {
+            NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            if (MyBlock) {
+                MyBlock(oauthDict, resultDic, nil);
+            }
+        } else {
+            NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+            if (MyBlock) {
+                MyBlock(nil, nil, error);
+            }
+        }
+    }
+}
+
+// 数据接收完毕
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSLog(@"connectionDidFinishLoading");
+}
+
+// 返回错误
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    if (MyBlock) {
+        MyBlock(nil, nil, error);
+    }
 }
 
 @end

@@ -13,7 +13,6 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		62AAD3551B85A01F00C5E983 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD34C1B85A01F00C5E983 /* Images.xcassets */; };
 		62AAD3561B85A01F00C5E983 /* LDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD34E1B85A01F00C5E983 /* LDAppDelegate.m */; };
-		62AAD3571B85A01F00C5E983 /* LDSDKManager-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD34F1B85A01F00C5E983 /* LDSDKManager-Info.plist */; };
 		62AAD3581B85A01F00C5E983 /* LDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3521B85A01F00C5E983 /* LDViewController.m */; };
 		62AAD3591B85A01F00C5E983 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3531B85A01F00C5E983 /* main.m */; };
 		62AAD3621B85A0BD00C5E983 /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD35E1B85A0BD00C5E983 /* Tests-Info.plist */; };
@@ -418,7 +417,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = LD;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "张海洋";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
@@ -458,7 +457,6 @@
 				62AAD3621B85A0BD00C5E983 /* Tests-Info.plist in Resources */,
 				62AAD3B41B85A10300C5E983 /* AlipaySDK.bundle in Resources */,
 				62AAD3BE1B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				62AAD3571B85A01F00C5E983 /* LDSDKManager-Info.plist in Resources */,
 				5092D48D1B86C288006937B2 /* SDKServiceConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

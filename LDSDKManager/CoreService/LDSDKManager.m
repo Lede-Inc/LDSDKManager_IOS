@@ -102,47 +102,9 @@ static NSArray *sdkServiceConfigList = nil;
     }
 }
 
-<<<<<<< HEAD
 
 #pragma mark -
 #pragma mark - SDK Pay Interface
-=======
-/**
- *  处理url返回
- *
- *  @param url       第三方应用的url回调
- *
- *  @return YES则处理成功
- */
-+ (BOOL)handleOpenURL:(NSURL *)url
-{
-    if ([LDSDKManager  handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
-        return YES;
-    }
-    
-    if([LDSDKManager handleOpenURL:url withType:LDSDKPlatformQQ] ||
-       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformWeChat] ||
-       [LDSDKManager handleOpenURL:url withType:LDSDKPlatformYiXin]) {
-        return YES;
-    }
-    NSString *scheme = [[url scheme] lowercaseString];
-    if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [LDSDKManager  handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
-        return YES;
-    }
-    
-    return YES;
-}
-
-+ (BOOL)handleOpenURL:(NSURL *)url withType:(LDSDKPlatformType)type
-{
-    Class registerServiceImplCls = [self getServiceProviderWithPlatformType:type serviceType:LDSDKServiceRegister];
-    if(registerServiceImplCls != nil){
-        return [[registerServiceImplCls sharedService] handleResultUrl:url];
-    }
-    return NO;
-}
->>>>>>> develop_zhy
 
 /**
  *  支付
@@ -265,7 +227,7 @@ static NSArray *sdkServiceConfigList = nil;
  */
 + (BOOL)handleOpenURL:(NSURL *)url
 {
-    if ([[LDSDKManager sharedManager] handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
+    if ([LDSDKManager handlePayType:LDSDKPlatformWeChat resultURL:url callback:NULL]) {
         return YES;
     }
 
@@ -276,7 +238,7 @@ static NSArray *sdkServiceConfigList = nil;
     }
     NSString *scheme = [[url scheme] lowercaseString];
     if ([scheme hasPrefix:[LDSDKCommon sharedInstance].aliPayScheme]) {
-        [[LDSDKManager sharedManager] handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
+        [LDSDKManager handlePayType:LDSDKPlatformAliPay resultURL:url callback:NULL];
         return YES;
     }
 

@@ -1,5 +1,5 @@
 //
-//  LDSDKYXService.h
+//  LDSDKYXServiceImpl.h
 //  Pods
 //
 //  Created by yangning on 15-1-30.
@@ -15,6 +15,6 @@
 
 typedef void(^LDSDKYXCallbackBlock)(YXBaseResp *resp);
 
-@interface LDSDKYXService : NSObject <LDSDKRegisterService, LDSDKShareService>
+@interface LDSDKYXServiceImpl : NSObject <LDSDKRegisterService, LDSDKShareService>
 
 @end

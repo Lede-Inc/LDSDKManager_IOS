@@ -12,7 +12,7 @@
 			<integer>4</integer>
 		</array>
 		<key>serviceProvider</key>
-		<string>LDSDKQQService</string>
+		<string>LDSDKQQServiceImpl</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
@@ -25,7 +25,7 @@
 			<integer>4</integer>
 		</array>
 		<key>serviceProvider</key>
-		<string>LDSDKWXService</string>
+		<string>LDSDKWXServiceImpl</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
@@ -36,7 +36,7 @@
 			<integer>3</integer>
 		</array>
 		<key>serviceProvider</key>
-		<string>LDSDKYXService</string>
+		<string>LDSDKYXServiceImpl</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
@@ -47,7 +47,7 @@
 			<integer>2</integer>
 		</array>
 		<key>serviceProvider</key>
-		<string>LDSDKAliPayService</string>
+		<string>LDSDKAliPayServiceImpl</string>
 	</dict>
 </array>
 </plist>

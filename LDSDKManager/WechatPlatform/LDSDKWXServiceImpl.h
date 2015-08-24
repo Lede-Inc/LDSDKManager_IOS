@@ -1,5 +1,5 @@
 //
-//  LDSDKWXService.h
+//  LDSDKWXServiceImpl.h
 //  Pods
 //
 //  Created by yangning on 15-1-29.
@@ -22,6 +22,6 @@
 
 typedef void(^LDSDKWXCallbackBlock)(BaseResp *resp);
 
-@interface LDSDKWXService : NSObject <LDSDKAuthService, LDSDKRegisterService, LDSDKShareService, LDSDKPayService>
+@interface LDSDKWXServiceImpl : NSObject <LDSDKAuthService, LDSDKRegisterService, LDSDKShareService, LDSDKPayService>
 
 @end

@@ -1,5 +1,5 @@
 //
-//  LDSDKAliPayService.h
+//  LDSDKAliPayServiceImpl.h
 //  LDSDKManager
 //
 //  Created by ss on 15/8/21.
@@ -10,6 +10,6 @@
 #import "LDSDKRegisterService.h"
 #import "LDSDKPayService.h"
 
-@interface LDSDKAliPayService : NSObject <LDSDKRegisterService, LDSDKPayService>
+@interface LDSDKAliPayServiceImpl : NSObject <LDSDKRegisterService, LDSDKPayService>
 
 @end

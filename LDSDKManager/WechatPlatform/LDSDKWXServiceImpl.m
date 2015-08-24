@@ -1,12 +1,12 @@
 //
-//  LDSDKWXService.m
+//  LDSDKWXServiceImpl.m
 //  Pods
 //
 //  Created by yangning on 15-1-29.
 //
 //
 
-#import "LDSDKWXService.h"
+#import "LDSDKWXServiceImpl.h"
 #import "WXApi.h"
 #import "LDSDKAFHTTPRequestOperation.h"
 #import "LDSDKHttpClient.h"
@@ -24,7 +24,7 @@
 #define kWX_GET_TOKEN_URL @"https://api.weixin.qq.com/sns/oauth2/access_token"
 #define kWX_GET_USERINFO_URL @"https://api.weixin.qq.com/sns/userinfo"
 
-@interface LDSDKWXService ()<WXApiDelegate> {
+@interface LDSDKWXServiceImpl ()<WXApiDelegate> {
     NSError *error;
     NSString *authAppId;
     NSString *authAppSecret;
@@ -39,12 +39,12 @@
 
 @end
 
-@implementation LDSDKWXService
+@implementation LDSDKWXServiceImpl
 
 
 + (instancetype)sharedService
 {
-    static LDSDKWXService *sharedInstance = nil;
+    static LDSDKWXServiceImpl *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];

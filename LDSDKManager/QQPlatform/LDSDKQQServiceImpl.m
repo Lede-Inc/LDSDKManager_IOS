@@ -1,12 +1,12 @@
 //
-//  LDSDKQQService.m
+//  LDSDKQQServiceImpl.m
 //  TestThirdPlatform
 //
 //  Created by ss on 15/8/17.
 //  Copyright (c) 2015年 Lede. All rights reserved.
 //
 
-#import "LDSDKQQService.h"
+#import "LDSDKQQServiceImpl.h"
 #import "LDSDKManager.h"
 #import "UIImage+LDSDKShare.h"
 
@@ -20,7 +20,7 @@
 
 static NSArray *permissions = nil;
 
-@interface LDSDKQQService ()<TencentSessionDelegate, QQApiInterfaceDelegate> {
+@interface LDSDKQQServiceImpl ()<TencentSessionDelegate, QQApiInterfaceDelegate> {
     BOOL isLogining;
     NSError *error;
     TencentOAuth *tencentOAuth;
@@ -31,11 +31,11 @@ static NSArray *permissions = nil;
 
 @end
 
-@implementation LDSDKQQService
+@implementation LDSDKQQServiceImpl
 
 + (instancetype)sharedService
 {
-    static LDSDKQQService *sharedInstance = nil;
+    static LDSDKQQServiceImpl *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];

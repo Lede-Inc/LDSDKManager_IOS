@@ -1,29 +1,29 @@
 //
-//  LDSDKYXService.m
+//  LDSDKYXServiceImpl.m
 //  Pods
 //
 //  Created by yangning on 15-1-30.
 //
 //
 
-#import "LDSDKYXService.h"
+#import "LDSDKYXServiceImpl.h"
 #import "YXApi.h"
 #import "UIImage+LDSDKShare.h"
 
 #import "LDSDKManager.h"
 
-@interface LDSDKYXService ()<YXApiDelegate>
+@interface LDSDKYXServiceImpl ()<YXApiDelegate>
 
 @property (nonatomic, copy) LDSDKYXCallbackBlock callbackBlock;
 
 @end
 
-@implementation LDSDKYXService
+@implementation LDSDKYXServiceImpl
 
 
 + (instancetype)sharedService
 {
-    static LDSDKYXService *sharedInstance = nil;
+    static LDSDKYXServiceImpl *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];

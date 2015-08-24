@@ -1,20 +1,20 @@
 //
-//  LDSDKAliPayService.m
+//  LDSDKAliPayServiceImpl.m
 //  LDSDKManager
 //
 //  Created by ss on 15/8/21.
 //  Copyright (c) 2015年 张海洋. All rights reserved.
 //
 
-#import "LDSDKAliPayService.h"
+#import "LDSDKAliPayServiceImpl.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "LDSDKCommon.h"
 
-@implementation LDSDKAliPayService
+@implementation LDSDKAliPayServiceImpl
 
 + (instancetype)sharedService
 {
-    static LDSDKAliPayService *sharedInstance = nil;
+    static LDSDKAliPayServiceImpl *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[self alloc] init];

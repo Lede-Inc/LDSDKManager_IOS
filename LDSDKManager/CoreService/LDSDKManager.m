@@ -180,9 +180,7 @@ static NSArray *sdkServiceConfigList = nil;
 {
     Class loginServiceImplCls = [LDSDKManager getServiceProviderWithPlatformType:platformType serviceType:LDSDKServiceOAuth];
     if(loginServiceImplCls != nil){
-        return [LDSDKManager isSDKPlatformAppInstalled:platformType] &&
-               [[loginServiceImplCls sharedService] platformLoginEnabled] &&
-               [LDSDKManager isRegisteredOnPlatform:platformType];
+        return [[loginServiceImplCls sharedService] platformLoginEnabled];
     }
     return NO;
 }

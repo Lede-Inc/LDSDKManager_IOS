@@ -105,9 +105,9 @@
 {
     NSString *string = [[NSUserDefaults standardUserDefaults] objectForKey:kWXPlatformLogin];
     if (string.length == 0) {
-        return YES;
+        return [self platformInstalled] && [self isRegistered];
     } else {
-        return [string boolValue];
+        return [string boolValue] && [self platformInstalled] && [self isRegistered];
     }
 }
 

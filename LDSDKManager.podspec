@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
     s.subspec 'CoreService' do |ss|
         ss.public_header_files = 'LDSDKManager/CoreService/LDSDKManager.h'
         ss.source_files = 'LDSDKManager/CoreService/**/*.{h,m,mm}'
+        ss.resources = ['LDSDKManager/CoreService/SDKServiceConfig.plist']
     end
 
     #QQ平台SDK集成

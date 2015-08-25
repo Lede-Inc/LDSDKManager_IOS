@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
+//应用注册SDK服务，配置信息的Key
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppIdKey;
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppSecretKey;
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppSchemeKey;
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppPlatformTypeKey;
 FOUNDATION_EXTERN NSString *const LDSDKConfigAppDescriptionKey;
 
+//使用SDK分享，分享内容信息的Key
 FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentImageUrlKey;

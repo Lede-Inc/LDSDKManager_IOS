@@ -18,7 +18,7 @@ typedef void(^LDSDKPayCallback)(NSString *signString, NSError *error);
  *  @param orderString 支付的订单串
  *  @param callback    回调方法
  */
-- (void)payOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback;
+- (void)payOrder:(NSString *)orderString callback:(LDSDKPayCallback)callback;
 
 /**
  *  回调处理

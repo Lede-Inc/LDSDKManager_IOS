@@ -10,18 +10,29 @@
 
 typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error);
 
+#define kWX_OPENID_KEY      @"openid"
+#define kWX_NICKNAME_KEY    @"nickname"
+#define kWX_AVATARURL_KEY   @"headimgurl"
+#define kWX_ACCESSTOKEN_KEY @"access_token"
+
+#define kQQ_OPENID_KEY   @"openId"
+#define kQQ_TOKEN_KEY    @"access_token"
+#define kQQ_NICKNAME_KEY @"nickname"
+#define kQQ_EXPIRADATE_KEY @"expirationDate"
+#define kQQ_AVATARURL_KEY  @"figureurl_qq_2"
+
 @protocol LDSDKAuthService <NSObject>
 
-- (BOOL)platformLoginEnabled;
+- (BOOL)isLoginEnabledOnPlatform;
 
 /*
 登录
  */
-- (void)platformLoginWithCallback:(LDSDKLoginCallback)callback;
+- (void)loginToPlatformWithCallback:(LDSDKLoginCallback)callback;
 
 /*
  退出登录
  */
-- (void)platformLogout;
+- (void)logoutFromPlatform;
 
 @end

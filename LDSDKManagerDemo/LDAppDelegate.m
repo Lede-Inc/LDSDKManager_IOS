@@ -7,7 +7,9 @@
 //
 
 #import "LDAppDelegate.h"
-#import "LDSDKManager.h"
+//#import "LDSDKManager.h"
+#import "LDSDKManagerNew.h"
+#import "LDSDKRegisterService.h"
 #import "LDViewController.h"
 
 @implementation LDAppDelegate
@@ -44,7 +46,8 @@
             LDSDKConfigAppPlatformTypeKey:@(LDSDKPlatformAliPay)
         },
     ];
-    [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
+//    [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
+    [LDSDKManagerNew registerWithPlatformConfigList:regPlatformConfigList];
 
     LDViewController *view = [[LDViewController alloc] init];
     self.window.rootViewController = view;
@@ -81,12 +84,14 @@
 
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [LDSDKManager handleOpenURL:url];
+//    return [LDSDKManager handleOpenURL:url];
+    return [LDSDKManagerNew handleOpenURL:url];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return [LDSDKManager handleOpenURL:url];
+//    return [LDSDKManager handleOpenURL:url];
+    return [LDSDKManagerNew handleOpenURL:url];
 }
 
 @end

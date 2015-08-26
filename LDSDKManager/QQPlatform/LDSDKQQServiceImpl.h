@@ -11,12 +11,6 @@
 #import "LDSDKRegisterService.h"
 #import "LDSDKShareService.h"
 
-#define kQQ_OPENID_KEY   @"openId"
-#define kQQ_TOKEN_KEY    @"access_token"
-#define kQQ_NICKNAME_KEY @"nickname"
-#define kQQ_EXPIRADATE_KEY @"expirationDate"
-#define kQQ_AVATARURL_KEY  @"figureurl_qq_2"
-
 @class QQBaseReq;
 @class QQBaseResp;
 

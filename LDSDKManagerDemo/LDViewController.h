@@ -7,7 +7,6 @@
 //
 
 @import UIKit;
-#import "LDSDKManager.h"
 
 @interface LDViewController : UIViewController<UIAlertViewDelegate>
 

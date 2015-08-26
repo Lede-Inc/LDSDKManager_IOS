@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppIdKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppSecretKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppSchemeKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppPlatformTypeKey;
+FOUNDATION_EXTERN NSString *const LDSDKConfigAppDescriptionKey;
+
 /*!
  *  @brief  第三方SDK注册、应用安装检测接口
  */
@@ -21,7 +27,7 @@
  *
  *  @return 已安装返回YES，否则返回NO
  */
-- (BOOL)platformInstalled;
+- (BOOL)isPlatformAppInstalled;
 
 /*!
  *  @brief  注册获取第三方SDK使用权限
@@ -32,8 +38,6 @@
  *  @brief  判断是否已经获取注册权限
  */
 - (BOOL)isRegistered;
-
-@optional
 
 /*!
  *  @brief  统一处理第三方SDK应用的处理回调

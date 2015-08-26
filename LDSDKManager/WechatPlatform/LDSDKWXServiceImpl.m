@@ -12,8 +12,6 @@
 #import "NSDictionary+LDSDKAdditions.h"
 #import "UIImage+LDSDKShare.h"
 
-#import "LDSDKManager.h"
-
 #define kWXPlatformLogin  @"login_wx"
 #define kWX_APPID_KEY     @"appid"
 #define kWX_APPSECRET_KEY @"secret"
@@ -54,7 +52,7 @@
 #pragma mark -
 #pragma mark - 配置部分
 
-- (BOOL)platformInstalled
+- (BOOL)isPlatformAppInstalled
 {
     return [WXApi isWXAppInstalled] && [WXApi isWXAppSupportApi];
 }
@@ -101,17 +99,17 @@
 #pragma mark -
 #pragma mark - 登陆部分
 
-- (BOOL)platformLoginEnabled
+- (BOOL)isLoginEnabledOnPlatform
 {
     NSString *string = [[NSUserDefaults standardUserDefaults] objectForKey:kWXPlatformLogin];
     if (string.length == 0) {
-        return [self platformInstalled] && [self isRegistered];
+        return [self isPlatformAppInstalled] && [self isRegistered];
     } else {
-        return [string boolValue] && [self platformInstalled] && [self isRegistered];
+        return [string boolValue] && [self isPlatformAppInstalled] && [self isRegistered];
     }
 }
 
--(void)platformLoginWithCallback:(LDSDKLoginCallback)callback
+-(void)loginToPlatformWithCallback:(LDSDKLoginCallback)callback
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
         NSError *error = [NSError errorWithDomain:@"WXLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装微信客户端", @"NSLocalizedDescription", nil]];
@@ -210,7 +208,7 @@
     }
 }
 
--(void)platformLogout
+-(void)logoutFromPlatform
 {
     
 }
@@ -219,7 +217,7 @@
 #pragma mark -
 #pragma mark - 支付部分
 
--(void)payOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
+-(void)payOrder:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
         if (callback) {
@@ -228,7 +226,7 @@
         }
         return;
     }
-    [self wxPayOrderString:orderString callback:callback];
+    [self wxpayOrder:orderString callback:callback];
 }
 
 -(BOOL)payProcessOrderWithPaymentResult:(NSURL *)url standbyCallback:(void (^)(NSDictionary *))callback
@@ -240,7 +238,7 @@
     return NO;
 }
 
-- (void)wxPayOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
+- (void)wxpayOrder:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
     NSDictionary *orderDict = [orderString urlParamsDecodeDictionary];
     

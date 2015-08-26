@@ -7,17 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-FOUNDATION_EXTERN NSString *const LDSDKConfigAppIdKey;
-FOUNDATION_EXTERN NSString *const LDSDKConfigAppSecretKey;
-FOUNDATION_EXTERN NSString *const LDSDKConfigAppSchemeKey;
-FOUNDATION_EXTERN NSString *const LDSDKConfigAppPlatformTypeKey;
-FOUNDATION_EXTERN NSString *const LDSDKConfigAppDescriptionKey;
-
-FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
-FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
-FOUNDATION_EXTERN NSString *const LDSDKShareContentImageUrlKey;
-FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
-FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
+#import "LDSDKRegisterService.h"
+#import "LDSDKPayService.h"
+#import "LDSDKAuthService.h"
+#import "LDSDKShareService.h"
 
 /*!
  *  @brief  第三方SDK支付回调

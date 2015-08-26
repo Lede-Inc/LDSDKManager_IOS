@@ -10,8 +10,6 @@
 #import "YXApi.h"
 #import "UIImage+LDSDKShare.h"
 
-#import "LDSDKManager.h"
-
 @interface LDSDKYXServiceImpl ()<YXApiDelegate>
 
 @property (nonatomic, copy) NSString *yxAppid;
@@ -37,7 +35,7 @@
 #pragma mark -
 #pragma mark - 配置部分
 
-- (BOOL)platformInstalled
+- (BOOL)isPlatformAppInstalled
 {
     return [YXApi isYXAppInstalled] && [YXApi isYXAppSupportApi];
 }

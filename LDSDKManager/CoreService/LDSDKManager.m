@@ -7,10 +7,6 @@
 //
 
 #import "LDSDKManager.h"
-#import "LDSDKRegisterService.h"
-#import "LDSDKPayService.h"
-#import "LDSDKAuthService.h"
-#import "LDSDKShareService.h"
 
 NSString *const LDSDKConfigAppIdKey = @"kAppID";
 NSString *const LDSDKConfigAppSecretKey = @"kAppSecret";

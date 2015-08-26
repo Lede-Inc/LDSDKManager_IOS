@@ -12,11 +12,6 @@
 #import "LDSDKPayService.h"
 #import "LDSDKShareService.h"
 
-#define kWX_OPENID_KEY      @"openid"
-#define kWX_NICKNAME_KEY    @"nickname"
-#define kWX_AVATARURL_KEY   @"headimgurl"
-#define kWX_ACCESSTOKEN_KEY @"access_token"
-
 @class BaseReq;
 @class BaseResp;
 

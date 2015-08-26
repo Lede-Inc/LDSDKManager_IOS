@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		508C1B861B8C7952001B0E54 /* LDSDKManagerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 508C1B851B8C7952001B0E54 /* LDSDKManagerNew.m */; };
 		508CA8D71B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 508CA8D61B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -20,7 +21,6 @@
 		62AAD3631B85A0BD00C5E983 /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3601B85A0BD00C5E983 /* Tests.m */; };
 		62AAD3B41B85A10300C5E983 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3681B85A10300C5E983 /* AlipaySDK.bundle */; };
 		62AAD3B51B85A10300C5E983 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3691B85A10300C5E983 /* AlipaySDK.framework */; };
-		62AAD3B91B85A10300C5E983 /* LDSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3721B85A10300C5E983 /* LDSDKManager.m */; };
 		62AAD3BD1B85A10300C5E983 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AAD3801B85A10300C5E983 /* TencentOpenAPI.framework */; };
 		62AAD3BE1B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 62AAD3811B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		62AAD3C11B85A10300C5E983 /* LDSDKQQServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AAD3871B85A10300C5E983 /* LDSDKQQServiceImpl.m */; };
@@ -49,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		508C1B841B8C7952001B0E54 /* LDSDKManagerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKManagerNew.h; sourceTree = "<group>"; };
+		508C1B851B8C7952001B0E54 /* LDSDKManagerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKManagerNew.m; sourceTree = "<group>"; };
 		508CA8D51B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKAliPayServiceImpl.h; sourceTree = "<group>"; };
 		508CA8D61B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKAliPayServiceImpl.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* LDSDKManager_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDSDKManager_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,8 +78,6 @@
 		62AAD3601B85A0BD00C5E983 /* Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		62AAD3681B85A10300C5E983 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		62AAD3691B85A10300C5E983 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
-		62AAD3711B85A10300C5E983 /* LDSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKManager.h; sourceTree = "<group>"; };
-		62AAD3721B85A10300C5E983 /* LDSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKManager.m; sourceTree = "<group>"; };
 		62AAD3801B85A10300C5E983 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		62AAD3811B85A10300C5E983 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		62AAD3861B85A10300C5E983 /* LDSDKQQServiceImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKQQServiceImpl.h; sourceTree = "<group>"; };
@@ -264,8 +264,8 @@
 		62AAD36E1B85A10300C5E983 /* CoreService */ = {
 			isa = PBXGroup;
 			children = (
-				62AAD3711B85A10300C5E983 /* LDSDKManager.h */,
-				62AAD3721B85A10300C5E983 /* LDSDKManager.m */,
+				508C1B841B8C7952001B0E54 /* LDSDKManagerNew.h */,
+				508C1B851B8C7952001B0E54 /* LDSDKManagerNew.m */,
 				620A13901B8AED7C00DFBCF8 /* SDKServiceConfig.plist */,
 				620A13921B8AED9200DFBCF8 /* SDKServiceInterface */,
 				620A13981B8AED9200DFBCF8 /* SDKServiceUtils */,
@@ -508,8 +508,8 @@
 				62AAD3CD1B85A10300C5E983 /* NSString+LDSDKAdditions.m in Sources */,
 				508CA8D71B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m in Sources */,
 				62AAD3C11B85A10300C5E983 /* LDSDKQQServiceImpl.m in Sources */,
-				62AAD3B91B85A10300C5E983 /* LDSDKManager.m in Sources */,
 				62AAD3CC1B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m in Sources */,
+				508C1B861B8C7952001B0E54 /* LDSDKManagerNew.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

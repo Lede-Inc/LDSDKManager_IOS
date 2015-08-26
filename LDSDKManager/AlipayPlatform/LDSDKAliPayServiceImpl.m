@@ -9,8 +9,6 @@
 #import "LDSDKAliPayServiceImpl.h"
 #import <AlipaySDK/AlipaySDK.h>
 
-#import "LDSDKManager.h"
-
 @interface LDSDKAliPayServiceImpl ()
 
 @property (strong, nonatomic) NSString *aliPayScheme;
@@ -33,7 +31,7 @@
 #pragma mark -
 #pragma mark - 配置部分
 
-- (BOOL)platformInstalled{
+- (BOOL)isPlatformAppInstalled{
     return YES;
 }
 
@@ -52,14 +50,19 @@
     return (self.aliPayScheme && [self.aliPayScheme length]);
 }
 
+- (BOOL)handleResultUrl:(NSURL *)url
+{
+    return YES;
+}
+
 
 #pragma mark -
 #pragma mark -  支付部分
 
--(void)payOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
+-(void)payOrder:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
     NSLog(@"AliPay");
-    [self aliPayOrderString:orderString callback:callback];
+    [self alipayOrder:orderString callback:callback];
 }
 
 -(BOOL)payProcessOrderWithPaymentResult:(NSURL *)url standbyCallback:(void (^)(NSDictionary *))callback
@@ -74,7 +77,7 @@
 
 
 #pragma mark - alipay
-- (void)aliPayOrderString:(NSString *)orderString callback:(LDSDKPayCallback)callback
+- (void)alipayOrder:(NSString *)orderString callback:(LDSDKPayCallback)callback
 {
     [[AlipaySDK defaultService] payOrder:orderString fromScheme:self.aliPayScheme callback:^(NSDictionary *resultDic) {
         NSString *signString = [resultDic objectForKey:@"result"];

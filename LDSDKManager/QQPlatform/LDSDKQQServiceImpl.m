@@ -7,7 +7,6 @@
 //
 
 #import "LDSDKQQServiceImpl.h"
-#import "LDSDKManager.h"
 #import "UIImage+LDSDKShare.h"
 
 #import <TencentOpenAPI/QQApiInterface.h>
@@ -62,7 +61,7 @@ static NSArray *permissions = nil;
 #pragma mark - 配置部分
 
 //判断平台是否可用
-- (BOOL)platformInstalled
+- (BOOL)isPlatformAppInstalled
 {
     return [QQApi isQQInstalled] && [QQApi isQQSupportApi];
 }
@@ -109,7 +108,7 @@ static NSArray *permissions = nil;
 #pragma mark -
 #pragma mark - 登陆部分
 
-- (BOOL)platformLoginEnabled
+- (BOOL)isLoginEnabledOnPlatform
 {
     NSString *string = [[NSUserDefaults standardUserDefaults] objectForKey:kQQPlatformLogin];
     if (string.length == 0) {
@@ -119,7 +118,7 @@ static NSArray *permissions = nil;
     }
 }
 
--(void)platformLoginWithCallback:(LDSDKLoginCallback)callback
+-(void)loginToPlatformWithCallback:(LDSDKLoginCallback)callback
 {
     if (![QQApi isQQInstalled] || ![QQApi isQQSupportApi]) {
         error = [NSError errorWithDomain:@"QQLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装QQ客户端", @"NSLocalizedDescription", nil]];
@@ -145,7 +144,7 @@ static NSArray *permissions = nil;
     }
 }
 
--(void)platformLogout
+-(void)logoutFromPlatform
 {
     
     [tencentOAuth logout:self];

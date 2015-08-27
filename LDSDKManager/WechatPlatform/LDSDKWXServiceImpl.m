@@ -284,7 +284,7 @@
     NSString *title = content[@"title"];
     NSString *description = content[@"description"];
     NSString *urlString = content[@"webpageurl"];
-    UIImage *oldImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:content[@"imageurl"]]]];
+    UIImage *oldImage = content[@"image"];
     
     if (urlString){
         message.title = title;
@@ -295,7 +295,12 @@
         
         WXWebpageObject *ext = [WXWebpageObject object];
         NSString *link = urlString;
-        ext.webpageUrl = [link stringByAppendingFormat:[link rangeOfString:@"?"].location == NSNotFound ? @"?shareMode=%lu" : @"&shareMode=%lu",(unsigned long)2];
+        if (shareModule == 2) {
+            ext.webpageUrl = [link stringByAppendingFormat:[link rangeOfString:@"?"].location == NSNotFound ? @"?shareMode=%lu" : @"&shareMode=%lu",(unsigned long)1];
+        } else {
+            ext.webpageUrl = [link stringByAppendingFormat:[link rangeOfString:@"?"].location == NSNotFound ? @"?shareMode=%lu" : @"&shareMode=%lu",(unsigned long)2];
+        }
+        
         message.mediaObject = ext;
     } else if (oldImage) { //分享图片
         UIImage *image = oldImage;

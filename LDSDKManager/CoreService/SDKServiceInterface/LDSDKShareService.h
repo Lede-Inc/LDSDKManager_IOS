@@ -12,7 +12,7 @@ typedef void(^LDSDKShareCallback)(BOOL success, NSError *error);
 
 FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
-FOUNDATION_EXTERN NSString *const LDSDKShareContentImageUrlKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentImageKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
 

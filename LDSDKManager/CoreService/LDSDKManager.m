@@ -20,7 +20,7 @@ NSString *const LDSDKConfigAppDescriptionKey   = @"kAppDescription";
 
 NSString *const LDSDKShareContentTitleKey       = @"title";
 NSString *const LDSDKShareContentDescriptionKey = @"description";
-NSString *const LDSDKShareContentImageUrlKey    = @"imageurl";
+NSString *const LDSDKShareContentImageKey    = @"image";
 NSString *const LDSDKShareContentWapUrlKey      = @"webpageurl";
 NSString *const LDSDKShareContentTextKey      = @"text";
 

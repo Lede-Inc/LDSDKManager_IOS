@@ -191,7 +191,7 @@
                                @"测试分享", LDSDKShareContentTitleKey,
                                @"测试分享详情", LDSDKShareContentDescriptionKey,
                                @"www.baidu.com",LDSDKShareContentWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
 //    [LDSDKManager shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
@@ -217,7 +217,7 @@
                                @"测试分享", LDSDKShareContentTitleKey,
                                @"测试分享详情", LDSDKShareContentDescriptionKey,
                                @"www.baidu.com",LDSDKShareContentWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
 //    [LDSDKManager shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
@@ -243,7 +243,7 @@
                                @"测试分享", LDSDKShareContentTitleKey,
                                @"测试分享详情", LDSDKShareContentDescriptionKey,
                                @"www.baidu.com",LDSDKShareContentWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
 //    [LDSDKManager shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
@@ -269,7 +269,7 @@
                                @"测试分享", LDSDKShareContentTitleKey,
                                @"测试分享详情", LDSDKShareContentDescriptionKey,
                                @"www.baidu.com",LDSDKShareContentWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
 //    [LDSDKManager shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
@@ -295,7 +295,7 @@
                                @"测试分享", LDSDKShareContentTitleKey,
                                @"测试分享详情", LDSDKShareContentDescriptionKey,
                                @"www.baidu.com",LDSDKShareContentWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
 //    [LDSDKManager shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
@@ -321,7 +321,7 @@
                                @"测试分享", LDSDKShareContentTitleKey,
                                @"测试分享详情", LDSDKShareContentDescriptionKey,
                                @"www.baidu.com",LDSDKShareContentWapUrlKey,
-                               @"https://www.baidu.com/img/bd_logo1.png", LDSDKShareContentImageUrlKey,
+                               [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
 //    [LDSDKManager shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {

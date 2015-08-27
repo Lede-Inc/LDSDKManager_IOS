@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		508C1B861B8C7952001B0E54 /* LDSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 508C1B851B8C7952001B0E54 /* LDSDKManager.m */; };
 		508CA8D71B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 508CA8D61B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m */; };
+		50EF57431B8EE86B00F0C9FB /* Icon-Netease@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF57421B8EE86B00F0C9FB /* Icon-Netease@2x.png */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		620A13911B8AED7C00DFBCF8 /* SDKServiceConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 620A13901B8AED7C00DFBCF8 /* SDKServiceConfig.plist */; };
@@ -53,6 +54,7 @@
 		508C1B851B8C7952001B0E54 /* LDSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKManager.m; sourceTree = "<group>"; };
 		508CA8D51B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKAliPayServiceImpl.h; sourceTree = "<group>"; };
 		508CA8D61B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKAliPayServiceImpl.m; sourceTree = "<group>"; };
+		50EF57421B8EE86B00F0C9FB /* Icon-Netease@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Netease@2x.png"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* LDSDKManager_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDSDKManager_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -191,6 +193,7 @@
 		62AAD3491B85A01F00C5E983 /* LDSDKManagerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				50EF57421B8EE86B00F0C9FB /* Icon-Netease@2x.png */,
 				62AAD34D1B85A01F00C5E983 /* LDAppDelegate.h */,
 				62AAD34E1B85A01F00C5E983 /* LDAppDelegate.m */,
 				62AAD3511B85A01F00C5E983 /* LDViewController.h */,
@@ -429,6 +432,7 @@
 			files = (
 				62AAD3551B85A01F00C5E983 /* Images.xcassets in Resources */,
 				62AAD3D71B85A62B00C5E983 /* LDSDKManager.podspec in Resources */,
+				50EF57431B8EE86B00F0C9FB /* Icon-Netease@2x.png in Resources */,
 				62AAD3621B85A0BD00C5E983 /* Tests-Info.plist in Resources */,
 				620A13911B8AED7C00DFBCF8 /* SDKServiceConfig.plist in Resources */,
 				62AAD3B41B85A10300C5E983 /* AlipaySDK.bundle in Resources */,

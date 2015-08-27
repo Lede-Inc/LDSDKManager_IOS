@@ -173,7 +173,7 @@ static NSArray *permissions = nil;
     NSString *urlString = content[@"webpageurl"];
     
     QQApiObject *messageObj = nil;
-    UIImage *oldImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:content[@"imageurl"]]]];
+    UIImage *oldImage = content[@"image"];
     if (urlString){ //链接分享
         //原图图片信息
         UIImage *image = oldImage;

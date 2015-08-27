@@ -88,7 +88,7 @@
     NSString *title = content[@"title"];
     NSString *description = content[@"description"];
     NSString *urlString = content[@"webpageurl"];
-    UIImage *oldImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:content[@"imageurl"]]]];
+    UIImage *oldImage = content[@"image"];
     
     YXMediaMessage *message = [YXMediaMessage message];
     message.title = title;

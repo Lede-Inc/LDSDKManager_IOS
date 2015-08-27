@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		508C1B861B8C7952001B0E54 /* LDSDKManagerNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 508C1B851B8C7952001B0E54 /* LDSDKManagerNew.m */; };
+		508C1B861B8C7952001B0E54 /* LDSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 508C1B851B8C7952001B0E54 /* LDSDKManager.m */; };
 		508CA8D71B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = 508CA8D61B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -49,8 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		508C1B841B8C7952001B0E54 /* LDSDKManagerNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKManagerNew.h; sourceTree = "<group>"; };
-		508C1B851B8C7952001B0E54 /* LDSDKManagerNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKManagerNew.m; sourceTree = "<group>"; };
+		508C1B841B8C7952001B0E54 /* LDSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKManager.h; sourceTree = "<group>"; };
+		508C1B851B8C7952001B0E54 /* LDSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKManager.m; sourceTree = "<group>"; };
 		508CA8D51B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSDKAliPayServiceImpl.h; sourceTree = "<group>"; };
 		508CA8D61B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSDKAliPayServiceImpl.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* LDSDKManager_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDSDKManager_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -264,8 +264,8 @@
 		62AAD36E1B85A10300C5E983 /* CoreService */ = {
 			isa = PBXGroup;
 			children = (
-				508C1B841B8C7952001B0E54 /* LDSDKManagerNew.h */,
-				508C1B851B8C7952001B0E54 /* LDSDKManagerNew.m */,
+				508C1B841B8C7952001B0E54 /* LDSDKManager.h */,
+				508C1B851B8C7952001B0E54 /* LDSDKManager.m */,
 				620A13901B8AED7C00DFBCF8 /* SDKServiceConfig.plist */,
 				620A13921B8AED9200DFBCF8 /* SDKServiceInterface */,
 				620A13981B8AED9200DFBCF8 /* SDKServiceUtils */,
@@ -509,7 +509,7 @@
 				508CA8D71B8729F900F3F3F8 /* LDSDKAliPayServiceImpl.m in Sources */,
 				62AAD3C11B85A10300C5E983 /* LDSDKQQServiceImpl.m in Sources */,
 				62AAD3CC1B85A10300C5E983 /* NSDictionary+LDSDKAdditions.m in Sources */,
-				508C1B861B8C7952001B0E54 /* LDSDKManagerNew.m in Sources */,
+				508C1B861B8C7952001B0E54 /* LDSDKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

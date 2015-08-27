@@ -7,7 +7,7 @@
 //
 
 #import "LDViewController.h"
-#import "LDSDKManagerNew.h"
+#import "LDSDKManager.h"
 #import "LDSDKRegisterService.h"
 #import "LDSDKPayService.h"
 #import "LDSDKAuthService.h"
@@ -136,7 +136,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getAuthService:LDSDKPlatformWeChat] loginToPlatformWithCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+    [[LDSDKManager getAuthService:LDSDKPlatformWeChat] loginToPlatformWithCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
                 [infoLabel setText:@"授权成功"];
@@ -168,7 +168,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getAuthService:LDSDKPlatformQQ] loginToPlatformWithCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
+    [[LDSDKManager getAuthService:LDSDKPlatformQQ] loginToPlatformWithCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
                 [infoLabel setText:@"授权成功"];
@@ -201,7 +201,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getShareService:LDSDKPlatformQQ] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager getShareService:LDSDKPlatformQQ] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -227,7 +227,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getShareService:LDSDKPlatformWeChat] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager getShareService:LDSDKPlatformWeChat] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -253,7 +253,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getShareService:LDSDKPlatformQQ] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager getShareService:LDSDKPlatformQQ] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -279,7 +279,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getShareService:LDSDKPlatformWeChat] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager getShareService:LDSDKPlatformWeChat] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -305,7 +305,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getShareService:LDSDKPlatformYiXin] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager getShareService:LDSDKPlatformYiXin] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -331,7 +331,7 @@
 //            [infoLabel setText:error.localizedDescription];
 //        }
 //    }];
-    [[LDSDKManagerNew getShareService:LDSDKPlatformYiXin] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
+    [[LDSDKManager getShareService:LDSDKPlatformYiXin] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
         } else {
@@ -351,7 +351,7 @@
 //        }
 //        
 //    }];
-    [[LDSDKManagerNew getPayService:LDSDKPlatformWeChat] payOrder:@"" callback:^(NSString *signString, NSError *error) {
+    [[LDSDKManager getPayService:LDSDKPlatformWeChat] payOrder:@"" callback:^(NSString *signString, NSError *error) {
         if (error) {
             [infoLabel setText:error.localizedDescription];
         } else if (signString) {
@@ -370,7 +370,7 @@
 //            [infoLabel setText:@"支付失败"];
 //        }
 //    }];
-    [[LDSDKManagerNew getPayService:LDSDKPlatformAliPay] payOrder:@"" callback:^(NSString *signString, NSError *error) {
+    [[LDSDKManager getPayService:LDSDKPlatformAliPay] payOrder:@"" callback:^(NSString *signString, NSError *error) {
         if (error) {
             [infoLabel setText:error.localizedDescription];
         } else if (signString) {

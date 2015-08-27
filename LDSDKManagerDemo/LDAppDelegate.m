@@ -8,7 +8,7 @@
 
 #import "LDAppDelegate.h"
 //#import "LDSDKManager.h"
-#import "LDSDKManagerNew.h"
+#import "LDSDKManager.h"
 #import "LDSDKRegisterService.h"
 #import "LDViewController.h"
 
@@ -47,7 +47,7 @@
         },
     ];
 //    [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
-    [LDSDKManagerNew registerWithPlatformConfigList:regPlatformConfigList];
+    [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
 
     LDViewController *view = [[LDViewController alloc] init];
     self.window.rootViewController = view;
@@ -85,13 +85,13 @@
 -(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
 //    return [LDSDKManager handleOpenURL:url];
-    return [LDSDKManagerNew handleOpenURL:url];
+    return [LDSDKManager handleOpenURL:url];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
 //    return [LDSDKManager handleOpenURL:url];
-    return [LDSDKManagerNew handleOpenURL:url];
+    return [LDSDKManager handleOpenURL:url];
 }
 
 @end

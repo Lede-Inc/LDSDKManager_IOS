@@ -115,8 +115,7 @@
         
         
         YXWebpageObject *ext = [YXWebpageObject object];
-        NSString *link = urlString;
-        ext.webpageUrl = [link stringByAppendingFormat:[link rangeOfString:@"?"].location == NSNotFound ? @"?shareMode=%lu" : @"&shareMode=%lu",(unsigned long)5];
+        ext.webpageUrl = urlString;
         message.mediaObject = ext;
     } else if (oldImage) { //分享图片
         UIImage *image = oldImage;

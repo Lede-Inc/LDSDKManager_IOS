@@ -8,13 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-
-typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
-{
-    LDSDKPlatformQQ = 1,         //QQ
-    LDSDKPlatformWeChat,         //微信
-    LDSDKPlatformYiXin,          //易信
-    LDSDKPlatformAliPay,         //支付宝
+typedef NS_ENUM(NSUInteger, LDSDKPlatformType) {
+  LDSDKPlatformQQ = 1, // QQ
+  LDSDKPlatformWeChat, //微信
+  LDSDKPlatformYiXin,  //易信
+  LDSDKPlatformAliPay, //支付宝
 };
 
 @interface LDSDKManager : NSObject
@@ -40,27 +38,27 @@ typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
  *
  *  @return 服务实例
  */
-+(id)getRegisterService:(LDSDKPlatformType)type;
++ (id)getRegisterService:(LDSDKPlatformType)type;
 
 /*!
  *  @brief  获取登陆服务
  *
  *  @return 服务实例
  */
-+(id)getAuthService:(LDSDKPlatformType)type;
++ (id)getAuthService:(LDSDKPlatformType)type;
 
 /*!
  *  @brief  获取分享服务
  *
  *  @return 服务实例
  */
-+(id)getShareService:(LDSDKPlatformType)type;
++ (id)getShareService:(LDSDKPlatformType)type;
 
 /*!
  *  @brief  获取支付服务
  *
  *  @return 服务实例
  */
-+(id)getPayService:(LDSDKPlatformType)type;
++ (id)getPayService:(LDSDKPlatformType)type;
 
 @end

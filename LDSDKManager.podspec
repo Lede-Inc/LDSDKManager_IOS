@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "LDSDKManager"
-    s.version          = "0.1.0"
+    s.version          = "1.0.0"
     s.summary          = "乐得第三方SDK统一管理组件"
     s.description      = "对应用中集成的第三方SDK（目前包括QQ,微信,易信,支付宝）进行集中管理，按照功能（目前包括第三方登录,分享,支付）开放给各个产品使用。通过接口的方式进行产品集成，方便对第三方SDK进行升级维护。"
     s.license          = 'MIT'
@@ -21,6 +21,7 @@ Pod::Spec.new do |s|
 
     #QQ平台SDK集成
     s.subspec 'QQPlatform' do |ss|
+        ss.private_header_files = 'LDSDKManager/QQPlatform/*.h','LDSDKManager/QQPlatform/**/*.h'
         ss.source_files = 'LDSDKManager/QQPlatform/**/*.{h,m,mm}'
         ss.vendored_frameworks = 'LDSDKManager/QQPlatform/LDQQSDK/TencentOpenAPI.framework'
         ss.resources = ['LDSDKManager/QQPlatform/**/*.{bundle}']
@@ -31,6 +32,7 @@ Pod::Spec.new do |s|
 
     #微信平台SDK集成
     s.subspec 'WechatPlatform' do |ss|
+        ss.public_header_files = 'LDSDKManager/WechatPlatform/WeChatSDK/*.h'
         ss.source_files = 'LDSDKManager/WechatPlatform/**/*.{h,m,mm}'
         ss.vendored_library = 'LDSDKManager/WechatPlatform/WeChatSDK/libWeChatSDK.a'
         ss.frameworks = 'MobileCoreServices', 'SystemConfiguration'
@@ -40,6 +42,7 @@ Pod::Spec.new do |s|
 
     #易信平台SDK集成
     s.subspec 'YixinPlatform' do |ss|
+        ss.public_header_files = 'LDSDKManager/YixinPlatform/YiXinSDK/*.h',
         ss.source_files = 'LDSDKManager/YixinPlatform/**/*.{h,m,mm}'
         ss.vendored_library = 'LDSDKManager/YixinPlatform/YiXinSDK/libYixinSDK.a'
         ss.dependency 'LDSDKManager/CoreService'
@@ -47,6 +50,7 @@ Pod::Spec.new do |s|
 
     #支付宝平台SDK集成
     s.subspec 'AlipayPlatform' do |ss|
+        ss.private_header_files = 'LDSDKManager/AlipayPlatform/*.h','LDSDKManager/AlipayPlatform/**/*.h'
         ss.source_files = 'LDSDKManager/AlipayPlatform/**/*{h,m,mm}'
         ss.vendored_frameworks = 'LDSDKManager/AlipayPlatform/AliSDK/AlipaySDK.framework'
         ss.resources = ['LDSDKManager/AlipayPlatform/**/*.{bundle}']

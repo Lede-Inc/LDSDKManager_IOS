@@ -42,7 +42,7 @@ Pod::Spec.new do |s|
 
     #易信平台SDK集成
     s.subspec 'YixinPlatform' do |ss|
-        ss.public_header_files = 'LDSDKManager/YixinPlatform/YiXinSDK/*.h',
+        ss.public_header_files = 'LDSDKManager/YixinPlatform/YiXinSDK/*.h'
         ss.source_files = 'LDSDKManager/YixinPlatform/**/*.{h,m,mm}'
         ss.vendored_library = 'LDSDKManager/YixinPlatform/YiXinSDK/libYixinSDK.a'
         ss.dependency 'LDSDKManager/CoreService'

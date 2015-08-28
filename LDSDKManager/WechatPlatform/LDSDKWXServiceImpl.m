@@ -294,13 +294,7 @@
         }
         
         WXWebpageObject *ext = [WXWebpageObject object];
-        NSString *link = urlString;
-        if (shareModule == 2) {
-            ext.webpageUrl = [link stringByAppendingFormat:[link rangeOfString:@"?"].location == NSNotFound ? @"?shareMode=%lu" : @"&shareMode=%lu",(unsigned long)1];
-        } else {
-            ext.webpageUrl = [link stringByAppendingFormat:[link rangeOfString:@"?"].location == NSNotFound ? @"?shareMode=%lu" : @"&shareMode=%lu",(unsigned long)2];
-        }
-        
+        ext.webpageUrl = urlString;        
         message.mediaObject = ext;
     } else if (oldImage) { //分享图片
         UIImage *image = oldImage;

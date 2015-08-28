@@ -135,7 +135,7 @@ static NSArray *sdkServiceConfigList = nil;
             serviceProvider = NSClassFromString(oneSDKServiceConfig[@"serviceProvider"]);
             break;
         }  // if
-    }      // for
+    }
 
     return serviceProvider;
 }

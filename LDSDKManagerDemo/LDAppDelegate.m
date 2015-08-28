@@ -7,7 +7,6 @@
 //
 
 #import "LDAppDelegate.h"
-//#import "LDSDKManager.h"
 #import "LDSDKManager.h"
 #import "LDSDKRegisterService.h"
 #import "LDViewController.h"
@@ -48,7 +47,7 @@
             LDSDKConfigAppPlatformTypeKey : @(LDSDKPlatformAliPay)
         },
     ];
-    //    [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
+
     [LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
 
     LDViewController *view = [[LDViewController alloc] init];

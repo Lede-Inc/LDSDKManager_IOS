@@ -93,6 +93,9 @@
 
 - (BOOL)handleResultUrl:(NSURL *)url
 {
+    if ([self payProcessOrderWithPaymentResult:url standbyCallback:NULL]) {
+        return YES;
+    }
     return [WXApi handleOpenURL:url delegate:self];
 }
 
@@ -568,6 +571,7 @@ LDSDKAFPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string,
         _wxCallback = NULL;
     } else if (wxcallbackBlock) {
         wxcallbackBlock(resp);
+        wxcallbackBlock = NULL;
     }
 
     _shouldHandleWXPay = NO;

@@ -11,6 +11,7 @@
 #import "LDSDKManager.h"
 #import "LDSDKRegisterService.h"
 #import "LDViewController.h"
+#import "LDSDKPayService.h"
 
 @implementation LDAppDelegate
 
@@ -95,7 +96,6 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    //    return [LDSDKManager handleOpenURL:url];
     return [LDSDKManager handleOpenURL:url];
 }
 
@@ -104,7 +104,6 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    //    return [LDSDKManager handleOpenURL:url];
     return [LDSDKManager handleOpenURL:url];
 }
 

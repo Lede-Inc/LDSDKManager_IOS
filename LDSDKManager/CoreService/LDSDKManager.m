@@ -54,18 +54,10 @@ static NSArray *sdkServiceConfigList = nil;
  */
 + (BOOL)handleOpenURL:(NSURL *)url
 {
-    if ([[[self class] getPayService:LDSDKPlatformWeChat] payProcessOrderWithPaymentResult:url
-                                                                           standbyCallback:NULL]) {
-        return YES;
-    }
-
-    if ([[[self class] getRegisterService:LDSDKPlatformQQ] handleResultUrl:url] ||
-        [[[self class] getRegisterService:LDSDKPlatformWeChat] handleResultUrl:url] ||
-        [[[self class] getRegisterService:LDSDKPlatformYiXin] handleResultUrl:url]) {
-        return YES;
-    }
-    if ([[[self class] getPayService:LDSDKPlatformAliPay] payProcessOrderWithPaymentResult:url
-                                                                           standbyCallback:NULL]) {
+    if ([[[self class] getRegisterService:LDSDKPlatformWeChat] handleResultUrl:url] ||
+        [[[self class] getRegisterService:LDSDKPlatformQQ] handleResultUrl:url] ||
+        [[[self class] getRegisterService:LDSDKPlatformYiXin] handleResultUrl:url] ||
+        [[[self class] getRegisterService:LDSDKPlatformAliPay] handleResultUrl:url]) {//支付宝必须放最后；
         return YES;
     }
 

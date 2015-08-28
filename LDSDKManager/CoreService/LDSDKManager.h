@@ -26,6 +26,13 @@ typedef NS_ENUM(NSUInteger, LDSDKPlatformType)
  */
 + (void)registerWithPlatformConfigList:(NSArray *)configList;
 
+/*!
+ *  @brief  统一处理各个SDK的回调
+ *
+ *  @param url 回调URL
+ *
+ *  @return 处理成功返回YES，否则返回NO
+ */
 + (BOOL)handleOpenURL:(NSURL *)url;
 
 /*!

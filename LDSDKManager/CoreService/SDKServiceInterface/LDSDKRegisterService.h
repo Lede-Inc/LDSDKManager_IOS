@@ -21,7 +21,13 @@ FOUNDATION_EXTERN NSString *const LDSDKConfigAppDescriptionKey;
 
 @required
 
+/*!
+ *  @brief  每个注册SDK自行管理其服务单例
+ *
+ *  @return 返回SDK服务实现的单例
+ */
 + (instancetype)sharedService;
+
 /*!
  *  @brief  检测第三方SDK应用是否安装
  *

@@ -5,47 +5,24 @@
 	<dict>
 		<key>platformType</key>
 		<integer>1</integer>
-		<key>supportType</key>
-		<array>
-			<integer>1</integer>
-			<integer>3</integer>
-			<integer>4</integer>
-		</array>
 		<key>serviceProvider</key>
 		<string>LDSDKQQServiceImpl</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
 		<integer>2</integer>
-		<key>supportType</key>
-		<array>
-			<integer>1</integer>
-			<integer>2</integer>
-			<integer>3</integer>
-			<integer>4</integer>
-		</array>
 		<key>serviceProvider</key>
 		<string>LDSDKWXServiceImpl</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
 		<integer>3</integer>
-		<key>supportType</key>
-		<array>
-			<integer>1</integer>
-			<integer>3</integer>
-		</array>
 		<key>serviceProvider</key>
 		<string>LDSDKYXServiceImpl</string>
 	</dict>
 	<dict>
 		<key>platformType</key>
 		<integer>4</integer>
-		<key>supportType</key>
-		<array>
-			<integer>1</integer>
-			<integer>2</integer>
-		</array>
 		<key>serviceProvider</key>
 		<string>LDSDKAliPayServiceImpl</string>
 	</dict>

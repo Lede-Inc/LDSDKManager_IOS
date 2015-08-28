@@ -8,6 +8,7 @@
 
 #import "LDViewController.h"
 #import "LDSDKManager.h"
+
 #import "LDSDKRegisterService.h"
 #import "LDSDKPayService.h"
 #import "LDSDKAuthService.h"
@@ -16,8 +17,6 @@
 @interface LDViewController () {
     UILabel *infoLabel;
 }
-
-
 
 @end
 
@@ -122,20 +121,6 @@
 
 -(void)loginByWX
 {
-//    [LDSDKManager loginToPlatform:LDSDKPlatformWeChat withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
-//        if (error==nil) {
-//            if (userInfo==nil && oauthInfo!=nil) {
-//                [infoLabel setText:@"授权成功"];
-//            } else {
-//                NSString *alet = [NSString stringWithFormat:@"昵称：%@  头像url：%@", [userInfo objectForKey:@"nickname"], [userInfo objectForKey:@"headimgurl"]];
-//                NSLog(@"message = %@", alet);
-//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登陆成功" message:alet delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
-//                [alertView show];
-//            }
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getAuthService:LDSDKPlatformWeChat] loginToPlatformWithCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
@@ -154,20 +139,6 @@
 
 -(void)loginByQQ
 {
-//    [LDSDKManager loginToPlatform:LDSDKPlatformQQ withCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
-//        if (error==nil) {
-//            if (userInfo==nil && oauthInfo!=nil) {
-//                [infoLabel setText:@"授权成功"];
-//            } else {
-//                NSString *alet = [NSString stringWithFormat:@"昵称：%@  头像url：%@", [userInfo objectForKey:@"nickname"], [userInfo objectForKey:@"figureurl_qq_2"]];
-//                NSLog(@"message = %@", alet);
-//                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"登陆成功" message:alet delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
-//                [alertView show];
-//            }
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getAuthService:LDSDKPlatformQQ] loginToPlatformWithCallback:^(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error) {
         if (error==nil) {
             if (userInfo==nil && oauthInfo!=nil) {
@@ -194,13 +165,6 @@
                                [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
-//    [LDSDKManager shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
-//        if (success) {
-//            [infoLabel setText:@"分享成功"];
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getShareService:LDSDKPlatformQQ] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
@@ -220,13 +184,6 @@
                                [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
-//    [LDSDKManager shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
-//        if (success) {
-//            [infoLabel setText:@"分享成功"];
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getShareService:LDSDKPlatformWeChat] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
@@ -246,13 +203,6 @@
                                [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
-//    [LDSDKManager shareToPlatform:LDSDKPlatformQQ shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
-//        if (success) {
-//            [infoLabel setText:@"分享成功"];
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getShareService:LDSDKPlatformQQ] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
@@ -272,13 +222,6 @@
                                [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
-//    [LDSDKManager shareToPlatform:LDSDKPlatformWeChat shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
-//        if (success) {
-//            [infoLabel setText:@"分享成功"];
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getShareService:LDSDKPlatformWeChat] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
@@ -298,13 +241,6 @@
                                [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
-//    [LDSDKManager shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToTimeLine withDict:shareDict onComplete:^(BOOL success, NSError *error) {
-//        if (success) {
-//            [infoLabel setText:@"分享成功"];
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getShareService:LDSDKPlatformYiXin] shareWithContent:shareDict shareModule:LDSDKShareToTimeLine onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
@@ -324,13 +260,6 @@
                                [UIImage imageNamed:@"Icon-Netease"], LDSDKShareContentImageKey,
                                @"text", LDSDKShareContentTextKey,
                                nil];
-//    [LDSDKManager shareToPlatform:LDSDKPlatformYiXin shareModule:LDSDKShareToContact withDict:shareDict onComplete:^(BOOL success, NSError *error) {
-//        if (success) {
-//            [infoLabel setText:@"分享成功"];
-//        } else {
-//            [infoLabel setText:error.localizedDescription];
-//        }
-//    }];
     [[LDSDKManager getShareService:LDSDKPlatformYiXin] shareWithContent:shareDict shareModule:LDSDKShareToContact onComplete:^(BOOL success, NSError *error) {
         if (success) {
             [infoLabel setText:@"分享成功"];
@@ -342,15 +271,6 @@
 
 -(void)payByWX
 {
-//    [LDSDKManager payOrderWithType:LDSDKPlatformWeChat orderString:@"partnerId=1004" callback:^(NSString *signString, NSError *error) {
-//        if (signString) {
-//            NSLog(@"sighStr = %@", signString);
-//            [infoLabel setText:signString];
-//        } else {
-//            [infoLabel setText:@"支付失败"];
-//        }
-//        
-//    }];
     [[LDSDKManager getPayService:LDSDKPlatformWeChat] payOrder:@"" callback:^(NSString *signString, NSError *error) {
         if (error) {
             [infoLabel setText:error.localizedDescription];
@@ -362,14 +282,6 @@
 
 -(void)payByAli
 {
-//    [LDSDKManager payOrderWithType:LDSDKPlatformAliPay orderString:@"" callback:^(NSString *signString, NSError *error) {
-//        if (signString && ![signString isEqualToString:@""]) {
-//            NSLog(@"signStr = %@", signString);
-//            [infoLabel setText:signString];
-//        } else {
-//            [infoLabel setText:@"支付失败"];
-//        }
-//    }];
     [[LDSDKManager getPayService:LDSDKPlatformAliPay] payOrder:@"" callback:^(NSString *signString, NSError *error) {
         if (error) {
             [infoLabel setText:error.localizedDescription];

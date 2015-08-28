@@ -26,7 +26,6 @@ NSString *const LDSDKShareContentTextKey      = @"text";
 
 
 static NSArray *sdkServiceConfigList = nil;
-
 @implementation LDSDKManager
 
 /**
@@ -40,7 +39,7 @@ static NSArray *sdkServiceConfigList = nil;
     
     for(NSDictionary *onePlatformConfig in configList){
         LDSDKPlatformType platformType = [onePlatformConfig[LDSDKConfigAppPlatformTypeKey] intValue];
-        Class registerServiceImplCls = [[self class] getServiceProviderWithPlatformType:platformType];
+        Class registerServiceImplCls = [self getServiceProviderWithPlatformType:platformType];
         if(registerServiceImplCls != nil){
             [[registerServiceImplCls sharedService] registerWithPlatformConfig:onePlatformConfig];
         }
@@ -67,7 +66,7 @@ static NSArray *sdkServiceConfigList = nil;
 
 +(id)getRegisterService:(LDSDKPlatformType)type
 {
-    Class shareServiceImplCls = [[self class] getServiceProviderWithPlatformType:type];
+    Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
         if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKRegisterService)]) {
             return [shareServiceImplCls sharedService];
@@ -78,7 +77,7 @@ static NSArray *sdkServiceConfigList = nil;
 
 +(id)getAuthService:(LDSDKPlatformType)type
 {
-    Class shareServiceImplCls = [[self class] getServiceProviderWithPlatformType:type];
+    Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
         if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKAuthService)]) {
             return [shareServiceImplCls sharedService];
@@ -89,7 +88,7 @@ static NSArray *sdkServiceConfigList = nil;
 
 +(id)getShareService:(LDSDKPlatformType)type
 {
-    Class shareServiceImplCls = [[self class] getServiceProviderWithPlatformType:type];
+    Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
         if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKShareService)]) {
             return [shareServiceImplCls sharedService];
@@ -100,7 +99,7 @@ static NSArray *sdkServiceConfigList = nil;
 
 +(id)getPayService:(LDSDKPlatformType)type
 {
-    Class shareServiceImplCls = [[self class] getServiceProviderWithPlatformType:type];
+    Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
         if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKPayService)]) {
             return [shareServiceImplCls sharedService];

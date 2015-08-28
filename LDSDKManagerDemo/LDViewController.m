@@ -346,7 +346,7 @@
 - (void)payByAli
 {
     [[LDSDKManager getPayService:LDSDKPlatformAliPay]
-        payOrder:@"test"
+        payOrder:@"_input_charset=\"utf-8\"&body=\"\u5341\u4e8c\u6708\u8d77\u4e49-\u5317\u4eacUME\u56fd\u9645\u5f71\u57ce\u534e\u661f\u5e97\"&notify_url=\"http%3A%2F%2F123.58.185.47%2Fservlet%2FAlipaySdk\"&out_trade_no=\"862909311\"&partner=\"null\"&payment_type=\"1\"&seller_id=\"null\"&service=\"mobile.securitypay.pay\"&subject=\"\u5341\u4e8c\u6708\u8d77\u4e49-\u5317\u4eacUME\u56fd\u9645\u5f71\u57ce\u534e\u661f\u5e97\"&total_fee=\"2.00\"&sign_type=\"RSA\"&sign=\"PHR9yK0cxHqeNYZnXIFAjSYn5zNijIc0oegD%2BTV77ZsF3U5LjD9jbxsmjlEv%2B7nWlCbn2%2BfmoiE0eTFnxoOqREuP0rkBs5XqAYlszGnU8Lv92x35R0AWpiouwnK8uRg2a9B%2Fu1YLgXMf26v8pjAVYBKn7nnJbd23OIPNGPiU12s%3D\""
         callback:^(NSString *signString, NSError *error) {
             if (error) {
                 [infoLabel setText:error.localizedDescription];

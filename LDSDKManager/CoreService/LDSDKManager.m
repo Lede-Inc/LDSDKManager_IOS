@@ -72,7 +72,7 @@ static NSArray *sdkServiceConfigList = nil;
         }
     }
 
-    return YES;
+    return NO;
 }
 
 + (id)getRegisterService:(LDSDKPlatformType)type

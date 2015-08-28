@@ -237,15 +237,26 @@ static NSArray *permissions = nil;
     } else {
         NSLog(@"未知分享");
     }
-
     SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:messageObj];
-    [self sendReq:req
-        shareModule:shareModule
-           callback:^(QQBaseResp *resp) {
-               if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
-                   [self handleShareResultInActivity:resp onComplete:complete];
-               }
-           }];
+    QQApiSendResultCode resultCode =
+        [self sendReq:req
+            shareModule:shareModule
+               callback:^(QQBaseResp *resp) {
+                   if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
+                       [self handleShareResultInActivity:resp onComplete:complete];
+                   }
+               }];
+    if (resultCode != EQQAPISENDSUCESS) {
+        error = [NSError
+            errorWithDomain:@"QQShare"
+                       code:-2
+                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"分享失败",
+                                                                       @"NSLocalizedDescription",
+                                                                       nil]];
+        if (complete) {
+            complete(NO, error);
+        }
+    }
 }
 
 - (void)handleShareResultInActivity:(id)result onComplete:(LDSDKShareCallback)complete
@@ -375,7 +386,7 @@ static NSArray *permissions = nil;
         MyBlock(nil, nil, error);
     }
     if (cancelled) {  // NSLog(@"用户取消登录");
-    } else {  // NSLog(@"登录失败");
+    } else {          // NSLog(@"登录失败");
     }
 }
 

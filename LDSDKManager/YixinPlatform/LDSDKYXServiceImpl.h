@@ -13,7 +13,7 @@
 @class YXBaseReq;
 @class YXBaseResp;
 
-typedef void(^LDSDKYXCallbackBlock)(YXBaseResp *resp);
+typedef void (^LDSDKYXCallbackBlock)(YXBaseResp *resp);
 
 @interface LDSDKYXServiceImpl : NSObject <LDSDKRegisterService, LDSDKShareService>
 

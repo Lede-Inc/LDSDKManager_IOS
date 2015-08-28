@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface LDViewController : UIViewController<UIAlertViewDelegate>
+@interface LDViewController : UIViewController <UIAlertViewDelegate>
 
 @end

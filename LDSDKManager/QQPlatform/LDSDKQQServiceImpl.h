@@ -14,7 +14,7 @@
 @class QQBaseReq;
 @class QQBaseResp;
 
-typedef void(^LDSDKQQCallbackBlock)(QQBaseResp *resp);
+typedef void (^LDSDKQQCallbackBlock)(QQBaseResp *resp);
 
 @interface LDSDKQQServiceImpl : NSObject <LDSDKAuthService, LDSDKRegisterService, LDSDKShareService>
 

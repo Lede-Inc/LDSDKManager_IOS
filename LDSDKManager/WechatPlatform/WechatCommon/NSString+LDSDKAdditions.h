@@ -14,13 +14,13 @@
 
 - (BOOL)isEmptyOrWhitespace;
 
-- (NSString *)URLEncodedString ;
+- (NSString *)URLEncodedString;
 
-- (NSString*)URLDecodedString;
+- (NSString *)URLDecodedString;
 
 - (NSData *)base16Data;
 
-- (NSString*)md5String;
+- (NSString *)md5String;
 
 - (NSDictionary *)urlParamsDecodeDictionary;
 

@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^LDSDKLoginCallback)(NSDictionary *oauthInfo,
-                                   NSDictionary *userInfo, NSError *error);
+typedef void (^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error);
 
 //微信登陆，用户信息的Key
 #define kWX_OPENID_KEY @"openid"
@@ -17,7 +16,7 @@ typedef void (^LDSDKLoginCallback)(NSDictionary *oauthInfo,
 #define kWX_AVATARURL_KEY @"headimgurl"
 #define kWX_ACCESSTOKEN_KEY @"access_token"
 
-//QQ登陆，用户信息的Key
+// QQ登陆，用户信息的Key
 #define kQQ_OPENID_KEY @"openId"
 #define kQQ_TOKEN_KEY @"access_token"
 #define kQQ_NICKNAME_KEY @"nickname"

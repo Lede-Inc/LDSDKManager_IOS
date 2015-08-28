@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, LDSDKPlatformType) {
-  LDSDKPlatformQQ = 1, // QQ
-  LDSDKPlatformWeChat, //微信
-  LDSDKPlatformYiXin,  //易信
-  LDSDKPlatformAliPay, //支付宝
+    LDSDKPlatformQQ = 1,  // QQ
+    LDSDKPlatformWeChat,  //微信
+    LDSDKPlatformYiXin,   //易信
+    LDSDKPlatformAliPay,  //支付宝
 };
 
 @interface LDSDKManager : NSObject

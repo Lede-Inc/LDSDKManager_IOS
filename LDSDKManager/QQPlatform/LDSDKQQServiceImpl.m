@@ -19,11 +19,11 @@
 
 static NSArray *permissions = nil;
 
-@interface LDSDKQQServiceImpl ()<TencentSessionDelegate, QQApiInterfaceDelegate> {
+@interface LDSDKQQServiceImpl () <TencentSessionDelegate, QQApiInterfaceDelegate> {
     BOOL isLogining;
     NSError *error;
     TencentOAuth *tencentOAuth;
-    void(^MyBlock)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *qqerror);
+    void (^MyBlock)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *qqerror);
     LDSDKQQCallbackBlock shareBlock;
 }
 
@@ -48,10 +48,8 @@ static NSArray *permissions = nil;
 {
     if (self = [super init]) {
         isLogining = NO;
-        permissions = [NSArray arrayWithObjects:
-                        kOPEN_PERMISSION_GET_USER_INFO,
-                        kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
-                        nil];
+        permissions = [NSArray arrayWithObjects:kOPEN_PERMISSION_GET_USER_INFO,
+                                                kOPEN_PERMISSION_GET_SIMPLE_USER_INFO, nil];
     }
     return self;
 }
@@ -67,10 +65,10 @@ static NSArray *permissions = nil;
 }
 
 //注册平台
-- (void) registerWithPlatformConfig:(NSDictionary *)config
+- (void)registerWithPlatformConfig:(NSDictionary *)config
 {
-    if(config == nil || config.allKeys.count == 0) return;
-    
+    if (config == nil || config.allKeys.count == 0) return;
+
     NSString *qqAppId = config[LDSDKConfigAppIdKey];
     if (qqAppId && [qqAppId length]) {
         [self registerQQPlatformAppId:qqAppId];
@@ -79,8 +77,7 @@ static NSArray *permissions = nil;
 
 - (BOOL)registerQQPlatformAppId:(NSString *)appId
 {
-    tencentOAuth = [[TencentOAuth alloc] initWithAppId:appId
-                                                        andDelegate:self];
+    tencentOAuth = [[TencentOAuth alloc] initWithAppId:appId andDelegate:self];
     self.authAppId = appId;
     return YES;
 }
@@ -118,16 +115,21 @@ static NSArray *permissions = nil;
     }
 }
 
--(void)loginToPlatformWithCallback:(LDSDKLoginCallback)callback
+- (void)loginToPlatformWithCallback:(LDSDKLoginCallback)callback
 {
     if (![QQApi isQQInstalled] || ![QQApi isQQSupportApi]) {
-        error = [NSError errorWithDomain:@"QQLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装QQ客户端", @"NSLocalizedDescription", nil]];
+        error = [NSError
+            errorWithDomain:@"QQLogin"
+                       code:0
+                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装QQ客户端",
+                                                                       @"NSLocalizedDescription",
+                                                                       nil]];
         if (callback) {
             callback(nil, nil, error);
         }
         return;
     }
-    if ([QQApi isQQInstalled]) {//手机QQ登录流程
+    if ([QQApi isQQInstalled]) {  //手机QQ登录流程
         NSLog(@"login by QQ oauth = %@", tencentOAuth);
         if (callback) {
             MyBlock = callback;
@@ -136,17 +138,16 @@ static NSArray *permissions = nil;
         isLogining = YES;
         if (!tencentOAuth) {
             NSLog(@"tencentOauth && permissions = %@", permissions);
-            tencentOAuth = [[TencentOAuth alloc] initWithAppId:self.authAppId
-                                                        andDelegate:self];
+            tencentOAuth = [[TencentOAuth alloc] initWithAppId:self.authAppId andDelegate:self];
         }
         //此处可set Token、oppenId、有效期 等参数
         [tencentOAuth authorize:permissions];
     }
 }
 
--(void)logoutFromPlatform
+- (void)logoutFromPlatform
 {
-    
+
     [tencentOAuth logout:self];
     MyBlock = nil;
     tencentOAuth = nil;
@@ -156,25 +157,32 @@ static NSArray *permissions = nil;
 #pragma mark -
 #pragma mark - 分享部分
 
--(void)shareWithContent:(NSDictionary *)content shareModule:(NSUInteger)shareModule onComplete:(LDSDKShareCallback)complete
+- (void)shareWithContent:(NSDictionary *)content
+             shareModule:(NSUInteger)shareModule
+              onComplete:(LDSDKShareCallback)complete
 {
     if (![QQApi isQQInstalled] || ![QQApi isQQSupportApi]) {
-        error = [NSError errorWithDomain:@"QQShare" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装QQ客户端", @"NSLocalizedDescription", nil]];
+        error = [NSError
+            errorWithDomain:@"QQShare"
+                       code:0
+                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请先安装QQ客户端",
+                                                                       @"NSLocalizedDescription",
+                                                                       nil]];
         if (complete) {
             complete(NO, error);
         }
         return;
     }
-    
-    
+
+
     //构造QQ、空间分享内容
     NSString *title = content[@"title"];
     NSString *description = content[@"description"];
     NSString *urlString = content[@"webpageurl"];
-    
+
     QQApiObject *messageObj = nil;
     UIImage *oldImage = content[@"image"];
-    if (urlString){ //链接分享
+    if (urlString) {  //链接分享
         //原图图片信息
         UIImage *image = oldImage;
         NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
@@ -184,42 +192,44 @@ static NSArray *permissions = nil;
             CGSize thumbSize = image.size;
             UIImage *thumbImage = image;
             NSData *thumbData = imageData;
-            while (thumbData.length > 1000*1024) { //缩略图不能超过1M
-                thumbSize =CGSizeMake(thumbSize.width/1.5, thumbSize.height/1.5);
-                thumbImage = [thumbImage LDSDKShare_resizedImage:thumbSize interpolationQuality:kCGInterpolationDefault];
+            while (thumbData.length > 1000 * 1024) {  //缩略图不能超过1M
+                thumbSize = CGSizeMake(thumbSize.width / 1.5, thumbSize.height / 1.5);
+                thumbImage = [thumbImage LDSDKShare_resizedImage:thumbSize
+                                            interpolationQuality:kCGInterpolationDefault];
                 thumbData = UIImageJPEGRepresentation(thumbImage, 0.5);
             }
-            
         }
         messageObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:urlString]
                                               title:title
                                         description:description
                                    previewImageData:thumbData];
-        
-    } else if (oldImage && shareModule == 1) { //图片分享
+
+    } else if (oldImage && shareModule == 1) {  //图片分享
         //原图图片信息
         UIImage *image = oldImage;
         NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
         //内容图片(大图)
         CGSize contentSize = image.size;
         UIImage *contentImage = image;
-        NSData  *contentData = [NSData dataWithData:imageData];
-        if (contentData.length > 5000*1024) { //图片不能超过5M
-            contentSize =CGSizeMake(contentSize.width/1.5, contentSize.height/1.5);
-            contentImage = [contentImage LDSDKShare_resizedImage:contentSize interpolationQuality:kCGInterpolationDefault];
+        NSData *contentData = [NSData dataWithData:imageData];
+        if (contentData.length > 5000 * 1024) {  //图片不能超过5M
+            contentSize = CGSizeMake(contentSize.width / 1.5, contentSize.height / 1.5);
+            contentImage = [contentImage LDSDKShare_resizedImage:contentSize
+                                            interpolationQuality:kCGInterpolationDefault];
             contentData = UIImageJPEGRepresentation(contentImage, 0.5);
         }
-        
+
         //缩略图片
         CGSize thumbSize = image.size;
         UIImage *thumbImage = image;
         NSData *thumbData = [NSData dataWithData:imageData];
-        while (thumbData.length > 1000*1024) { //缩略图不能超过1M
-            thumbSize =CGSizeMake(thumbSize.width/1.5, thumbSize.height/1.5);
-            thumbImage = [thumbImage LDSDKShare_resizedImage:thumbSize interpolationQuality:kCGInterpolationDefault];
+        while (thumbData.length > 1000 * 1024) {  //缩略图不能超过1M
+            thumbSize = CGSizeMake(thumbSize.width / 1.5, thumbSize.height / 1.5);
+            thumbImage = [thumbImage LDSDKShare_resizedImage:thumbSize
+                                        interpolationQuality:kCGInterpolationDefault];
             thumbData = UIImageJPEGRepresentation(thumbImage, 0.5);
         }
-        
+
         messageObj = [QQApiImageObject objectWithData:contentData
                                      previewImageData:thumbData
                                                 title:title
@@ -227,33 +237,44 @@ static NSArray *permissions = nil;
     } else {
         NSLog(@"未知分享");
     }
-    
+
     SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:messageObj];
-    [self sendReq:req shareModule:shareModule callback:^(QQBaseResp *resp) {
-        if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
-            [self handleShareResultInActivity:resp onComplete:complete];
-        }
-    }];
-    
+    [self sendReq:req
+        shareModule:shareModule
+           callback:^(QQBaseResp *resp) {
+               if ([resp isKindOfClass:[SendMessageToQQResp class]]) {
+                   [self handleShareResultInActivity:resp onComplete:complete];
+               }
+           }];
 }
 
 - (void)handleShareResultInActivity:(id)result onComplete:(LDSDKShareCallback)complete
 {
     SendMessageToQQResp *response = (SendMessageToQQResp *)result;
-    
+
     NSString *resultStr = response.result;
-    
-    if ([resultStr isEqualToString:@"0"]) {//成功
+
+    if ([resultStr isEqualToString:@"0"]) {  //成功
         if (complete) {
             complete(YES, nil);
         }
     } else if ([resultStr isEqualToString:@"-4"]) {
-        error = [NSError errorWithDomain:@"QQShare" code:-2 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"用户取消分享", @"NSLocalizedDescription", nil]];
+        error = [NSError
+            errorWithDomain:@"QQShare"
+                       code:-2
+                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"用户取消分享",
+                                                                       @"NSLocalizedDescription",
+                                                                       nil]];
         if (complete) {
             complete(NO, error);
         }
     } else {
-        error = [NSError errorWithDomain:@"QQShare" code:-1 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"分享失败", @"NSLocalizedDescription", nil]];
+        error = [NSError
+            errorWithDomain:@"QQShare"
+                       code:-1
+                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"分享失败",
+                                                                       @"NSLocalizedDescription",
+                                                                       nil]];
         if (complete) {
             complete(NO, error);
         }
@@ -261,7 +282,9 @@ static NSArray *permissions = nil;
 }
 
 //发送请求
-- (QQApiSendResultCode)sendReq:(QQBaseReq *)req shareModule:(NSUInteger)shareModule callback:(LDSDKQQCallbackBlock)callbackBlock
+- (QQApiSendResultCode)sendReq:(QQBaseReq *)req
+                   shareModule:(NSUInteger)shareModule
+                      callback:(LDSDKQQCallbackBlock)callbackBlock
 {
     shareBlock = callbackBlock;
     if (shareModule == 1) {
@@ -271,7 +294,6 @@ static NSArray *permissions = nil;
     } else {
         return EQQAPIMESSAGETYPEINVALID;
     }
-    
 }
 
 
@@ -290,13 +312,13 @@ static NSArray *permissions = nil;
 #ifdef DEBUG
     NSLog(@"[%@]%s", NSStringFromClass([self class]), __FUNCTION__);
 #endif
-    
+
     if (shareBlock) {
         shareBlock(resp);
     }
 }
 
--(void)isOnlineResponse:(NSDictionary *)response
+- (void)isOnlineResponse:(NSDictionary *)response
 {
 #ifdef DEBUG
     NSLog(@"[%@]%s", NSStringFromClass([self class]), __FUNCTION__);
@@ -312,8 +334,7 @@ static NSArray *permissions = nil;
 {
     NSLog(@"did login");
     isLogining = NO;
-    if (tencentOAuth.accessToken && 0 != [tencentOAuth.accessToken length])
-    {
+    if (tencentOAuth.accessToken && 0 != [tencentOAuth.accessToken length]) {
         NSMutableDictionary *oauthInfo = [NSMutableDictionary dictionary];
         [oauthInfo setObject:tencentOAuth.accessToken forKey:kQQ_TOKEN_KEY];
         if (tencentOAuth.expirationDate) {
@@ -326,9 +347,14 @@ static NSArray *permissions = nil;
             MyBlock(oauthInfo, nil, nil);
         }
         [tencentOAuth getUserInfo];
-        
-    } else {//登录失败，没有获取授权accesstoken
-        error = [NSError errorWithDomain:@"QQLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+
+    } else {  //登录失败，没有获取授权accesstoken
+        error = [NSError
+            errorWithDomain:@"QQLogin"
+                       code:0
+                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败",
+                                                                       @"NSLocalizedDescription",
+                                                                       nil]];
         if (MyBlock) {
             MyBlock(nil, nil, error);
         }
@@ -340,12 +366,16 @@ static NSArray *permissions = nil;
 {
     NSLog(@"did not login");
     isLogining = NO;
-    error = [NSError errorWithDomain:@"QQLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+    error = [NSError
+        errorWithDomain:@"QQLogin"
+                   code:0
+               userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败",
+                                                                   @"NSLocalizedDescription", nil]];
     if (MyBlock) {
         MyBlock(nil, nil, error);
     }
-    if (cancelled) {//NSLog(@"用户取消登录");
-    } else {//NSLog(@"登录失败");
+    if (cancelled) {  // NSLog(@"用户取消登录");
+    } else {  // NSLog(@"登录失败");
     }
 }
 
@@ -354,7 +384,11 @@ static NSArray *permissions = nil;
 {
     NSLog(@"did not network");
     isLogining = NO;
-    error = [NSError errorWithDomain:@"QQLogin" code:0 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请检查网络", @"NSLocalizedDescription", nil]];
+    error = [NSError
+        errorWithDomain:@"QQLogin"
+                   code:0
+               userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"请检查网络",
+                                                                   @"NSLocalizedDescription", nil]];
     if (MyBlock) {
         MyBlock(nil, nil, error);
     }
@@ -369,7 +403,7 @@ static NSArray *permissions = nil;
 {
     NSLog(@"退出登录");
 }
-//API授权不够，需增量授权
+// API授权不够，需增量授权
 - (BOOL)tencentNeedPerformIncrAuth:(TencentOAuth *)tencentOAuth
                    withPermissions:(NSArray *)permissions
 {
@@ -378,14 +412,14 @@ static NSArray *permissions = nil;
 }
 
 //获取用户个人信息回调
-- (void)getUserInfoResponse:(APIResponse*) response
+- (void)getUserInfoResponse:(APIResponse *)response
 {
     NSLog(@"getUserInfo %d  %@ \n %@", response.retCode, response.message, response.errorMsg);
-    if (response.retCode == URLREQUEST_FAILED) {//失败
+    if (response.retCode == URLREQUEST_FAILED) {  //失败
         if (MyBlock) {
             MyBlock(nil, nil, error);
         }
-    } else if (response.retCode == URLREQUEST_SUCCEED){//成功用户资料
+    } else if (response.retCode == URLREQUEST_SUCCEED) {  //成功用户资料
         if (response.detailRetCode == kOpenSDKErrorSuccess) {
             if (MyBlock) {
                 NSMutableDictionary *oauthInfo = [NSMutableDictionary dictionary];
@@ -396,7 +430,7 @@ static NSArray *permissions = nil;
                 if (tencentOAuth.openId) {
                     [oauthInfo setObject:tencentOAuth.openId forKey:kQQ_OPENID_KEY];
                 }
-                
+
                 NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
                 NSString *nickName = [response.jsonResponse objectForKey:kQQ_NICKNAME_KEY];
                 NSString *avatarUrl = [response.jsonResponse objectForKey:kQQ_AVATARURL_KEY];
@@ -406,11 +440,16 @@ static NSArray *permissions = nil;
                 if (avatarUrl) {
                     [userInfo setObject:avatarUrl forKey:kQQ_AVATARURL_KEY];
                 }
-                
+
                 MyBlock(oauthInfo, userInfo, nil);
             }
-        } else {//获取失败
-            error = [NSError errorWithDomain:@"QQLogin" code:response.detailRetCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"登录失败", @"NSLocalizedDescription", nil]];
+        } else {  //获取失败
+            error = [NSError
+                errorWithDomain:@"QQLogin"
+                           code:response.detailRetCode
+                       userInfo:[NSDictionary
+                                    dictionaryWithObjectsAndKeys:@"登录失败",
+                                                                 @"NSLocalizedDescription", nil]];
             if (MyBlock) {
                 MyBlock(nil, nil, error);
             }

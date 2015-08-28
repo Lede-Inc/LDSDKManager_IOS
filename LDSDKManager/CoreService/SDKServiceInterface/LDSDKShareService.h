@@ -18,9 +18,9 @@ FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
 
 typedef NS_ENUM(NSUInteger, LDSDKShareToModule) {
-  LDSDKShareToContact = 1, //分享至第三方应用的联系人或组
-  LDSDKShareToTimeLine,    //分享至第三方应用的timeLine
-  LDSDKShareToOther        //分享至第三方应用的其他模块
+    LDSDKShareToContact = 1,  //分享至第三方应用的联系人或组
+    LDSDKShareToTimeLine,     //分享至第三方应用的timeLine
+    LDSDKShareToOther         //分享至第三方应用的其他模块
 };
 
 @protocol LDSDKShareService <NSObject>

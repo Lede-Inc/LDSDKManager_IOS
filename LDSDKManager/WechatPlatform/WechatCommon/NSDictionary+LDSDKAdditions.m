@@ -13,11 +13,11 @@
 - (BOOL)boolForKey:(NSString *)key defaultValue:(BOOL)defaultValue
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return defaultValue;
     }
-    
+
     if ([object respondsToSelector:@selector(boolValue)]) {
         return [(id)object boolValue];
     }
@@ -27,11 +27,11 @@
 - (int)intForKey:(NSString *)key defaultValue:(int)defaultValue
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return defaultValue;
     }
-    
+
     if ([object respondsToSelector:@selector(intValue)]) {
         return [(id)object intValue];
     }
@@ -41,11 +41,11 @@
 - (NSInteger)integerForKey:(NSString *)key defaultValue:(NSInteger)defaultValue
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return defaultValue;
     }
-    
+
     if ([object respondsToSelector:@selector(integerValue)]) {
         return [(id)object integerValue];
     }
@@ -55,11 +55,11 @@
 - (long)longForKey:(NSString *)key defaultValue:(long)defaultValue
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return defaultValue;
     }
-    
+
     if ([object respondsToSelector:@selector(longValue)]) {
         return [(id)object longValue];
     }
@@ -69,11 +69,11 @@
 - (double)doubleForKey:(NSString *)key defaultValue:(double)defaultValue
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return defaultValue;
     }
-    
+
     if ([object respondsToSelector:@selector(doubleValue)]) {
         return [(id)object doubleValue];
     }
@@ -83,11 +83,11 @@
 - (float)floatForKey:(NSString *)key defaultValue:(float)defaultValue
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return defaultValue;
     }
-    
+
     if ([object respondsToSelector:@selector(floatValue)]) {
         return [(id)object floatValue];
     }
@@ -97,21 +97,21 @@
 - (NSString *)stringForKey:(NSString *)key
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == nil || object == [NSNull null]) {
         return @"";
     }
-    
+
     if ([object isKindOfClass:[NSString class]]) {
         return (NSString *)object;
     }
-    return [NSString stringWithFormat:@"%@",object];
+    return [NSString stringWithFormat:@"%@", object];
 }
 
 - (id)validObjectForKey:(NSString *)key
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if (object == [NSNull null]) {
         return nil;
     }
@@ -121,7 +121,7 @@
 - (NSArray *)arrayForKey:(NSString *)key
 {
     NSObject *object = [self objectForKey:key];
-    
+
     if ([object isKindOfClass:[NSArray class]]) {
         return (NSArray *)object;
     } else if ([object isKindOfClass:[NSDictionary class]]) {
@@ -133,24 +133,24 @@
 - (NSDate *)dateForKey:(NSString *)key
 {
     NSString *object = [self objectForKey:key];
-    
+
     if ([object isKindOfClass:[NSString class]]) {
         static NSDateFormatter *formater = nil;
-        
+
         if (!formater) {
-            formater =[[NSDateFormatter alloc] init];
+            formater = [[NSDateFormatter alloc] init];
             [formater setLocale:[NSLocale currentLocale]];
         }
-        
+
         if (object.length == @"yyyy-MM-dd HH:mm".length) {
             [formater setDateFormat:@"yyyy-MM-dd HH:mm"];
         } else if (object.length == @"yyyy-MM-dd HH:mm:ss".length) {
             [formater setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         }
-        
+
         return [formater dateFromString:object];
     }
-    
+
     if ([object isKindOfClass:[NSNumber class]]) {
         return [NSDate dateWithTimeIntervalSince1970:[object integerValue]];
     }
@@ -170,8 +170,7 @@
 
 - (void)setInteger:(NSInteger)value forKey:(id)key
 {
-    [self setValue:[NSNumber numberWithInteger:value]
-            forKey:key];
+    [self setValue:[NSNumber numberWithInteger:value] forKey:key];
 }
 
 - (void)setDouble:(double)value forKey:(id)key

@@ -34,19 +34,17 @@ static NSArray *sdkServiceConfigList = nil;
  */
 + (void)registerWithPlatformConfigList:(NSArray *)configList;
 {
-  if (configList == nil || configList.count == 0)
-    return;
+    if (configList == nil || configList.count == 0) return;
 
-  for (NSDictionary *onePlatformConfig in configList) {
-    LDSDKPlatformType platformType =
-        [onePlatformConfig[LDSDKConfigAppPlatformTypeKey] intValue];
-    Class registerServiceImplCls =
-        [[self class] getServiceProviderWithPlatformType:platformType];
-    if (registerServiceImplCls != nil) {
-      [[registerServiceImplCls sharedService]
-          registerWithPlatformConfig:onePlatformConfig];
+    for (NSDictionary *onePlatformConfig in configList) {
+        LDSDKPlatformType platformType =
+            [onePlatformConfig[LDSDKConfigAppPlatformTypeKey] intValue];
+        Class registerServiceImplCls =
+            [[self class] getServiceProviderWithPlatformType:platformType];
+        if (registerServiceImplCls != nil) {
+            [[registerServiceImplCls sharedService] registerWithPlatformConfig:onePlatformConfig];
+        }
     }
-  }
 }
 
 /**
@@ -54,52 +52,50 @@ static NSArray *sdkServiceConfigList = nil;
  *
  *  @return YES
  */
-+ (BOOL)handleOpenURL:(NSURL *)url {
-  if ([[[self class] getPayService:LDSDKPlatformWeChat]
-          payProcessOrderWithPaymentResult:url
-                           standbyCallback:NULL]) {
-    return YES;
-  }
++ (BOOL)handleOpenURL:(NSURL *)url
+{
+    if ([[[self class] getPayService:LDSDKPlatformWeChat] payProcessOrderWithPaymentResult:url
+                                                                           standbyCallback:NULL]) {
+        return YES;
+    }
 
-  if ([[[self class] getRegisterService:LDSDKPlatformQQ] handleResultUrl:url] ||
-      [[[self class] getRegisterService:LDSDKPlatformWeChat]
-          handleResultUrl:url] ||
-      [[[self class] getRegisterService:LDSDKPlatformYiXin]
-          handleResultUrl:url]) {
-    return YES;
-  }
-  if ([[[self class] getPayService:LDSDKPlatformAliPay]
-          payProcessOrderWithPaymentResult:url
-                           standbyCallback:NULL]) {
-    return YES;
-  }
+    if ([[[self class] getRegisterService:LDSDKPlatformQQ] handleResultUrl:url] ||
+        [[[self class] getRegisterService:LDSDKPlatformWeChat] handleResultUrl:url] ||
+        [[[self class] getRegisterService:LDSDKPlatformYiXin] handleResultUrl:url]) {
+        return YES;
+    }
+    if ([[[self class] getPayService:LDSDKPlatformAliPay] payProcessOrderWithPaymentResult:url
+                                                                           standbyCallback:NULL]) {
+        return YES;
+    }
 
-  return YES;
+    return YES;
 }
 
-+(id)getRegisterService:(LDSDKPlatformType)type
++ (id)getRegisterService:(LDSDKPlatformType)type
 {
     Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
-        if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKRegisterService)]) {
+        if ([[shareServiceImplCls sharedService]
+                conformsToProtocol:@protocol(LDSDKRegisterService)]) {
             return [shareServiceImplCls sharedService];
         }
     }
-  return nil;
+    return nil;
 }
 
-+(id)getAuthService:(LDSDKPlatformType)type
++ (id)getAuthService:(LDSDKPlatformType)type
 {
     Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
         if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKAuthService)]) {
             return [shareServiceImplCls sharedService];
         }
-  }
-  return nil;
+    }
+    return nil;
 }
 
-+(id)getShareService:(LDSDKPlatformType)type
++ (id)getShareService:(LDSDKPlatformType)type
 {
     Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
@@ -107,42 +103,41 @@ static NSArray *sdkServiceConfigList = nil;
             return [shareServiceImplCls sharedService];
         }
     }
-  return nil;
+    return nil;
 }
 
-+(id)getPayService:(LDSDKPlatformType)type
++ (id)getPayService:(LDSDKPlatformType)type
 {
     Class shareServiceImplCls = [self getServiceProviderWithPlatformType:type];
     if (shareServiceImplCls) {
         if ([[shareServiceImplCls sharedService] conformsToProtocol:@protocol(LDSDKPayService)]) {
             return [shareServiceImplCls sharedService];
         }
-  }
-  return nil;
+    }
+    return nil;
 }
 
 /**
  * 根据平台类型和服务类型获取服务提供者
  */
-+ (Class)getServiceProviderWithPlatformType:(LDSDKPlatformType)platformType {
-  if (sdkServiceConfigList == nil) {
-    NSString *plistPath =
-        [[NSBundle mainBundle] pathForResource:@"SDKServiceConfig"
-                                        ofType:@"plist"];
-    sdkServiceConfigList = [[NSArray alloc] initWithContentsOfFile:plistPath];
-  }
++ (Class)getServiceProviderWithPlatformType:(LDSDKPlatformType)platformType
+{
+    if (sdkServiceConfigList == nil) {
+        NSString *plistPath =
+            [[NSBundle mainBundle] pathForResource:@"SDKServiceConfig" ofType:@"plist"];
+        sdkServiceConfigList = [[NSArray alloc] initWithContentsOfFile:plistPath];
+    }
 
-  Class serviceProvider = nil;
-  for (NSDictionary *oneSDKServiceConfig in sdkServiceConfigList) {
-    // find the specified platform
-    if ([oneSDKServiceConfig[@"platformType"] intValue] == platformType) {
-      serviceProvider =
-          NSClassFromString(oneSDKServiceConfig[@"serviceProvider"]);
-      break;
-    } // if
-  }   // for
+    Class serviceProvider = nil;
+    for (NSDictionary *oneSDKServiceConfig in sdkServiceConfigList) {
+        // find the specified platform
+        if ([oneSDKServiceConfig[@"platformType"] intValue] == platformType) {
+            serviceProvider = NSClassFromString(oneSDKServiceConfig[@"serviceProvider"]);
+            break;
+        }  // if
+    }      // for
 
-  return serviceProvider;
+    return serviceProvider;
 }
 
 @end

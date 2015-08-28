@@ -27,7 +27,6 @@ typedef void (^LDSDKPayCallback)(NSString *signString, NSError *error);
  *  @param callback 处理的回调方法
  */
 - (BOOL)payProcessOrderWithPaymentResult:(NSURL *)url
-                         standbyCallback:
-                             (void (^)(NSDictionary *resultDic))callback;
+                         standbyCallback:(void (^)(NSDictionary *resultDic))callback;
 
 @end

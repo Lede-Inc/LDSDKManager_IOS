@@ -346,7 +346,7 @@
 - (void)payByAli
 {
     [[LDSDKManager getPayService:LDSDKPlatformAliPay]
-        payOrder:@""
+        payOrder:@"test"
         callback:^(NSString *signString, NSError *error) {
             if (error) {
                 [infoLabel setText:error.localizedDescription];

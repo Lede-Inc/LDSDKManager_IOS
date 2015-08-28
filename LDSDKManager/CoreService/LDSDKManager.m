@@ -54,11 +54,22 @@ static NSArray *sdkServiceConfigList = nil;
  */
 + (BOOL)handleOpenURL:(NSURL *)url
 {
-    if ([[[self class] getRegisterService:LDSDKPlatformWeChat] handleResultUrl:url] ||
-        [[[self class] getRegisterService:LDSDKPlatformQQ] handleResultUrl:url] ||
-        [[[self class] getRegisterService:LDSDKPlatformYiXin] handleResultUrl:url] ||
-        [[[self class] getRegisterService:LDSDKPlatformAliPay] handleResultUrl:url]) {//支付宝必须放最后；
-        return YES;
+    if (sdkServiceConfigList == nil) {
+        NSString *plistPath =
+            [[NSBundle mainBundle] pathForResource:@"SDKServiceConfig" ofType:@"plist"];
+        sdkServiceConfigList = [[NSArray alloc] initWithContentsOfFile:plistPath];
+    }
+
+    for (NSDictionary *oneSDKServiceConfig in sdkServiceConfigList) {
+        Class serviceProvider = NSClassFromString(oneSDKServiceConfig[@"serviceProvider"]);
+        if (serviceProvider) {
+            if ([[serviceProvider sharedService]
+                    conformsToProtocol:@protocol(LDSDKRegisterService)]) {
+                if ([[serviceProvider sharedService] handleResultUrl:url]) {
+                    return YES;
+                }
+            }
+        }
     }
 
     return YES;

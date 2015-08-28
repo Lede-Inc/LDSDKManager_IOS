@@ -54,8 +54,7 @@
 
 - (BOOL)handleResultUrl:(NSURL *)url
 {
-    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:NULL];;
-    return YES;
+    return [self payProcessOrderWithPaymentResult:url standbyCallback:NULL];
 }
 
 

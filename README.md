@@ -59,6 +59,27 @@
     	];
     	[LDSDKManager registerWithPlatformConfigList:regPlatformConfigList];
 
+    获取各项服务的方式：
+    	/*!
+    	*  @brief  获取配置服务
+    	*/
+    	+ (id)getRegisterService:(LDSDKPlatformType)type;
+
+    	/*!
+    	*  @brief  获取登陆服务
+    	*/
+    	+ (id)getAuthService:(LDSDKPlatformType)type;
+
+    	/*!
+    	*  @brief  获取分享服务
+    	*/
+    	+ (id)getShareService:(LDSDKPlatformType)type;
+
+    	/*!
+    	*  @brief  获取支付服务
+    	*/
+    	+ (id)getPayService:(LDSDKPlatformType)type;
+
 2. 配置应用回调时，首先配置info.plist中的URL types，然后在appdelegate中添加代码：
 
     	-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -71,6 +92,13 @@
     	    return [LDSDKManager handleOpenURL:url];
     	}
 
+    我们同时提供独立的处理回调方法：
+
+        [[LDSDKManager getRegisterService:(LDSDKPlatformType)type] handleResultUrl:(NSURL *)url];
+
+        //对于支付宝，可以针对结果进行进一步的处理
+        [[LDSDKManager getPayService:(LDSDKPlatformType)type] payProcessOrderWithPaymentResult:(NSURL *)url standbyCallback:(void (^)(NSDictionary *))callback];
+
 3. 需要登陆时，提供对应函数及回调：
 
         /*!
@@ -82,11 +110,11 @@
          */
         typedef void(^LDSDKLoginCallback)(NSDictionary *oauthInfo, NSDictionary *userInfo, NSError *error);
 
-	    //判断该平台是否安装，决定是否显示该登陆方式
-        + (BOOL)isAppInstalled:(LDSDKPlatformType)type；
+	    //判断该平台是否支持登陆
+        [[LDSDKManager getAuthService:(LDSDKPlatformType)type] isLoginEnabledOnPlatform]；
 
         //登陆
-        + (void)loginFromPlatformType:(LDSDKPlatformType)type withCallback:(LDSDKLoginCallback)callback;
+        [[LDSDKManager getAuthService:(LDSDKPlatformType)type] loginToPlatformWithCallback:(LDSDKLoginCallback)callback];
 
 4. 需要分享时，提供对应函数及回调：
 
@@ -98,26 +126,20 @@
          */
         typedef void(^LDSDKShareCallback)(BOOL success, NSError *error);
 
-        //返回支持的分享平台列表
-        + (NSArray *)availableSharePlatformList;
-
-        /**
-         *  第三方分享
-         *
-         *  @param platformType 分享平台类型
-         *  @param shareModule  平台分享模块
-         *  @param dict         分享内容的字典
-         *  @param complete     分享结果回调
-         */
-        + (void)shareToPlatform:(LDSDKPlatformType)platformType
-                    shareModule:(LDSDKShareToModule)shareModule
-                       withDict:(NSDictionary *)dict
-                     onComplete:(LDSDKShareCallback)complete;
+        /*!
+        *  @brief  分享到指定平台
+        *  @param content  分享内容
+        *  @param shareModule 分享子平台，目前主要包括好友和朋友圈（空间）两部分
+        *  @param complete  分享之后的回调
+        */
+        [[LDSDKManager getShareService:(LDSDKPlatformType)type] shareWithContent:(NSDictionary *)content
+                                                                        shareModule:(NSUInteger)shareModule
+                                                                         onComplete:(LDSDKShareCallback)complete];
 
         //分享内容字典的key
         FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
         FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
-        FOUNDATION_EXTERN NSString *const LDSDKShareContentImageUrlKey;
+        FOUNDATION_EXTERN NSString *const LDSDKShareContentImageKey;
         FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
         FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
 
@@ -138,9 +160,7 @@
          *  @param orderString 签名后的订单信息字符串
          *  @param callback    回调
          */
-        + (void)payOrderWithType:(LDSDKPlatformType)payType 
-                     orderString:(NSString *)orderString 
-                        callback:(LDSDKPayCallback)callback;
+        [[LDSDKManager getPayService:(LDSDKPlatformType)type] payOrder:(NSString *)orderString callback:(LDSDKPayCallback)callback;
 
 
 ## LDSDKManager的框架层次

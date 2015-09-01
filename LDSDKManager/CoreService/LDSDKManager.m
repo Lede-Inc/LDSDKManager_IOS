@@ -23,6 +23,7 @@ NSString *const LDSDKShareContentDescriptionKey = @"description";
 NSString *const LDSDKShareContentImageKey = @"image";
 NSString *const LDSDKShareContentWapUrlKey = @"webpageurl";
 NSString *const LDSDKShareContentTextKey = @"text";
+NSString *const LDSDKShareContentRedirectURIKey = @"redirectURI";
 
 static NSArray *sdkServiceConfigList = nil;
 @implementation LDSDKManager

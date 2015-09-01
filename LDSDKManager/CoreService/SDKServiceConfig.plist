@@ -26,5 +26,11 @@
 		<key>serviceProvider</key>
 		<string>LDSDKAliPayServiceImpl</string>
 	</dict>
+	<dict>
+		<key>platformType</key>
+		<integer>5</integer>
+		<key>serviceProvider</key>
+		<string>LDSDKWeiboServiceImpl</string>
+	</dict>
 </array>
 </plist>

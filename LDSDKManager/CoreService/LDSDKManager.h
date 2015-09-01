@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, LDSDKPlatformType) {
     LDSDKPlatformWeChat,  //微信
     LDSDKPlatformYiXin,   //易信
     LDSDKPlatformAliPay,  //支付宝
+    LDSDKPlatformWeibo,   //新浪微博
 };
 
 @interface LDSDKManager : NSObject

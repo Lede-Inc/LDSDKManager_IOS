@@ -15,7 +15,8 @@ FOUNDATION_EXTERN NSString *const LDSDKShareContentTitleKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentDescriptionKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentImageKey;
 FOUNDATION_EXTERN NSString *const LDSDKShareContentWapUrlKey;
-FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;
+FOUNDATION_EXTERN NSString *const LDSDKShareContentTextKey;         //新浪微博分享专用
+FOUNDATION_EXTERN NSString *const LDSDKShareContentRedirectURIKey;  //新浪微博分享专用
 
 typedef NS_ENUM(NSUInteger, LDSDKShareToModule) {
     LDSDKShareToContact = 1,  //分享至第三方应用的联系人或组

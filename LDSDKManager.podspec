@@ -48,6 +48,17 @@ Pod::Spec.new do |s|
         ss.dependency 'LDSDKManager/CoreService'
     end
 
+    #新浪微博平台SDK集成
+    s.subspec 'WeiboPlatform' do |ss|
+        ss.private_header_files = 'LDSDKManager/WeiboPlatform/libWeiboSDK/*.h'
+        ss.source_files = 'LDSDKManager/WeiboPlatform/**/*{h,m,mm}'
+        ss.vendored_library = 'LDSDKManager/WeiboPlatform/libWeiboSDK/libWeiboSDK.a'
+        ss.resources = ['LDSDKManager/WeiboPlatform/**/*.{bundle}']
+        ss.framework = 'QuartzCore','ImageIO','SystemConfiguration','Security','CoreTelephony','CoreText'
+        ss.libraries = 'z', 'sqlite3.0'
+        ss.dependency 'LDSDKManager/CoreService'
+    end
+
     #支付宝平台SDK集成
     s.subspec 'AlipayPlatform' do |ss|
         ss.private_header_files = 'LDSDKManager/AlipayPlatform/*.h','LDSDKManager/AlipayPlatform/**/*.h'

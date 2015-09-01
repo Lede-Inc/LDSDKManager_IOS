@@ -110,9 +110,18 @@
                  forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shareYXTimelineBtn];
 
+    UIButton *shareWeiboBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shareWeiboBtn setFrame:CGRectMake(25, 310, 120, 40)];
+    [shareWeiboBtn.layer setBorderWidth:1.0];
+    [shareWeiboBtn setTitle:@"微博分享" forState:UIControlStateNormal];
+    [shareWeiboBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareWeiboBtn addTarget:self
+                      action:@selector(shareByWeibo)
+            forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shareWeiboBtn];
 
     UIButton *payWXBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [payWXBtn setFrame:CGRectMake(25, 310, 120, 40)];
+    [payWXBtn setFrame:CGRectMake(25, 380, 120, 40)];
     [payWXBtn.layer setBorderWidth:1.0];
     [payWXBtn setTitle:@"微信支付" forState:UIControlStateNormal];
     [payWXBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -122,7 +131,7 @@
     [self.view addSubview:payWXBtn];
 
     UIButton *payAliBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [payAliBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 145, 310, 120, 40)];
+    [payAliBtn setFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 145, 380, 120, 40)];
     [payAliBtn.layer setBorderWidth:1.0];
     [payAliBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
     [payAliBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -132,7 +141,7 @@
     [self.view addSubview:payAliBtn];
 
     infoLabel = [[UILabel alloc]
-        initWithFrame:CGRectMake(25, 380, [UIScreen mainScreen].bounds.size.width - 50, 40)];
+        initWithFrame:CGRectMake(25, 450, [UIScreen mainScreen].bounds.size.width - 50, 40)];
     [infoLabel setBackgroundColor:[UIColor whiteColor]];
     [infoLabel setText:@"提示信息"];
     [infoLabel setTextAlignment:NSTextAlignmentCenter];
@@ -330,6 +339,30 @@
               }];
 }
 
+- (void)shareByWeibo
+{
+    NSLog(@"shareByWeibo");
+    NSDictionary *shareDict = [NSDictionary
+        dictionaryWithObjectsAndKeys:@"测试分享", LDSDKShareContentTitleKey,
+                                     @"测试分享详情", LDSDKShareContentDescriptionKey,
+                                     @"www.baidu.com", LDSDKShareContentWapUrlKey,
+                                     [UIImage imageNamed:@"Icon-Netease"],
+                                     LDSDKShareContentImageKey,
+                                     @"#网易彩票客户端# 双色球开奖啦！http://cp.163.com/d",
+                                     LDSDKShareContentTextKey, @"http://caipiao.163.com/m",
+                                     LDSDKShareContentRedirectURIKey, nil];
+    [[LDSDKManager getShareService:LDSDKPlatformWeibo]
+        shareWithContent:shareDict
+             shareModule:LDSDKShareToContact
+              onComplete:^(BOOL success, NSError *error) {
+                  if (success) {
+                      [infoLabel setText:@"分享成功"];
+                  } else {
+                      [infoLabel setText:error.localizedDescription];
+                  }
+              }];
+}
+
 - (void)payByWX
 {
     [[LDSDKManager getPayService:LDSDKPlatformWeChat]
@@ -346,7 +379,16 @@
 - (void)payByAli
 {
     [[LDSDKManager getPayService:LDSDKPlatformAliPay]
-        payOrder:@"_input_charset=\"utf-8\"&body=\"\u5341\u4e8c\u6708\u8d77\u4e49-\u5317\u4eacUME\u56fd\u9645\u5f71\u57ce\u534e\u661f\u5e97\"&notify_url=\"http%3A%2F%2F123.58.185.47%2Fservlet%2FAlipaySdk\"&out_trade_no=\"862909311\"&partner=\"null\"&payment_type=\"1\"&seller_id=\"null\"&service=\"mobile.securitypay.pay\"&subject=\"\u5341\u4e8c\u6708\u8d77\u4e49-\u5317\u4eacUME\u56fd\u9645\u5f71\u57ce\u534e\u661f\u5e97\"&total_fee=\"2.00\"&sign_type=\"RSA\"&sign=\"PHR9yK0cxHqeNYZnXIFAjSYn5zNijIc0oegD%2BTV77ZsF3U5LjD9jbxsmjlEv%2B7nWlCbn2%2BfmoiE0eTFnxoOqREuP0rkBs5XqAYlszGnU8Lv92x35R0AWpiouwnK8uRg2a9B%2Fu1YLgXMf26v8pjAVYBKn7nnJbd23OIPNGPiU12s%3D\""
+        payOrder:@"_input_charset=\"utf-8\"&body=\"\u5341\u4e8c\u6708\u8d77\u4e49-"
+        @"\u5317\u4eacUME\u56fd\u9645\u5f71\u57ce\u534e\u661f\u5e97\"&notify_url=\"http%"
+        @"3A%2F%2F123.58.185.47%2Fservlet%2FAlipaySdk\"&out_trade_no=\"862909311\"&"
+        @"partner=\"null\"&payment_type=\"1\"&seller_id=\"null\"&service=\"mobile."
+        @"securitypay.pay\"&subject=\"\u5341\u4e8c\u6708\u8d77\u4e49-"
+        @"\u5317\u4eacUME\u56fd\u9645\u5f71\u57ce\u534e\u661f\u5e97\"&total_fee=\"2.00\"&"
+        @"sign_type=\"RSA\"&sign=\"PHR9yK0cxHqeNYZnXIFAjSYn5zNijIc0oegD%"
+        @"2BTV77ZsF3U5LjD9jbxsmjlEv%2B7nWlCbn2%"
+        @"2BfmoiE0eTFnxoOqREuP0rkBs5XqAYlszGnU8Lv92x35R0AWpiouwnK8uRg2a9B%"
+        @"2Fu1YLgXMf26v8pjAVYBKn7nnJbd23OIPNGPiU12s%3D\""
         callback:^(NSString *signString, NSError *error) {
             if (error) {
                 [infoLabel setText:error.localizedDescription];

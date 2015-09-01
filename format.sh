@@ -4,7 +4,7 @@
 #设置需要格式化的目录，以空格隔开
 INCLUDEDIR="LDSDKManager LDSDKManagerDemo LDSDKManagerTest"
 #设置需要隔离的目录，以空格隔开
-EXCLUDEDIR="AliSDK LDQQSDK WeChatSDK YiXinSDK"
+EXCLUDEDIR="AliSDK LDQQSDK WeChatSDK YiXinSDK libWeiboSDK"
 
 #生成Exclude指定目录的format命令
 FORMAT_EXCLUDEDIR=""
